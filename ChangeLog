@@ -1,0 +1,90 @@
+---- 0.2.8 Version:
+
+- Support for Jamfile (now using jam instead of make for building tcpsmash is
+strongly suggested)
+
+- Regex support for -C option. Now you can both apply a normal filter to your
+packets (i.e. -C "password: ") than an advanced filter using regular
+expressions embraced by /expression/ (i.e. -C "/password:\s*[a-z]+/")
+
+- Support for TCP flags improved. Now for each sniffed TCP packet are shown
+its flags in an easy-to-manage way
+
+- Support for any kind of interface now (eth, wifi, ppp, pppoe, pppoa,
+tokenring...). I'm not sure tcpsmash will be working on each of them, so if
+you've got a network device using those interfaces, test it on your own and
+report me any kind of bug ^^
+
+- Support for IGMP protocol
+
+---- 0.2.7.2 Version:
+
+- Added -C option, that allows you to print only packets containing a "string" inside of any part of them (headers, application layer...)
+
+- Makefile was made cleaner (the executable is copied inside /usr/bin and not /usr/local/bin by default, /usr/man and /usr/man/man7 directories are created if not already there)
+
+
+---- 0.2.7.1 Version:
+
+- Support for 64 bit architecture added
+
+
+---- 0.2.7 Version:
+
+- Fixed a memory leak problem in pack_handle() function
+
+- Added IP checksum support. The sniffer now always warns you if the checksum of an IP packet sniffed is correct or not
+
+- Improved management and recognition of application layer protocols
+
+- You can now count the number of packets sniffed, and, using -c option, stop the sniffer after sniffing "n" packets
+
+- Automatic IP address resolving. When possible, the hostname is displayed instead of numerical IP address
+
+- "Quick" view added (-q option). Using this option you can have a less detailed and tcpdump-like view of sniffed packets
+
+
+---- 0.2.6 Version:
+
+Lots of improvements made:
+
+- A MAN page(7) was made
+
+- Full logfile support. Now you can write binary packet dump on a logfile using -w option, and read the info saved the whenever you like using -F option
+
+- More clear output format with coloured text
+
+- Improved support for more protocols
+
+---- 0.2.2 Version:
+
+- Very improved management for data structures and packets, using operating system's structs. Now the management of packets is much cleaner, faster, flexible and stable, as the file pack_handle.c was totally re-written.
+
+- Complete management (NOW complete) for ICMP protocol added (any status now is recognized).
+
+- Partial support for ARP and RARP protocols.
+
+---- 0.2 Version:
+
+- Cleaner management for packets using data structures
+
+- Full support for TCP and ICMP protocols
+
+- For each TCP packet, info about TCP flags of that packet can be printed with the '--tcp-flags' option.
+
+- The logfile functionality has been removed. This happened because using that functionality a simple stdout redirection was made, and this forced me to use tons of sys_write functions, making the code much less readable. Now if you want to redirect the output on a log file instead of stdout just execute the executable file with something like './tcpsmash [options] > logfile'
+
+- The source and destination MACs are printed for each packet
+
+- The content of each packet printed is cleaned by its headers
+
+- An intelligent application protocol recognizement is made for each packet
+
+- For each packet, time at which it has been received/sent is printed in a cleaner way, using 'strftime' function.
+
+- Now you MUST specify the interface you want to scan. Without specifying it in earlier version the program could not run correctly.
+
+- Hexadecimal functionality introduced. Now you can print each packet's content in standard ASCII text format (default choice) or in binary hexadecimal format, using '--hex' format.
+
+- Dump functionality introduced. Now by calling the program with the '-D' (or '--dump') option it is possible to print each packet directly on stdout or log (in a not easily human-readable way), without printing additional info.
+
