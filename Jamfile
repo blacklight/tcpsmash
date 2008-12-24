@@ -1,0 +1,9 @@
+C = gcc -g -Wall ;
+LINK = $(C) ;
+
+Main tcpsmash : main.c pack_handle.c file.c misc.c ;
+LINKLIBS on tcpsmash = -lpcap ;
+
+InstallBin $(BINDIR) : tcpsmash$(SUFEXE) ;
+InstallFile $(MANDIR)/man7 : tcpsmash.7.gz ;
+
