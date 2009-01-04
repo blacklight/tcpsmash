@@ -1,0 +1,130 @@
+============================
+0. Table of contents
+============================
+
+1. Description
+2. Requirements
+3. Installation
+4. Usage
+	4.1. tcpsmash
+	4.2. nctcpsmash
+5. Author
+6. Licence
+
+============================
+
+1. Description
+	
+	tcpsmash is an application designed to capture packets on a network interface
+	and show on standard output, or on a log file, the content of the packet and
+	info about the source/dest IP and source/dest port. nctcpsmash is a pseudo-graphical
+	interface to tcpsmash developed using NCurses library.
+
+2. Requirements
+
+	In according to be compiled, the application needs
+
+	- A Linux-based system
+	- GCC compiler
+	- PCAP libraries (http://www.tcpdump.org/pcap.htm)
+	- NCurses (for nctcpsmash, on Debian-like distros install ncurses-devel)
+
+3. Installation
+
+	goto -> INSTALL
+
+4. Usage
+
+	4.1. tcpsmash
+
+		Usage: tcpsmash [-h] [-l] [-n] [-v] [-q] [-D] [-f "<string>"] [-C "<string"]
+			[-w <logfile>] [-F <logfile>] [-c <count>] -i <interface>
+
+		-n
+			Do not use promiscuous mode (default mode for tcpsmash)
+
+		-h
+			Print this help and exit
+
+		-l
+			Show the active network interfaces
+
+		-q
+			Generate quick output, with a tcpdump-like flavour
+
+		-D
+			Dump each packet on output, without printing additional info
+
+		-v
+			Print info about the version of the program
+
+		-w logfile
+			Write the output to a log file in binary format. The file will be then read using -F option
+
+		-F logfile
+			Read packets from a dump file previously created by using -w <logfile>
+
+		-c count
+			Only capture "count" packets and exit
+
+		-f "<string>"
+			Use a filter string on the packets in BPF format, i.e. "tcp dst port 80"
+
+		-C "<string>"
+			Only capture packets containing "string" in any part of them (headers, application contents...), i.e. "password:"
+			You can also specify a regex with this option, between / and /, i.e. -C "/password:\s*[a-z]+/"
+
+		-i interface
+			Choose a network interface to sniff
+
+	4.2. nctcpsmash
+
+		Usage: nctcpsmash [-h] [-n] [-v] [-f "<string>"] [-C "<string"] [-c <count>] [-i <interface>]
+
+		-h
+			Print this help and exit
+
+		-v
+			Print info about the version of the program
+
+		-c count
+			Only capture "count" packets and exit
+
+		-f "<string>"
+			Use a filter string on the packets in BPF format, i.e. "tcp dst port 80"
+
+		-C "<string>"
+			Only capture packets containing "string" in any part of them (headers, application contents...),
+			i.e. "password:".
+			You can also specify a regex with this option, between / and /, i.e. -C "/password:\s*[a-z]+/"
+
+		-i interface
+			Choose a network interface to sniff
+
+
+		Commands:
+
+		Up/Down arrow:		select previous/next packet
+		Left/Right arrow:	goto first/last packet
+		Page up/down:		show previous/next page
+		ENTER:			show info about selected packet
+		h:			show this help
+		w:			write dumped traffic to a logfile, to be examined using tcpsmash -F logfile
+		s:			pause traffic sniffing
+		r:			resume traffic sniffing when paused
+		q:			quit (nc)tcpsmash
+		t:			if a TCP packet is selected, this command highlights the TCP stream the packet is belonging to
+		/ search_pattern | regex:
+				highlight (in red) packets containing specified string or regex. To specify a string, just write it.
+				To specify a regex, include it between / and / -> /this is a regex/
+
+5. Author
+
+	BlackLight
+	Email: <blacklight@autistici.org>
+	Web: <http://blacklight.gotdns.org>
+
+6. Licence
+
+	Both tcpsmash and nctcpsmash are released under GPL licence, version 3.0. goto -> LICENCE for more details.
+

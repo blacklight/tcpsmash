@@ -1,0 +1,27 @@
+=== REQUIMENTS ===
+
+In according to be compiled, the application needs
+
+1) A Unix-like operating system
+2) GCC compiler
+3) PCAP libraries (http://www.tcpdump.org/pcap.htm)
+4) NCurses (for nctcpsmash, on Debian-like distros install ncurses-devel)
+
+=== INSTALLATION ===
+
+From sources:
+
+$ tar jxvf tcpsmash-VERSION.tar.bz2
+$ cd tcpsmash-VERSION
+
+Now you've got two ways to install tcpsmash:
+
+  > 1. Using make
+  
+  	$ make
+	# make install
+
+  > 2. Using jam [ STRONGLY SUGGESTED -> http://www.perforce.com/jam/jam.html ]
+
+  	$ jam
+	# jam install
