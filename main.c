@@ -1,8 +1,7 @@
 /*
  * main.c
  *
- * Version:	0.2.6,	08/12/2008 [dd/mm/yyyy]
- * (C) 2007,2008, BlackLight <blacklight86@gmail.com>
+ * (C) 2007,2009, BlackLight <blacklight@autistici.org>
  *
  *		This program is free software; you can redistribute it and/or
  *		modify it under the terms of the GNU General Public License
@@ -13,9 +12,14 @@
 
 #include "tcpsmash.h"
 
+pcap_t *sniff;
+
 void foo (int sig)  {
-	fprintf (stderr,"\n%sSignal %d caught - Program terminated\n%d packets captured%s\n",
-			YELLOW,sig,count,NORMAL);
+	struct pcap_stat st;
+	pcap_stats (sniff, &st);
+	fprintf (stderr,"\n%sSignal %d caught - Program terminated\n\n%d packets captured on the interface\n"
+			"%d packets captured by the filter\n%d packets dropped%s\n",
+			YELLOW, sig, st.ps_recv/2, count, st.ps_drop/2, NORMAL);
 	exit(255);
 }
 
@@ -24,7 +28,7 @@ void help(char *app)  {
 			"%sby BlackLight { http://blacklight.gotdns.org }%s\n\n",
 			BOLD,VERSION,NORMAL,YELLOW,NORMAL);
 	
-	fprintf (stderr,"Usage: %s [-h] [-l] [-n] [-v] [-q] [-t] [-D] [-f \"<string>\"] [-C \"<string\"] [-w <logfile>] [-F <logfile>] [-c <count>] -i <interface>\n\n",app);
+	fprintf (stderr,"Usage: %s [-h] [-l] [-n] [-v] [-q] [-t] [-D] [-f \"<string>\"] [-C \"<string\"] [-w <logfile>] [-F <logfile>] [-c <count>] [-i <interface>]\n\n",app);
 	
 	fprintf (stderr,"\t-n\t\t\tDo not use promiscuous mode (default mode for tcpsmash)\n"
 			"\t-h\t\t\tPrint this help and exit\n"
@@ -50,7 +54,7 @@ void print_ver()  {
 }
 
 void unformatted_help(char *app)  {
-	printf ("Usage: %s [-h] [-l] [-n] [-v] [-q] [-t] [-D] [-f \"<string>\"] [-C \"<string\"] [-w <logfile>] [-F <logfile>] [-c <count>] -i <interface>\n\n",app);
+	printf ("Usage: %s [-h] [-l] [-n] [-v] [-q] [-t] [-D] [-f \"<string>\"] [-C \"<string\"] [-w <logfile>] [-F <logfile>] [-c <count>] [-i <interface>]\n\n",app);
 	
 	printf ("\t-n\t\t\tDo not use promiscuous mode (default mode for tcpsmash)\n"
 			"\t-h\t\t\tPrint this help and exit\n"
@@ -86,7 +90,6 @@ int main(int argc, char **argv)  {
 	struct bpf_program filter;
 
 	bpf_u_int32 net,mask;
-	pcap_t *sniff;
 	pcap_if_t *ifc;
 
 	memset (filter_string, 0x0, BUFSIZ);
@@ -224,11 +227,6 @@ int main(int argc, char **argv)  {
 		}
 	}
 
-	if (!argv[1])  {
-		help(argv[0]);
-		exit(1);
-	}
-	
 	print_ver();
 	setreuid(0,0);
 
@@ -250,13 +248,6 @@ int main(int argc, char **argv)  {
 		exit(0);
 	}
 
-	if (!interface)  {
-		fprintf (stderr,"%s*** Error: Specify a valid network interface to sniff.%s\n"
-				"%sType %s -h for help\n%s",
-				RED,NORMAL,BOLD,argv[0],NORMAL);
-		exit(1);
-	}
-
 	if (!filter_string[0])
 		filter_string = strdup("ip or arp");
 
@@ -275,39 +266,10 @@ int main(int argc, char **argv)  {
 		exit(3);
 	}
 
-	// Greetz to evilsocket's IPGrep for the dlink offset algorithm
-	switch(dlink_type)  {
-		case DLT_RAW:
-			dlink_offset = 0; break;
+	dlink_offset = get_dlink_offset (dlink_type);
 
-		case DLT_PPP:
-		case DLT_LOOP:
-		case DLT_NULL:
-			dlink_offset = 4; break;
-
-		case DLT_PPP_ETHER:
-			dlink_offset = 8; break;
-
-		case DLT_EN10MB:
-		case DLT_EN3MB:
-			dlink_offset = 14; break;
-
-		case DLT_LINUX_SLL:
-		case DLT_SLIP:
-			dlink_offset = 16; break;
-
-		case DLT_SLIP_BSDOS:
-		case DLT_PPP_BSDOS:
-		case DLT_IEEE802_11:
-			dlink_offset = 24; break;
-
-		case DLT_PFLOG:
-			dlink_offset = 48; break;
-
-		default :		   
-			fprintf (stderr,"***Error: unsupported device datalink layer\n");
-			exit(3);
-	}
+	if (log_file)
+		fwrite (&dlink_type, sizeof(int), 1, stdout);
 
 	signal (SIGINT,foo);
 	signal (SIGTERM,foo);

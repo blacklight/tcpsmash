@@ -1,8 +1,7 @@
 /*
  * tcpsmash.h
  *
- * Version:	0.2.6,	08/12/2008 [dd/mm/yyyy]
- * (C) 2007,2008, BlackLight <blacklight86@gmail.com>
+ * (C) 2007,2009, BlackLight <blacklight@autistici.org>
  *
  *		This program is free software; you can redistribute it and/or
  *		modify it under the terms of the GNU General Public License
@@ -40,7 +39,7 @@
 #include <netinet/igmp.h>
 
 #define	PROTO	"TCP protocol: %s\n"
-#define	VERSION	"0.2.8"
+#define	VERSION	"0.3"
 
 #define	NORMAL	"\033[0m"
 #define	BOLD		"\033[1m"
@@ -78,12 +77,15 @@ int dlink_type;
 char* strfilter;
 FILE* out;
 
+int get_dlink_offset (int dlink_type);
+int preg_match (char* regex, char* s);
 void pack_handle (u_char *pnull, const struct pcap_pkthdr *p_info, const u_char *packet);
 void foo (int sig);
 void help();
 void print_proto (int sport, int dport);
 void print_tcp_flags (struct tcphdr *tcp);
 void file_dump (char* file);
+bool check_filter(const u_char *packet, int plen);
 
 #endif
 

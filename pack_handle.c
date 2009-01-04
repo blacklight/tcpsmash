@@ -1,8 +1,7 @@
 /*
  * pack_handle.c
  *
- * Version:	0.2.6,	08/12/2008 [dd/mm/yyyy]
- * (C) 2007,2008, BlackLight <blacklight86@gmail.com>
+ * (C) 2007,2009, BlackLight <blacklight@autistici.org>
  *
  *		This program is free software; you can redistribute it and/or
  *		modify it under the terms of the GNU General Public License
@@ -12,8 +11,8 @@
 
 #include "tcpsmash.h"
 
-typedef unsigned short u16;
-typedef unsigned long  u32;
+typedef unsigned short int u16;
+typedef unsigned long  int u32;
 
 u16 csum (u16 *buf, int nwords)  {
 	u32 sum;
@@ -48,8 +47,6 @@ void pack_handle(u_char *pnull, const struct pcap_pkthdr *p_info, const u_char *
 	struct tm *t;
 	char timestamp[20];
 	char src[BUFSIZ], dst[BUFSIZ], tmpaddr[BUFSIZ];
-	char *unnull;
-	char *regex;
 	int tcpflags = 0;
 	unsigned char u8[16];
 
@@ -78,6 +75,7 @@ void pack_handle(u_char *pnull, const struct pcap_pkthdr *p_info, const u_char *
 			tv.tv_usec = 0;
 			fwrite (&tv, sizeof(tv), 1, stdout);
 		}
+
 		for (i=0; i<plen; i++)
 			printf ("%c",packet[i]);
 		return;
@@ -105,7 +103,7 @@ void pack_handle(u_char *pnull, const struct pcap_pkthdr *p_info, const u_char *
 		} else {
 			strftime (timestamp,sizeof(timestamp),"%H:%M:%S",t);
 			printf ("%s.%d ", timestamp, (int) p_info->ts.tv_usec);
-			fflush(stdout);
+			fflush(stdout);	
 		}
 	}
 

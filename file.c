@@ -1,8 +1,7 @@
 /*
  * file.c
  *
- * Version:	0.2.6,	08/12/2008 [dd/mm/yyyy]
- * (C) 2007,2008, BlackLight <blacklight86@gmail.com>
+ * (C) 2007,2009, BlackLight <blacklight@autistici.org>
  *
  *		This program is free software; you can redistribute it and/or
  *		modify it under the terms of the GNU General Public License
@@ -29,36 +28,56 @@ void file_dump (char* file)  {
 		exit(1);
 	}
 
+	fread (&dlink_type, sizeof(int), 1, fp);
+	dlink_offset = get_dlink_offset(dlink_type);
+
 	while (!feof(fp))  {
 		buff = NULL;
 		len=0;
-
-		fread (&tv, sizeof(tv), 1, fp);
-		fread (eth, sizeof(struct ethhdr), 1, fp);
-		len += sizeof(struct ethhdr);
-		buff = (char*) realloc(buff,len);
-		memcpy (buff, eth, sizeof(struct ethhdr));
 		
-		if (eth->h_proto == ntohs(ETH_P_ARP))  {
-			fread (arp, sizeof(struct arphdr_t), 1, fp);
-			len += sizeof(struct arphdr_t);
+		fread (&tv, sizeof(tv), 1, fp);
+
+		if ( (dlink_type == DLT_EN10MB) || (dlink_type == DLT_EN3MB) )  {
+			fread (eth, sizeof(struct ethhdr), 1, fp);
+			len += sizeof(struct ethhdr);
 			buff = (char*) realloc(buff,len);
-			memcpy (buff+sizeof(struct ethhdr), arp, sizeof(struct arphdr_t));
-		} else if (eth->h_proto == ntohs(ETH_P_IP))  {
+			memcpy (buff, eth, sizeof(struct ethhdr));
+		
+			if (eth->h_proto == ntohs(ETH_P_ARP))  {
+				fread (arp, sizeof(struct arphdr_t), 1, fp);
+				len += sizeof(struct arphdr_t);
+				buff = (char*) realloc(buff,len);
+				memcpy (buff+sizeof(struct ethhdr), arp, sizeof(struct arphdr_t));
+			} else if (eth->h_proto == ntohs(ETH_P_IP))
+				goto ipsmash;
+		} else {
+		ipsmash:
 			fread (ip, sizeof(struct iphdr), 1, fp);
 			len += sizeof(struct iphdr);
 			buff = (char*) realloc(buff,len);
-			memcpy (buff+sizeof(struct ethhdr), ip, sizeof(struct iphdr));
+		
+			if ( (dlink_type == DLT_EN10MB) || (dlink_type == DLT_EN3MB) )
+				memcpy (buff+sizeof(struct ethhdr), ip, sizeof(struct iphdr));
+			else
+				memcpy (buff, ip, sizeof(struct iphdr));
 
 			len += ( ntohs(ip->tot_len) - sizeof(struct iphdr) );
 			buff = (char*) realloc(buff,len);
 
-			fread (
-				buff + sizeof(struct ethhdr) + sizeof(struct iphdr),
-				(htons(ip->tot_len) - sizeof(struct iphdr)),
-				1,
-				fp
-			);
+			if ( (dlink_type == DLT_EN10MB) || (dlink_type == DLT_EN3MB) )
+				fread (
+						buff + sizeof(struct ethhdr) + sizeof(struct iphdr),
+						(htons(ip->tot_len) - sizeof(struct iphdr)),
+						1,
+						fp
+					);
+			else
+				fread (
+						buff + sizeof(struct iphdr),
+						(htons(ip->tot_len) - sizeof(struct iphdr)),
+						1,
+						fp
+					);
 		}
 
 		memset (&pcap, 0x0, sizeof(pcap));

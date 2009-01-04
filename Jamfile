@@ -2,8 +2,14 @@ C = gcc -g -Wall ;
 LINK = $(C) ;
 
 Main tcpsmash : main.c pack_handle.c file.c misc.c ;
+Main nctcpsmash : NCtcpsmash/main.c NCtcpsmash/pack_handle.c NCtcpsmash/dumper.c NCtcpsmash/misc.c NCtcpsmash/file.c NCtcpsmash/list.c ;
+	
 LINKLIBS on tcpsmash = -lpcap ;
+LINKLIBS on nctcpsmash = -lpcap -lncurses ;
 
 InstallBin $(BINDIR) : tcpsmash$(SUFEXE) ;
+InstallBin $(BINDIR) : nctcpsmash$(SUFEXE) ;
+
 InstallFile $(MANDIR)/man7 : tcpsmash.7.gz ;
+InstallFile $(MANDIR)/man7 : nctcpsmash.7.gz ;
 

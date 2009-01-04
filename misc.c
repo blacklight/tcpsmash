@@ -1,8 +1,7 @@
 /*
  * tcp_mng.c
  *
- * Version:	0.2.6,	08/12/2008 [dd/mm/yyyy]
- * (C) 2007,2008, BlackLight <blacklight86@gmail.com>
+ * (C) 2007,2009, BlackLight <blacklight@autistici.org>
  *
  *		This program is free software; you can redistribute it and/or
  *		modify it under the terms of the GNU General Public License
@@ -30,7 +29,7 @@ void print_tcp_flags (struct tcphdr *tcp)  {
 	printf ("%s\n",NORMAL);
 }
 
-bool check_filter(u_char *packet, int plen)  {
+bool check_filter(const u_char *packet, int plen)  {
 	int i,j;
 	char *unnull, *regex;
 
@@ -63,5 +62,43 @@ bool check_filter(u_char *packet, int plen)  {
 
 	free(unnull);
 	return true;
+}
+
+// Greetz to evilsocket's IPGrep for the dlink offset algorithm
+int get_dlink_offset (int dlink_type)  {
+	switch(dlink_type)  {
+		case DLT_RAW:
+			dlink_offset = 0; break;
+
+		case DLT_PPP:
+		case DLT_LOOP:
+		case DLT_NULL:
+			dlink_offset = 4; break;
+
+		case DLT_PPP_ETHER:
+			dlink_offset = 8; break;
+
+		case DLT_EN10MB:
+		case DLT_EN3MB:
+			dlink_offset = 14; break;
+
+		case DLT_LINUX_SLL:
+		case DLT_SLIP:
+			dlink_offset = 16; break;
+
+		case DLT_SLIP_BSDOS:
+		case DLT_PPP_BSDOS:
+		case DLT_IEEE802_11:
+			dlink_offset = 24; break;
+
+		case DLT_PFLOG:
+			dlink_offset = 48; break;
+
+		default :		   
+			fprintf (stderr,"***Error: unsupported device datalink layer\n");
+			exit(3);
+	}
+
+	return dlink_offset;
 }
 
