@@ -80,6 +80,9 @@ void dump (struct record r)  {
 
 			wprintw (info, "Target IP: %d.%d.%d.%d\n\n",
 					arp.ar_tip[0],arp.ar_tip[1],arp.ar_tip[2],arp.ar_tip[3]);
+
+			wprintw (info, "Content:\n\n");
+			goto show;
 		}
 	} else {
 		if (dump_file)
@@ -318,6 +321,7 @@ void dump (struct record r)  {
 		wprintw (info,"\nContent:\n\n");
 	}
 
+show:
 	for (i=0; i < plen - ( ((dlink_type == DLT_EN10MB) || (dlink_type == DLT_EN3MB)) ? sizeof(struct ethhdr) : 0) ; i++)  {
 		u8[i%8]=r.packet[i + ( ((dlink_type == DLT_EN10MB) || (dlink_type == DLT_EN3MB)) ? sizeof(struct ethhdr) : 0)];
 

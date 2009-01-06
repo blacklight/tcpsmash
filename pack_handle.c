@@ -40,14 +40,15 @@ int preg_match (char* regex, char* s)  {
 }
 
 void pack_handle(u_char *pnull, const struct pcap_pkthdr *p_info, const u_char *packet)  {
-	int i,j,offset;
+	int i,j,offset = 0;
 	int plen = p_info->len;
+	int tcpflags = 0;
+
 	unsigned short int check, expect_check;
 	time_t ltime;
 	struct tm *t;
 	char timestamp[20];
 	char src[BUFSIZ], dst[BUFSIZ], tmpaddr[BUFSIZ];
-	int tcpflags = 0;
 	unsigned char u8[16];
 
 	struct ethhdr   eth;
@@ -126,6 +127,7 @@ void pack_handle(u_char *pnull, const struct pcap_pkthdr *p_info, const u_char *
 
 		if (eth.h_proto==ntohs(ETH_P_ARP))  {
 			memcpy (&arp, packet+sizeof(struct ethhdr), sizeof(struct arphdr_t));
+			offset += dlink_offset;
 
 			if (!quick)  {
 				if (arp.ar_op==ntohs(ARPOP_REQUEST))
@@ -158,7 +160,8 @@ void pack_handle(u_char *pnull, const struct pcap_pkthdr *p_info, const u_char *
 						arp.ar_tip[0],arp.ar_tip[1],arp.ar_tip[2],arp.ar_tip[3],
 						NORMAL);
 
-				printf ("\n");
+				printf ("\nContent:\n");
+				goto content;
 			} else {
 				if (arp.ar_op==ntohs(ARPOP_REQUEST))
 					printf ("arp who-has %d.%d.%d.%d tell %d.%d.%d.%d\n",
@@ -171,6 +174,7 @@ void pack_handle(u_char *pnull, const struct pcap_pkthdr *p_info, const u_char *
 							arp.ar_sha[0],arp.ar_sha[1],arp.ar_sha[2],
 							arp.ar_sha[3],arp.ar_sha[4],arp.ar_sha[5]
 							);
+
 				fflush(stdout);
 			}
 		}
@@ -181,7 +185,8 @@ void pack_handle(u_char *pnull, const struct pcap_pkthdr *p_info, const u_char *
 	}
 	
 	if (eth.h_proto==ntohs(ETH_P_IP))  {
-		ipsmash:
+ipsmash:
+		offset += dlink_offset + sizeof(struct iphdr);
 
 		if ( (dlink_type == DLT_EN10MB) || (dlink_type == DLT_EN3MB) )
 			memcpy (&ip, packet+sizeof(struct ethhdr), sizeof(struct iphdr));
@@ -219,6 +224,8 @@ void pack_handle(u_char *pnull, const struct pcap_pkthdr *p_info, const u_char *
 		}
 
 		if (ip.protocol==IPPROTO_ICMP)  {
+			offset += sizeof(struct icmphdr);
+
 			if ( (dlink_type == DLT_EN10MB) || (dlink_type == DLT_EN3MB) )
 				memcpy (&icmp, packet+sizeof(struct ethhdr)+sizeof(struct iphdr), sizeof(struct icmphdr));
 			else
@@ -349,6 +356,8 @@ void pack_handle(u_char *pnull, const struct pcap_pkthdr *p_info, const u_char *
 		}
 
 		if (ip.protocol==IPPROTO_IGMP)  {
+			offset += sizeof(struct igmp);
+
 			if ( (dlink_type == DLT_EN10MB) || (dlink_type == DLT_EN3MB) )
 				memcpy (&__igmp, packet+sizeof(struct ethhdr)+sizeof(struct iphdr), sizeof(struct igmp));
 			else
@@ -401,6 +410,8 @@ void pack_handle(u_char *pnull, const struct pcap_pkthdr *p_info, const u_char *
 		}
 
 		if (ip.protocol==IPPROTO_UDP)  {
+			offset += sizeof(struct udphdr);
+
 			if ( (dlink_type == DLT_EN10MB) || (dlink_type == DLT_EN3MB) )
 				memcpy (&udp, packet+sizeof(struct ethhdr)+sizeof(struct iphdr), sizeof(struct udphdr));
 			else
@@ -448,6 +459,8 @@ void pack_handle(u_char *pnull, const struct pcap_pkthdr *p_info, const u_char *
 		}
 
 		if (ip.protocol==IPPROTO_TCP)  {
+			offset += sizeof(struct tcphdr);
+
 			if ( (dlink_type == DLT_EN10MB) || (dlink_type == DLT_EN3MB) )
 				memcpy (&tcp, packet+sizeof(struct ethhdr)+sizeof(struct iphdr), sizeof(struct tcphdr));
 			else
@@ -534,8 +547,11 @@ void pack_handle(u_char *pnull, const struct pcap_pkthdr *p_info, const u_char *
 			printf ("Content:\n");
 		}
 
+content:
+		//for (i=0; i < plen - offset; i++)  {
 		for (i=0; i < plen - ( ((dlink_type == DLT_EN10MB) || (dlink_type == DLT_EN3MB)) ? sizeof(struct ethhdr) : 0) ; i++)  {
 			u8[i%16]=packet[i + ( ((dlink_type == DLT_EN10MB) || (dlink_type == DLT_EN3MB)) ? sizeof(struct ethhdr) : 0)];
+			//u8[i%16] = packet[i+offset];
 
 			if (i%16==15)  {
 				printf ("\t");
