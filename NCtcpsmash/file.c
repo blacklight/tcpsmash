@@ -39,13 +39,13 @@ void file_dump (char* file)  {
 		if ( (dlink_type == DLT_EN10MB) || (dlink_type == DLT_EN3MB) )  {
 			fread (&eth, sizeof(struct ethhdr), 1, fp);
 			len += sizeof(struct ethhdr);
-			buff = (char*) realloc(buff,len);
+			buff = (char*) GC_REALLOC(buff,len);
 			memcpy (buff, &eth, sizeof(struct ethhdr));
 		
 			if (eth.h_proto == ntohs(ETH_P_ARP))  {
 				fread (&arp, sizeof(struct arphdr_t), 1, fp);
 				len += sizeof(struct arphdr_t);
-				buff = (char*) realloc(buff,len);
+				buff = (char*) GC_REALLOC(buff,len);
 				memcpy (buff+sizeof(struct ethhdr), &arp, sizeof(struct arphdr_t));
 			} else if (eth.h_proto == ntohs(ETH_P_IP))
 				goto ipsmash;
@@ -53,7 +53,7 @@ void file_dump (char* file)  {
 		ipsmash:
 			fread (&ip, sizeof(struct iphdr), 1, fp);
 			len += sizeof(struct iphdr);
-			buff = (char*) realloc(buff,len);
+			buff = (char*) GC_REALLOC(buff,len);
 		
 			if ( (dlink_type == DLT_EN10MB) || (dlink_type == DLT_EN3MB) )
 				memcpy (buff+sizeof(struct ethhdr), &ip, sizeof(struct iphdr));
@@ -61,7 +61,7 @@ void file_dump (char* file)  {
 				memcpy (buff, &ip, sizeof(struct iphdr));
 
 			len += ( ntohs(ip.tot_len) - sizeof(struct iphdr) );
-			buff = (char*) realloc(buff,len);
+			buff = (char*) GC_REALLOC(buff,len);
 
 			if ( (dlink_type == DLT_EN10MB) || (dlink_type == DLT_EN3MB) )
 				fread (
@@ -84,7 +84,10 @@ void file_dump (char* file)  {
 		pcap.caplen = len;
 		pcap.len = len;
 		pack_handle(NULL,&pcap,(u8*) buff);
+
+#ifndef _HAS_GC
 		free(buff);
+#endif
 	}
 
 	return;
@@ -99,7 +102,7 @@ list filter_packets (char* filter, int* size)  {
 	*size = 0;
 
 	for (i=0, tmp=start; i < *npack; i++, tmp++)  {
-		packet = (u_char*) malloc(tmp->len);
+		packet = (u_char*) GC_MALLOC(tmp->len);
 		memcpy (packet, tmp->packet, tmp->len);
 
 		if (check_filter(filter, packet, tmp->len))  {
@@ -124,7 +127,7 @@ list get_tcpstream (struct record r, int *size)  {
 	list nums = NULL;
 
 	len = r.len - dlink_offset;
-	packet = (char*) malloc(len);
+	packet = (char*) GC_MALLOC(len);
 
 	if (dump_file)  {
 		if (!(fp=fopen(dump_file, "rb")))  {
@@ -159,7 +162,10 @@ list get_tcpstream (struct record r, int *size)  {
 	daddr = ntohl(ip.daddr);
 	sport = ntohs(tcp.source);
 	dport = ntohs(tcp.dest);
+
+#ifndef _HAS_GC
 	free (packet);
+#endif
 
 	for (i=0, tmp=start; i < *npack; i++, tmp++)  {
 		memset (&ip,  0x0, sizeof(struct iphdr));
@@ -167,7 +173,7 @@ list get_tcpstream (struct record r, int *size)  {
 		packet = NULL;
 
 		len = tmp->len - dlink_offset;
-		packet = (char*) malloc(len);
+		packet = (char*) GC_MALLOC(len);
 
 		for (j=dlink_offset; j < tmp->len; j++)
 			packet[j-dlink_offset] = tmp->packet[j];
@@ -194,7 +200,9 @@ list get_tcpstream (struct record r, int *size)  {
 			(*size)++;
 		}
 
+#ifndef _HAS_GC
 		free(packet);
+#endif
 	}
 
 	return nums;

@@ -150,56 +150,7 @@ void print_help()  {
 	wcolor_set (info, 5, NULL);
 	wprintw (info, "See man tcpsmash | man nctcpsmash |\nREADME file | nctcpsmash -h\nfor a complete list\nof options | commands");
 	wcolor_set (info, 1, NULL);
-
-	/*wcolor_set (info, 4, NULL);
-	wprintw (info, "Browsing left window\n\n");
-	wcolor_set (info, 1, NULL);
-
-	wcolor_set (info, 7, NULL);
-	wprintw (info, "Up/Down arrow:");
-	wcolor_set (info, 1, NULL);
-	wprintw (info, "\t\tselect previous/next\n\t\t\tpacket\n");
-
-	wcolor_set (info, 7, NULL);
-	wprintw (info, "Left/Right arrow:");
-	wcolor_set (info, 1, NULL);
-	wprintw (info, "\tgoto first/last packet\n");
-
-	wcolor_set (info, 7, NULL);
-	wprintw (info, "Page up/down:");
-	wcolor_set (info, 1, NULL);
-	wprintw (info, "\t\tshow previous/next page\n");
-
-	wcolor_set (info, 7, NULL);
-	wprintw (info, "ENTER:");
-	wcolor_set (info, 1, NULL);
-	wprintw (info, "\t\t\tshow info about selected\n\t\t\tpacket\n");
-
-	wcolor_set (info, 7, NULL);
-	wprintw (info, "h:");
-	wcolor_set (info, 1, NULL);
-	wprintw (info, "\t\t\tshow this help\n");
-
-	wcolor_set (info, 7, NULL);
-	wprintw (info, "q:");
-	wcolor_set (info, 1, NULL);
-	wprintw (info, "\t\t\tquit (nc)tcpsmash\n");
-	
-	wcolor_set (info, 7, NULL);
-	wprintw (info, "w:");
-	wcolor_set (info, 1, NULL);
-	wprintw (info, "\t\t\tsave sniffed traffic\n\t\t\tto a logfile\n\t\t\t(to be examined using\n\t\t\ttcpsmash -F logfile)\n");
-
-	wcolor_set (info, 7, NULL);
-	wprintw (info, "s:");
-	wcolor_set (info, 1, NULL);
-	wprintw (info, "\t\t\tstop a packet sniffing\n\t\t\tsession\n");
-
-	wcolor_set (info, 7, NULL);
-	wprintw (info, "r:");
-	wcolor_set (info, 1, NULL);
-	wprintw (info, "\t\t\tresume a packet sniffing\n\t\t\tsession previously stopped\n");*/
-		
+			
 	wcolor_set (info, 3, NULL);
 	wprintw (info, "\n\ndeveloped by Blacklight\n<blacklight@autistici.org>\nand relesed under GNU GPL licence 3.0\n(C) 2007-2009\n");
 	wcolor_set (info, 1, NULL);
@@ -249,6 +200,10 @@ int main (int argc, char **argv)  {
 	struct record *ptr;
 	struct bpf_program filter;
 
+#ifdef	_HAS_GC
+	GC_INIT()
+#endif
+
 	dump_file = NULL;
 
 	for (i=1; i<argc; i++)  {
@@ -264,11 +219,11 @@ int main (int argc, char **argv)  {
 	while ((ch=getopt(argc, argv, "hvi:f:C:F:"))>0)  {
 		switch (ch)  {
 			case 'i':
-				interface = strdup(optarg);
+				interface = GC_STRDUP(optarg);
 				break;
 
 			case 'f':
-				filter_string = strdup(optarg);
+				filter_string = GC_STRDUP(optarg);
 				break;
 
 			case 'h':
@@ -277,11 +232,11 @@ int main (int argc, char **argv)  {
 				break;
 
 			case 'C':
-				strfilter = strdup(optarg);
+				strfilter = GC_STRDUP(optarg);
 				break;
 
 			case 'F':
-				dump_file = strdup(optarg);
+				dump_file = GC_STRDUP(optarg);
 				break;
 		}
 	}
@@ -539,7 +494,9 @@ gui:
 			wrefresh (status);
 
 			if (filtered > 0)  {
+#ifndef _HAS_GC
 				free(nums);
+#endif
 				filtered=0;
 			}
 
@@ -564,7 +521,10 @@ gui:
 				wrefresh (status);
 			} else {
 				filtered=0;
+
+#ifndef _HAS_GC
 				free(search_pattern);
+#endif
 				
 				wclear(status);
 				wcolor_set (status, 3, NULL);

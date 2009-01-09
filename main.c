@@ -85,12 +85,16 @@ int main(int argc, char **argv)  {
 		*interface = NULL,
 		*dump_file = NULL;
 
-	char *filter_string = (char*) malloc(BUFSIZ*sizeof(char));
+	char *filter_string = (char*) GC_MALLOC(BUFSIZ*sizeof(char));
 	struct sockaddr_in *addr;
 	struct bpf_program filter;
 
 	bpf_u_int32 net,mask;
 	pcap_if_t *ifc;
+
+#ifdef	_HAS_GC
+	GC_INIT()
+#endif
 
 	memset (filter_string, 0x0, BUFSIZ);
 	use_flags = true;
@@ -114,7 +118,7 @@ int main(int argc, char **argv)  {
 	while ((ch=getopt(argc,argv,"qnhlw:f:i:F:c:C:Dv"))>0)  {
 		switch (ch)  {
 			case 'w':
-				log_file=optarg;
+				log_file = GC_STRDUP(optarg);
 				use_dump = true;
 				use_log  = true;
 
@@ -136,7 +140,7 @@ int main(int argc, char **argv)  {
 				break;
 
 			case 'f':
-				filter_string = optarg;
+				filter_string = GC_STRDUP(optarg);
 				break;
 
 			case 'l':
@@ -191,7 +195,7 @@ int main(int argc, char **argv)  {
 				break;
 
 			case 'i':
-				interface=optarg;
+				interface = GC_STRDUP(optarg);
 				break;
 
 			case 'v':
@@ -204,7 +208,7 @@ int main(int argc, char **argv)  {
 
 			case 'F':
 				undumping = true;
-				dump_file = optarg;
+				dump_file = GC_STRDUP(optarg);
 				break;
 
 			case 'q':
@@ -216,7 +220,7 @@ int main(int argc, char **argv)  {
 				break;
 
 			case 'C':
-				strfilter = strdup(optarg);
+				strfilter = GC_STRDUP(optarg);
 				break;
 
 			default:
@@ -249,7 +253,7 @@ int main(int argc, char **argv)  {
 	}
 
 	if (!filter_string[0])
-		filter_string = strdup("ip or arp");
+		filter_string = GC_STRDUP("ip or arp");
 
 	if (pcap_lookupnet(NULL,&net,&mask,err)==-1)  {
 		fprintf (stderr,"***Error connecting to the network interface: %s\n",err);

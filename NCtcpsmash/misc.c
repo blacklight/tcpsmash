@@ -102,7 +102,7 @@ char* getline()  {
 
 	while ((ch=getch()) != '\n')  {
 		if (ch >= 0x20 && ch <= 0x7E)  {
-			str = (char*) realloc(str, ++size);
+			str = (char*) GC_REALLOC(str, ++size);
 			str[size-1]=ch;
 			wprintw (status, "%c", ch);
 			wrefresh (status);
@@ -121,7 +121,7 @@ int check_filter(char *filter, const u_char *packet, int plen)  {
 	int i,j;
 	char *unnull, *regex;
 
-	unnull = (char*) malloc(plen);
+	unnull = (char*) GC_MALLOC(plen);
 	j=0;
 
 	for (i=0; i < plen; i++)
@@ -130,25 +130,32 @@ int check_filter(char *filter, const u_char *packet, int plen)  {
 	unnull[j] = 0;
 
 	if (filter[0] == '/' && filter[strlen(filter)-1] == '/')  {
-		regex = strdup(filter);
+		regex = GC_STRDUP(filter);
 		regex[strlen(filter)-1] = 0;
 
 			for (i=0; i<strlen(regex); i++)
 				regex[i] = regex[i+1];
 
 			if (preg_match(regex, unnull) != 1)  {
+#ifndef _HAS_GC
 				free(regex);
 				free(unnull);
+#endif
 				return 0;
 			}
 	} else {
 		if (!strstr(unnull, filter))  {
+#ifndef _HAS_GC
 			free(unnull);
+#endif
 			return 0;
 		}
 	}
 
+#ifndef _HAS_GC
 	free(unnull);
+#endif
+
 	return 1;
 }
 

@@ -2,10 +2,15 @@
 
 In according to be compiled, the application needs
 
-1) A Unix-like operating system
-2) GCC compiler
-3) PCAP libraries (http://www.tcpdump.org/pcap.htm)
-4) NCurses (for nctcpsmash, on Debian-like distros install ncurses-devel)
+- A Linux-based system
+- GCC compiler
+- PCAP libraries (http://www.tcpdump.org/pcap.htm)
+- NCurses (for nctcpsmash, on Debian-like distros do
+  `apt-get install ncurses-devel' )
+- GC garbage collector, to free unused and allocated memory and prevent
+  memory leaks (if you have not GC installed or want to build (nc)tcpsmash
+  without GC support, build it via
+  `make HAS_GC= LDGC=' )
 
 === INSTALLATION ===
 

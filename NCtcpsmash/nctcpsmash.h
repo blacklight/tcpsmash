@@ -33,6 +33,14 @@
 #define	GREEN	"\033[92m"
 #define	YELLOW	"\033[01;93m"
 
+#ifdef _HAS_GC
+	#include <gc.h>
+#else
+	#define GC_MALLOC	malloc
+	#define GC_REALLOC	realloc
+	#define GC_STRDUP	strdup
+#endif
+
 struct record  {
 	int len;
 	struct timeval tv;

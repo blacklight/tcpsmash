@@ -33,7 +33,7 @@ bool check_filter(const u_char *packet, int plen)  {
 	int i,j;
 	char *unnull, *regex;
 
-	unnull = (char*) malloc(plen);
+	unnull = (char*) GC_MALLOC(plen);
 	j=0;
 
 	for (i=0; i < plen; i++)
@@ -42,25 +42,31 @@ bool check_filter(const u_char *packet, int plen)  {
 	unnull[j] = 0;
 
 	if (strfilter[0] == '/' && strfilter[strlen(strfilter)-1] == '/')  {
-		regex = strdup(strfilter);
+		regex = GC_STRDUP(strfilter);
 		regex[strlen(strfilter)-1] = 0;
 
 			for (i=0; i<strlen(regex); i++)
 				regex[i] = regex[i+1];
 
 			if (preg_match(regex, unnull) != 1)  {
+			#ifndef _HAS_GC
 				free(regex);
 				free(unnull);
+			#endif
 				return false;
 			}
 	} else {
 		if (!strstr(unnull, strfilter))  {
+		#ifndef _HAS_GC
 			free(unnull);
+		#endif
 			return false;
 		}
 	}
 
+#ifndef _HAS_GC
 	free(unnull);
+#endif
 	return true;
 }
 

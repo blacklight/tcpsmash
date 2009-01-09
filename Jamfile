@@ -1,11 +1,15 @@
-C = gcc -g -Wall ;
+C = gcc ;
 LINK = $(C) ;
+
+HAS_GC = -D_HAS_GC ;
+LDGC = -lgc ;
+CFLAGS = -g -Wall $(HAS_GC) ;
 
 Main tcpsmash : main.c pack_handle.c file.c misc.c ;
 Main nctcpsmash : NCtcpsmash/main.c NCtcpsmash/pack_handle.c NCtcpsmash/dumper.c NCtcpsmash/misc.c NCtcpsmash/file.c NCtcpsmash/list.c ;
 	
-LINKLIBS on tcpsmash = -lpcap ;
-LINKLIBS on nctcpsmash = -lpcap -lncurses ;
+LINKLIBS on tcpsmash = -lpcap $(LDGC) ;
+LINKLIBS on nctcpsmash = -lpcap -lncurses $(LDGC) ;
 
 InstallBin $(BINDIR) : tcpsmash$(SUFEXE) ;
 InstallBin $(BINDIR) : nctcpsmash$(SUFEXE) ;

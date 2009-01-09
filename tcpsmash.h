@@ -38,6 +38,14 @@
 #include <netinet/ip_icmp.h>
 #include <netinet/igmp.h>
 
+#ifdef _HAS_GC
+	#include <gc.h>
+#else
+	#define	GC_MALLOC		malloc
+	#define	GC_REALLOC	realloc
+	#define	GC_STRDUP		strdup
+#endif
+
 #define	PROTO	"TCP protocol: %s\n"
 #define	VERSION	"0.3"
 

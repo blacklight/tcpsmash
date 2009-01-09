@@ -12,9 +12,9 @@
 #include "tcpsmash.h"
 
 void file_dump (char* file)  {
-	struct ethhdr *eth = (struct ethhdr*) malloc(sizeof(struct ethhdr));
-	struct iphdr  *ip  = (struct iphdr*)  malloc(sizeof(struct iphdr));
-	struct arphdr_t *arp = (struct arphdr_t*) malloc(sizeof(struct arphdr_t));
+	struct ethhdr eth;
+	struct iphdr  ip;
+	struct arphdr_t arp;
 	struct pcap_pkthdr pcap;
 	struct timeval tv;
 
@@ -38,43 +38,43 @@ void file_dump (char* file)  {
 		fread (&tv, sizeof(tv), 1, fp);
 
 		if ( (dlink_type == DLT_EN10MB) || (dlink_type == DLT_EN3MB) )  {
-			fread (eth, sizeof(struct ethhdr), 1, fp);
+			fread (&eth, sizeof(struct ethhdr), 1, fp);
 			len += sizeof(struct ethhdr);
-			buff = (char*) realloc(buff,len);
-			memcpy (buff, eth, sizeof(struct ethhdr));
+			buff = (char*) GC_REALLOC(buff,len);
+			memcpy (buff, &eth, sizeof(struct ethhdr));
 		
-			if (eth->h_proto == ntohs(ETH_P_ARP))  {
-				fread (arp, sizeof(struct arphdr_t), 1, fp);
+			if (eth.h_proto == ntohs(ETH_P_ARP))  {
+				fread (&arp, sizeof(struct arphdr_t), 1, fp);
 				len += sizeof(struct arphdr_t);
-				buff = (char*) realloc(buff,len);
-				memcpy (buff+sizeof(struct ethhdr), arp, sizeof(struct arphdr_t));
-			} else if (eth->h_proto == ntohs(ETH_P_IP))
+				buff = (char*) GC_REALLOC(buff,len);
+				memcpy (buff+sizeof(struct ethhdr), &arp, sizeof(struct arphdr_t));
+			} else if (eth.h_proto == ntohs(ETH_P_IP))
 				goto ipsmash;
 		} else {
 		ipsmash:
-			fread (ip, sizeof(struct iphdr), 1, fp);
+			fread (&ip, sizeof(struct iphdr), 1, fp);
 			len += sizeof(struct iphdr);
-			buff = (char*) realloc(buff,len);
+			buff = (char*) GC_REALLOC(buff,len);
 		
 			if ( (dlink_type == DLT_EN10MB) || (dlink_type == DLT_EN3MB) )
-				memcpy (buff+sizeof(struct ethhdr), ip, sizeof(struct iphdr));
+				memcpy (buff+sizeof(struct ethhdr), &ip, sizeof(struct iphdr));
 			else
-				memcpy (buff, ip, sizeof(struct iphdr));
+				memcpy (buff, &ip, sizeof(struct iphdr));
 
-			len += ( ntohs(ip->tot_len) - sizeof(struct iphdr) );
-			buff = (char*) realloc(buff,len);
+			len += ( ntohs(ip.tot_len) - sizeof(struct iphdr) );
+			buff = (char*) GC_REALLOC(buff,len);
 
 			if ( (dlink_type == DLT_EN10MB) || (dlink_type == DLT_EN3MB) )
 				fread (
 						buff + sizeof(struct ethhdr) + sizeof(struct iphdr),
-						(htons(ip->tot_len) - sizeof(struct iphdr)),
+						(htons(ip.tot_len) - sizeof(struct iphdr)),
 						1,
 						fp
 					);
 			else
 				fread (
 						buff + sizeof(struct iphdr),
-						(htons(ip->tot_len) - sizeof(struct iphdr)),
+						(htons(ip.tot_len) - sizeof(struct iphdr)),
 						1,
 						fp
 					);
@@ -85,7 +85,10 @@ void file_dump (char* file)  {
 		pcap.caplen = len;
 		pcap.len = len;
 		pack_handle(NULL,&pcap,(u8*) buff);
+
+#ifndef _HAS_GC
 		free(buff);
+#endif
 	}
 
 	return;

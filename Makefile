@@ -1,6 +1,12 @@
+HAS_GC=-D_HAS_GC
+LDGC=-lgc
+CFLAGS=-g -Wall ${HAS_GC}
+LDTCPSMASH=-lpcap ${LDGC}
+LDNCTCPSMASH=-lpcap -lncurses ${LDGC}
+
 all:
-	gcc -Wall -o tcpsmash main.c pack_handle.c misc.c file.c -lpcap -g
-	gcc -Wall -o nctcpsmash NCtcpsmash/main.c NCtcpsmash/pack_handle.c NCtcpsmash/dumper.c NCtcpsmash/misc.c NCtcpsmash/file.c NCtcpsmash/list.c -lpcap -lncurses -g
+	gcc ${CFLAGS} -o tcpsmash main.c pack_handle.c misc.c file.c ${LDTCPSMASH}
+	gcc ${CFLAGS} -o nctcpsmash NCtcpsmash/main.c NCtcpsmash/pack_handle.c NCtcpsmash/dumper.c NCtcpsmash/misc.c NCtcpsmash/file.c NCtcpsmash/list.c ${LDNCTCPSMASH}
 
 install:
 	cp tcpsmash /usr/local/bin
@@ -11,7 +17,6 @@ install:
 	cp nctcpsmash.7.gz /usr/local/man/man7
 
 clean:
-	rm *.o
 	rm tcpsmash
 	rm nctcpsmash
 

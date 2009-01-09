@@ -9,7 +9,7 @@ list Tail (list l)  {
 }
 
 list Insert (int val, list l)  {
-	list t = (list) malloc(sizeof(node));
+	list t = (list) GC_MALLOC(sizeof(node));
 
 	t->num  = val;
 	t->next = l;
