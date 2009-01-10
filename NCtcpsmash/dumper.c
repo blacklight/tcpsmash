@@ -323,23 +323,40 @@ void dump (struct record r)  {
 
 show:
 	for (i=0; i < plen - ( ((dlink_type == DLT_EN10MB) || (dlink_type == DLT_EN3MB)) ? sizeof(struct ethhdr) : 0) ; i++)  {
-		u8[i%8]=r.packet[i + ( ((dlink_type == DLT_EN10MB) || (dlink_type == DLT_EN3MB)) ? sizeof(struct ethhdr) : 0)];
+		if (capinfo->viewmode == hex)  {
+			u8[i%8]=r.packet[i + ( ((dlink_type == DLT_EN10MB) || (dlink_type == DLT_EN3MB)) ? sizeof(struct ethhdr) : 0)];
 
-		if (i%8==7)  {
-			wprintw (info,"\t");
+			if (i%8==7)  {
+				wprintw (info,"\t");
 
-			for (j=0; j<7; j+=2)
-				wprintw (info,"%.2x%.2x ",u8[j],u8[j+1]);
-			wprintw (info,"\t");
+				for (j=0; j<7; j+=2)
+					wprintw (info,"%.2x%.2x ",u8[j],u8[j+1]);
+				wprintw (info,"\t");
 
-			for (j=0; j<8; j++)  {
-				if (u8[j]>=0x21 && u8[j]<=0x7e)
-					wprintw (info,"%c",u8[j]);
-				else
-					wprintw (info,".");
+				for (j=0; j<8; j++)  {
+					if (u8[j]>=0x21 && u8[j]<=0x7e)
+						wprintw (info,"%c",u8[j]);
+					else
+						wprintw (info,".");
+				}
+
+				wprintw (info,"\n");
 			}
+		} else {
+			u8[i%32]=r.packet[i + ( ((dlink_type == DLT_EN10MB) || (dlink_type == DLT_EN3MB)) ? sizeof(struct ethhdr) : 0)];
 
-			wprintw (info,"\n");
+			if (i%32==31)  {
+				wprintw (info,"\t");
+
+				for (j=0; j<32; j++)  {
+					if (u8[j]>=0x21 && u8[j]<=0x7e)
+						wprintw (info,"%c",u8[j]);
+					else
+						wprintw (info,".");
+				}
+
+				wprintw (info,"\n");
+			}
 		}
 	}
 

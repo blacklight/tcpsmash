@@ -101,7 +101,7 @@ list filter_packets (char* filter, int* size)  {
 
 	*size = 0;
 
-	for (i=0, tmp=start; i < *npack; i++, tmp++)  {
+	for (i=0, tmp=start; i < capinfo->npack; i++, tmp++)  {
 		packet = (u_char*) GC_MALLOC(tmp->len);
 		memcpy (packet, tmp->packet, tmp->len);
 
@@ -167,7 +167,7 @@ list get_tcpstream (struct record r, int *size)  {
 	free (packet);
 #endif
 
-	for (i=0, tmp=start; i < *npack; i++, tmp++)  {
+	for (i=0, tmp=start; i < capinfo->npack; i++, tmp++)  {
 		memset (&ip,  0x0, sizeof(struct iphdr));
 		memset (&tcp, 0x0, sizeof(struct tcphdr));
 		packet = NULL;

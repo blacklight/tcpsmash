@@ -119,6 +119,7 @@
 		r:			resume traffic sniffing when paused
 		q:			quit (nc)tcpsmash
 		t:			if a TCP packet is selected, this command highlights the TCP stream the packet is belonging to
+		T:			toggle between HEX/ASCII view for the contents of sniffed packets
 		/ search_pattern | regex:
 				highlight (in red) packets containing specified string or regex. To specify a string, just write it.
 				To specify a regex, include it between / and / -> /this is a regex/

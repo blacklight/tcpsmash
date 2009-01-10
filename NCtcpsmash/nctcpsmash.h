@@ -54,29 +54,34 @@ struct _node  {
 } node;
 
 typedef struct _node *list;
-
-struct arphdr_t
-{
-     unsigned short ar_hrd;
-     unsigned short ar_pro;
-     unsigned char  ar_hln;
-     unsigned char  ar_pln;
-     unsigned short ar_op;
-     unsigned char  ar_sha[ETH_ALEN];
-     unsigned char  ar_sip[4];
-     unsigned char  ar_tha[ETH_ALEN];
-     unsigned char  ar_tip[4];
-};
-
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned long  u32;
+typedef enum  { hex, ascii } mode;
+
+struct arphdr_t
+{
+	unsigned short ar_hrd;
+	unsigned short ar_pro;
+	unsigned char  ar_hln;
+	unsigned char  ar_pln;
+	unsigned short ar_op;
+	unsigned char  ar_sha[ETH_ALEN];
+	unsigned char  ar_sip[4];
+	unsigned char  ar_tha[ETH_ALEN];
+	unsigned char  ar_tip[4];
+};
+
+struct _CAPINFO {
+	int npack;
+	mode viewmode;
+};
 
 WINDOW *mainw, *w, *line, *status, *head, *info;
+struct _CAPINFO *capinfo;
 
 int dlink_type;
 int dlink_offset;
-int *npack;
 int fd, fdpack;
 int pid[2];
 int SCRSIZ;

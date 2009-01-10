@@ -41,7 +41,7 @@ void pack_handle(u_char *pnull, const struct pcap_pkthdr *p_info, const u_char *
 
 	r.tv.tv_sec  = p_info->ts.tv_sec;
 	r.tv.tv_usec = p_info->ts.tv_usec;
-	(*npack)++;
+	(capinfo->npack)++;
 
 	if ( (dlink_type == DLT_EN10MB) || (dlink_type == DLT_EN3MB) )  {
 		memcpy (&eth, packet, sizeof(struct ethhdr));

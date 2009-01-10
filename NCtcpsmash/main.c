@@ -14,7 +14,7 @@ void STATS(int sig)  {
 	pcap_stats (sniff, &st);
 	fprintf (stderr,"\n%sSignal %d caught - Program terminated\n\n%d packets captured on the interface\n"
 			"%d packets captured by the filter\n%d packets dropped%s\n",
-			YELLOW, sig, st.ps_recv/2, *npack, st.ps_drop/2, NORMAL);
+			YELLOW, sig, st.ps_recv/2, capinfo->npack, st.ps_drop/2, NORMAL);
 	exit(255);
 }
 
@@ -81,6 +81,7 @@ void help(char *app)  {
 			"\tr:\t\t\tresume traffic sniffing when paused\n"
 			"\tt:\t\t\tif a TCP packet is selected, this command highlights the\n"
 			"\t\t\t\tTCP stream the packet is belonging to\n"
+			"\tT:\t\t\ttoggle between HEX/ASCII view for the contents of sniffed packets\n"
 			"\t/ search_pattern | regex:\n"
 			"\t\t\t\thighlight (in red) packets containing specified string or regex.\n"
 			"\t\t\t\tTo specify a string, just write it.\n"
@@ -166,7 +167,7 @@ int save_dump (char* dump_file)  {
 
 	write (fd, &dlink_type, sizeof(int));
 
-	for (i=0; i < *npack; i++)  {
+	for (i=0; i < capinfo->npack; i++)  {
 		ptr = start+i;
 		write (fd, &(ptr->tv), sizeof(struct timeval));
 
@@ -244,7 +245,7 @@ int main (int argc, char **argv)  {
 	
 	strfilter = NULL;
 	snprintf (fname,  sizeof(fname),  "/tmp/nctcpsmash-shared-%d", getpid());
-	snprintf (fnpack, sizeof(fnpack), "/tmp/nctcpsmash-npack-%d",  getpid());
+	snprintf (fnpack, sizeof(fnpack), "/tmp/nctcpsmash-info-%d",  getpid());
 	
 	setreuid(0,0);
 
@@ -275,8 +276,12 @@ int main (int argc, char **argv)  {
 	if ((fdpack = open(fnpack, O_RDWR|O_CREAT, 0644)) < 0)
 		return 1;
 
-	i=0;
-	write (fdpack, &i, sizeof(int));
+	capinfo = (struct _CAPINFO*) GC_MALLOC(sizeof(struct _CAPINFO));
+	capinfo->npack = 0;
+	capinfo->viewmode = hex;
+	write (fdpack, capinfo, sizeof(struct _CAPINFO));
+	free(capinfo);
+	capinfo = NULL;
 	
 	signal(SIGUSR1, foo);
 	signal(SIGUSR2, _pause);
@@ -285,7 +290,7 @@ int main (int argc, char **argv)  {
 	if (!(ptr = mmap(NULL, 0x8000*sizeof(struct record), PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0)))
 		return 2;
 	
-	if (!(npack = mmap(NULL, sizeof(int), PROT_READ | PROT_WRITE, MAP_SHARED, fdpack, 0)))
+	if (!(capinfo = mmap(NULL, sizeof(int), PROT_READ | PROT_WRITE, MAP_SHARED, fdpack, 0)))
 		return 2;
 
 	start=ptr;
@@ -371,7 +376,7 @@ gui:
 				for (; ; ptr++)  {
 					pause();
 
-					if (*npack <= curstart + SCRSIZ && *npack >= curstart - 2)  {
+					if (capinfo->npack <= curstart + SCRSIZ && capinfo->npack >= curstart - 2)  {
 						wprintw (w, "%s", ptr->descr);
 						wrefresh(w);
 					}
@@ -391,7 +396,7 @@ gui:
 				for (; ; ptr++)  {
 					pause();
 
-					if (*npack <= curstart + SCRSIZ && *npack >= curstart - 2)  {
+					if (capinfo->npack <= curstart + SCRSIZ && capinfo->npack >= curstart - 2)  {
 						wprintw (w, "%s", ptr->descr);
 						wrefresh(w);
 					}
@@ -414,10 +419,10 @@ gui:
 				curstart--;
 		}
 
-		if (ch == KEY_DOWN && row <= *npack-2)  {
+		if (ch == KEY_DOWN && row <= capinfo->npack-2)  {
 			row++;
 
-			if (row == curstart+SCRSIZ && row < *npack)
+			if (row == curstart+SCRSIZ && row < capinfo->npack)
 				curstart++;
 		}
 
@@ -428,10 +433,10 @@ gui:
 				curstart -= SCRSIZ;
 		}
 
-		if (ch == KEY_NPAGE && row + SCRSIZ < *npack)  {
+		if (ch == KEY_NPAGE && row + SCRSIZ < capinfo->npack)  {
 			row += SCRSIZ;
 
-			if (curstart+SCRSIZ < *npack)
+			if (curstart+SCRSIZ < capinfo->npack)
 				curstart += SCRSIZ;
 		}
 
@@ -441,10 +446,10 @@ gui:
 		}
 
 		if (ch == KEY_RIGHT || ch == KEY_END)  {
-			row = *npack - 1;
+			row = capinfo->npack - 1;
 			
-			if (*npack >= SCRSIZ)  {
-				curstart = *npack-SCRSIZ;
+			if (capinfo->npack >= SCRSIZ)  {
+				curstart = capinfo->npack-SCRSIZ;
 			}
 		}
 
@@ -567,7 +572,14 @@ gui:
 			}
 		}
 
-		for (i=curstart; i < curstart+SCRSIZ && i <= *npack; i++)  {
+		if (ch == 'T')  {
+			if (capinfo->viewmode == hex)
+				capinfo->viewmode = ascii;
+			else
+				capinfo->viewmode = hex;
+		}
+
+		for (i=curstart; i < curstart+SCRSIZ && i <= capinfo->npack; i++)  {
 			if (filtered > 0 && Contains(i,nums))
 				wcolor_set(w, 8, NULL);
 			else if (streamed > 0 && Contains(i,tcpstream))
