@@ -280,7 +280,11 @@ int main (int argc, char **argv)  {
 	capinfo->npack = 0;
 	capinfo->viewmode = hex;
 	write (fdpack, capinfo, sizeof(struct _CAPINFO));
+
+#ifndef _HAS_GC
 	free(capinfo);
+#endif
+
 	capinfo = NULL;
 	
 	signal(SIGUSR1, foo);
