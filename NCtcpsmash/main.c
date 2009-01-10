@@ -187,10 +187,11 @@ int main (int argc, char **argv)  {
 	int filtered = 0;
 	int streamed = 0;
 
+	char choice;
 	char err[PCAP_ERRBUF_SIZE];
-	char *interface = NULL;
-	char *filter_string = NULL;
-	char *search_pattern = NULL;
+	char *interface = NULL,
+		*filter_string = NULL,
+		*search_pattern = NULL;
 
 	bpf_u_int32 net,mask;
 	list nums = NULL,
@@ -250,6 +251,22 @@ int main (int argc, char **argv)  {
 	if (geteuid())  {
 		printf ("*** Error: You MUST be root in order to use this application ***\n");
 		exit(255);
+	}
+
+	if (!interface)  {
+		printf ("%s***WARNING: Specifying no interface to sniff will\n"
+				"produce traffic sniffing on any interface. This may\n"
+				"lead to software inconsistency, and you should not\n"
+				"save a log file for this sniffing session, as I cannot\n"
+				"determine the data link type for undumping your log file\n"
+				"and I will dump out random stuff. Are you sure you\n"
+				"really want to continue?%s (y/n) ", RED, NORMAL);
+		scanf ("%c",&choice);
+
+		if (choice != 'y')  {
+			printf ("\nexiting %s...\n", argv[0]);
+			exit(1);
+		}
 	}
 
 	if ((fd = open(fname, O_RDWR|O_CREAT, 0644)) < 0)

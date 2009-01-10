@@ -79,6 +79,7 @@ void unformatted_print_ver()  {
 int main(int argc, char **argv)  {
 	int i,fd,ch,promisc=0;
 
+	char choice;
 	char err[PCAP_ERRBUF_SIZE];
 	char ipaddr[INET6_ADDRSTRLEN];
 	char *log_file  = NULL,
@@ -238,6 +239,22 @@ int main(int argc, char **argv)  {
 		printf ("*** %sError: You MUST be root in order to use this application ***%s\n",
 				RED,NORMAL);
 		exit(255);
+	}
+
+	if (!interface)  {
+		printf ("%s***WARNING: Specifying no interface to sniff will\n"
+				"produce traffic sniffing on any interface. This may\n"
+				"lead to software inconsistency, and you should not\n"
+				"save a log file for this sniffing session, as I cannot\n"
+				"determine the data link type for undumping your log file\n"
+				"and I will dump out random stuff. Are you sure you\n"
+				"really want to continue?%s (y/n) ", RED, NORMAL);
+		scanf ("%c",&choice);
+
+		if (choice != 'y')  {
+			printf ("\nexiting %s...\n", argv[0]);
+			exit(1);
+		}
 	}
 
 	if (!log_file)
