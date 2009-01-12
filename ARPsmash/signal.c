@@ -15,11 +15,11 @@ void term(int sig)  {
 	arp.opcode=htons(ARPOP_REPLY);
 
 	memcpy (&dlink.sll_addr, (__u8*) t1_hw, ETH_ALEN);
-	ip4addr.s_addr=inet_addr(t1);
+	ip4addr.s_addr=inet_addr((char*) t1);
 	memcpy (arp.ip_sender, (__u8*) &ip4addr, sizeof(arp.ip_sender));
 	memcpy (arp.hw_sender, (__u8*) t1_hw, sizeof(arp.hw_sender));
 
-	ip4addr.s_addr=inet_addr(t2);
+	ip4addr.s_addr=inet_addr((char*) t2);
 	memcpy (arp.ip_target, (__u8*) &ip4addr, sizeof(ip4addr));
 	memcpy (arp.hw_target, (__u8*) t2_hw, sizeof(arp.hw_target));
 	
@@ -29,11 +29,11 @@ void term(int sig)  {
 	}
 
 	memcpy (&dlink.sll_addr, (__u8*) t2_hw, ETH_ALEN);
-	ip4addr.s_addr=inet_addr(t2);
+	ip4addr.s_addr=inet_addr((char*) t2);
 	memcpy (arp.ip_sender, (__u8*) &ip4addr, sizeof(arp.ip_sender));
 	memcpy (arp.hw_sender, (__u8*) t2_hw, sizeof(arp.hw_sender));
 
-	ip4addr.s_addr=inet_addr(t1);
+	ip4addr.s_addr=inet_addr((char*) t1);
 	memcpy (arp.ip_target, (__u8*) &ip4addr, sizeof(ip4addr));
 	memcpy (arp.hw_target, (__u8*) t1_hw, sizeof(arp.hw_target));
 

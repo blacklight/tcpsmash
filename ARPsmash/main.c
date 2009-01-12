@@ -24,15 +24,15 @@ int main (int argc, char **argv)  {
 	while ((c=getopt(argc,argv,"i:1:2:"))>0)  {
 		switch (c)  {
 			case 'i':
-				ifc = optarg;
+				ifc = (__u8*) strdup(optarg);
 				break;
 
 			case '1':
-				addr1 = optarg;
+				addr1 = (__u8*) strdup(optarg);
 				break;
 
 			case '2':
-				addr2 = optarg;
+				addr2 = (__u8*) strdup(optarg);
 				break;
 
 			default:
@@ -42,7 +42,7 @@ int main (int argc, char **argv)  {
 		}
 	}
 
-	if (arpsmash(strdup(ifc), strdup(addr1), strdup(addr2))<0)
+	if (arpsmash(ifc,addr1,addr2)<0)
 		return EXIT_FAILURE;
 
 	return EXIT_SUCCESS;

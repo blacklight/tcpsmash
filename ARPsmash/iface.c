@@ -46,7 +46,7 @@ void* hw_addr (void *arg)  {
 	__u8 *inaddr = (__u8*) arg;
 
 	while (1)  {
-		if (recvfrom(sd, &arp, sizeof(arp), 0, (struct sockaddr*) &sll, &sll_size)<0)
+		if (recvfrom(sd, &arp, sizeof(arp), 0, (struct sockaddr*) &sll, (unsigned int*) &sll_size)<0)
 			return NULL;
 
 		if (arp.opcode==htons(ARPOP_REPLY) && !memcmp(inaddr,arp.ip_sender,
@@ -64,10 +64,10 @@ __u8* get_host_addr (__u8 *host)  {
 	struct hostent *h;
 	__u8 *addr = (__u8*) malloc(INET6_ADDRSTRLEN);
 
-	if (!(h=gethostbyname(host)))
+	if (!(h=gethostbyname((char*) host)))
 		return NULL;
 
-	inet_ntop(AF_INET,h->h_addr,addr,INET6_ADDRSTRLEN);
+	inet_ntop(AF_INET, h->h_addr, (char*) addr, INET6_ADDRSTRLEN);
 	return addr;
 }
 

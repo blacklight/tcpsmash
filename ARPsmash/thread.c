@@ -11,14 +11,14 @@ void* forward (void *arg)  {
 
 	bzero (&sll,sizeof(sll));
 	bzero (&ifr,sizeof(ifr));
-	myhw=get_hw_addr(ifc);
+	myhw=get_hw_addr((char*) ifc);
 
 	if((raw=socket(PF_PACKET, SOCK_RAW, htons(ETH_P_ALL)))<0)  {
 		fprintf (stderr,"*** Error - Unable to initialize raw socket: %s\n",strerror(errno));
 		die(-1);
 	}
 
-	strncpy((char *)ifr.ifr_name, ifc, IFNAMSIZ);
+	strncpy((char *)ifr.ifr_name, (char*) ifc, IFNAMSIZ);
 
 	if((ioctl(raw, SIOCGIFINDEX, &ifr))<0)  {
 		fprintf (stderr,"*** Error - Unable to ioctl(): %s\n",strerror(errno));
@@ -41,7 +41,7 @@ void* forward (void *arg)  {
 		bzero (&eth,sizeof(eth));
 		bzero (&ip,sizeof(ip));
 
-		if (recvfrom(raw, (__u8*) pack, PACK_MAXSIZE, 0, (struct sockaddr*) &sll, &sll_size)<0)  {
+		if (recvfrom(raw, (__u8*) pack, PACK_MAXSIZE, 0, (struct sockaddr*) &sll, (unsigned int*) &sll_size)<0)  {
 			fprintf (stderr,"*** Error while receiving from %s: %s\n",ifc,strerror(errno));
 			die(-4);
 		}
@@ -52,16 +52,16 @@ void* forward (void *arg)  {
 		char addr[INET6_ADDRSTRLEN];
 		inet_ntop (AF_INET,&ip.daddr,addr,sizeof(addr));
 
-		if (ip.daddr==inet_addr(t1) || ip.daddr==inet_addr(t2))  {
+		if (ip.daddr==inet_addr((char*) t1) || ip.daddr==inet_addr((char*) t2))  {
 			unsigned short int len=htons(ip.tot_len)+ETH_LEN;
 			memcpy (eth.h_source, (__u8*) myhw, ETH_ALEN);
 
-			if (ip.daddr==inet_addr(t1))  {
+			if (ip.daddr==inet_addr((char*) t1))  {
 				memcpy (eth.h_dest, (__u8*) t1_hw, ETH_ALEN);
 				memcpy (pack, (void*) &eth, sizeof(eth));
 			}
 
-			if (ip.daddr==inet_addr(t2))  {
+			if (ip.daddr==inet_addr((char*) t2))  {
 				memcpy (eth.h_dest, (__u8*) t2_hw, ETH_ALEN);
 				memcpy (pack, (void*) &eth, sizeof(eth));
 			}

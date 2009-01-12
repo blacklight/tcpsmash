@@ -15,7 +15,7 @@ int doarp()  {
 
 	dlink.sll_family=AF_PACKET;
 	dlink.sll_protocol=htons(ETH_P_ARP);
-	dlink.sll_ifindex=ifindex(ifc);
+	dlink.sll_ifindex=ifindex((char*) ifc);
 	dlink.sll_halen=ETH_ALEN;
 	memset (dlink.sll_addr,0xFF,ETH_ALEN);
 
@@ -30,16 +30,16 @@ int doarp()  {
 	arp.prot_len=4;
 	arp.opcode=htons(ARPOP_REQUEST);
 
-	ip4addr=inet_addr(get_ipv4_addr(ifc));
+	ip4addr=inet_addr(get_ipv4_addr((char*) ifc));
 	memcpy (arp.ip_sender, (__u8*) &ip4addr, sizeof(arp.ip_sender));
 
-	hw=get_hw_addr(ifc);
+	hw=get_hw_addr((char*) ifc);
 	memcpy (arp.hw_sender, (__u8*) hw, sizeof(arp.hw_sender));
 	memset (arp.hw_target, 0xFF, sizeof(arp.hw_target));
 
 	memcpy (arp.ip_target, (__u8*) &ip4addr, sizeof(ip4addr));
 
-	ip4addr=inet_addr(t1);
+	ip4addr=inet_addr((char*) t1);
 	memcpy (arp.ip_target, (__u8*) &ip4addr, sizeof(ip4addr));
 	
 	if (sendto(sd, &arp, sizeof(arp), 0, (struct sockaddr*) &dlink, sizeof(dlink))<0)  {
@@ -68,7 +68,7 @@ int doarp()  {
 			t1_hw[5]
 	);
 
-	ip4addr=inet_addr(t2);
+	ip4addr=inet_addr((char*) t2);
 	memcpy (arp.ip_target, (__u8*) &ip4addr, sizeof(ip4addr));
 
 	if (sendto(sd, &arp, sizeof(arp), 0, (struct sockaddr*) &dlink, sizeof(dlink))<0)  {
@@ -105,11 +105,11 @@ int doarp()  {
 	while(1)  {
 		arp.opcode=htons(ARPOP_REPLY);
 		memcpy (&arp.hw_sender, hw, ETH_ALEN);
-		ip4addr=inet_addr(t2);
+		ip4addr=inet_addr((char*) t2);
 		memcpy (arp.ip_sender, &ip4addr, 4);
 
 		memcpy (&arp.hw_target, t1_hw, ETH_ALEN);
-		ip4addr=inet_addr(t1);
+		ip4addr=inet_addr((char*) t1);
 		memcpy (&arp.ip_target, &ip4addr, 4);
 
 		if (sendto(sd, &arp, sizeof(arp), 0, (struct sockaddr*) &dlink, sizeof(dlink))<0)  {
@@ -117,11 +117,11 @@ int doarp()  {
 			return -7;
 		}
 
-		ip4addr=inet_addr(t1);
+		ip4addr=inet_addr((char*) t1);
 		memcpy (arp.ip_sender, &ip4addr, 4);
 
 		memcpy (&arp.hw_target, t2_hw, ETH_ALEN);
-		ip4addr=inet_addr(t2);
+		ip4addr=inet_addr((char*) t2);
 		memcpy (&arp.ip_target, &ip4addr, 4);
 
 		if (sendto(sd, &arp, sizeof(arp), 0, (struct sockaddr*) &dlink, sizeof(dlink))<0)  {
@@ -136,7 +136,7 @@ int doarp()  {
 }
 
 int arpsmash (__u8* interface, __u8* addr1, __u8* addr2)  {
-	ifc = strdup(interface);
+	ifc = (__u8*) strdup((char*) interface);
 	
 	if (!(t1=get_host_addr(addr1)))  {
 		fprintf (stderr,"*** Error - Unable to resolve %s\n",optarg);
@@ -150,5 +150,6 @@ int arpsmash (__u8* interface, __u8* addr1, __u8* addr2)  {
 
 	if (doarp()<0)
 		return -1;
+	return 0;
 }
 

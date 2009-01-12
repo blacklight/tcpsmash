@@ -19,14 +19,8 @@ From sources:
 $ tar jxvf tcpsmash-VERSION.tar.bz2
 $ cd tcpsmash-VERSION
 
-Now you've got two ways to install tcpsmash:
+To install tcpsmash suite:
 
-  > 1. Using make
-  
-  	$ make
-	# make install
+$ make
+# make install
 
-  > 2. Using jam [ STRONGLY SUGGESTED -> http://www.perforce.com/jam/jam.html ]
-
-  	$ jam
-	# jam install
