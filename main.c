@@ -102,6 +102,7 @@ int main(int argc, char **argv)  {
 	use_dump  = false;
 	use_log   = false;
 	undumping = false;
+	arp = false;
 	quick     = false;
 	strfilter = NULL;
 	maxcount  = -1;
@@ -116,7 +117,7 @@ int main(int argc, char **argv)  {
 		}
 	}
 
-	while ((ch=getopt(argc,argv,"qnhlw:f:i:F:c:C:Dv"))>0)  {
+	while ((ch=getopt(argc,argv,"a1:2:qnhlw:f:i:F:c:C:Dv"))>0)  {
 		switch (ch)  {
 			case 'w':
 				log_file = GC_STRDUP(optarg);

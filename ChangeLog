@@ -1,3 +1,12 @@
+
+---- 0.3.1 Version:
+
+Dynamic memory allocation, relocation and deallocation is now managed by GC.
+You must have GC garbage collector in order to use tcpsmash now. You can also
+build tcpsmash without GC support by using `make HAS_GC= LDGC=' but this
+approach is strongly deprecated, as it may lead to memory leaks and software
+unstability.
+
 ---- 0.3 Version:
 
 - First version (still alpha) of nctcpsmash released inside the project. That
@@ -53,19 +62,19 @@ not already there)
 
 - Fixed a memory leak problem in pack_handle() function
 
-- Added IP checksum support. The sniffer now always warns you if the checksum of an
-IP packet sniffed is correct or not
+- Added IP checksum support. The sniffer now always warns you if the checksum of
+an IP packet sniffed is correct or not
 
 - Improved management and recognition of application layer protocols
 
 - You can now count the number of packets sniffed, and, using -c option, stop the
 sniffer after sniffing "n" packets
 
-- Automatic IP address resolving. When possible, the hostname is displayed instead of
-numerical IP address
+- Automatic IP address resolving. When possible, the hostname is displayed instead
+of numerical IP address
 
-- "Quick" view added (-q option). Using this option you can have a less detailed and
-tcpdump-like view of sniffed packets
+- "Quick" view added (-q option). Using this option you can have a less detailed
+and tcpdump-like view of sniffed packets
 
 
 ---- 0.2.6 Version:
@@ -74,7 +83,8 @@ Lots of improvements made:
 
 - A MAN page(7) was made
 
-- Full logfile support. Now you can write binary packet dump on a logfile using -w option, and read the info saved the whenever you like using -F option
+- Full logfile support. Now you can write binary packet dump on a logfile using -w
+option, and read the info saved the whenever you like using -F option
 
 - More clear output format with coloured text
 
@@ -82,9 +92,12 @@ Lots of improvements made:
 
 ---- 0.2.2 Version:
 
-- Very improved management for data structures and packets, using operating system's structs. Now the management of packets is much cleaner, faster, flexible and stable, as the file pack_handle.c was totally re-written.
+- Very improved management for data structures and packets, using operating system's
+structs. Now the management of packets is much cleaner, faster, flexible and stable,
+as the file pack_handle.c was totally re-written.
 
-- Complete management (NOW complete) for ICMP protocol added (any status now is recognized).
+- Complete management (NOW complete) for ICMP protocol added (any status now is
+recognized).
 
 - Partial support for ARP and RARP protocols.
 
@@ -94,9 +107,14 @@ Lots of improvements made:
 
 - Full support for TCP and ICMP protocols
 
-- For each TCP packet, info about TCP flags of that packet can be printed with the '--tcp-flags' option.
+- For each TCP packet, info about TCP flags of that packet can be printed with the
+'--tcp-flags' option.
 
-- The logfile functionality has been removed. This happened because using that functionality a simple stdout redirection was made, and this forced me to use tons of sys_write functions, making the code much less readable. Now if you want to redirect the output on a log file instead of stdout just execute the executable file with something like './tcpsmash [options] > logfile'
+- The logfile functionality has been removed. This happened because using that
+functionality a simple stdout redirection was made, and this forced me to use tons of
+sys_write functions, making the code much less readable. Now if you want to redirect
+the output on a log file instead of stdout just execute the executable file with something
+like './tcpsmash [options] > logfile'
 
 - The source and destination MACs are printed for each packet
 
@@ -104,11 +122,16 @@ Lots of improvements made:
 
 - An intelligent application protocol recognizement is made for each packet
 
-- For each packet, time at which it has been received/sent is printed in a cleaner way, using 'strftime' function.
+- For each packet, time at which it has been received/sent is printed in a cleaner way, using
+'strftime' function.
 
-- Now you MUST specify the interface you want to scan. Without specifying it in earlier version the program could not run correctly.
+- Now you MUST specify the interface you want to scan. Without specifying it in earlier
+version the program could not run correctly.
 
-- Hexadecimal functionality introduced. Now you can print each packet's content in standard ASCII text format (default choice) or in binary hexadecimal format, using '--hex' format.
+- Hexadecimal functionality introduced. Now you can print each packet's content in standard
+ASCII text format (default choice) or in binary hexadecimal format, using '--hex' format.
 
-- Dump functionality introduced. Now by calling the program with the '-D' (or '--dump') option it is possible to print each packet directly on stdout or log (in a not easily human-readable way), without printing additional info.
+- Dump functionality introduced. Now by calling the program with the '-D' (or '--dump') option
+it is possible to print each packet directly on stdout or log (in a not easily human-readable
+way), without printing additional info.
 

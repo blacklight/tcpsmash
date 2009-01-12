@@ -76,6 +76,7 @@ bool use_dump;
 bool use_log;
 bool undumping;
 bool quick;
+bool arp;
 
 unsigned int count;
 unsigned int maxcount;
