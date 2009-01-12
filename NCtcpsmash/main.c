@@ -86,7 +86,7 @@ void help(char *app)  {
 			"%sby BlackLight { http://blacklight.gotdns.org }%s\n\n",
 			BOLD,VERSION,NORMAL,YELLOW,NORMAL);
 	
-	fprintf (stderr,"Usage: %s [-h] [-n] [-v] [-F <logfile>][-f \"<string>\"] [-C \"<string\"] [-c <count>] [-i <interface>]\n\n",app);
+	fprintf (stderr,"Usage: %s [-h] [-n] [-v] [-F <logfile>][-f \"<string>\"] [-C \"<string\"] [-c <count>] [-1 <addr1>] [-2 <addr2>] [-i <interface>]\n\n",app);
 	
 	fprintf (stderr,
 			"\t-h\t\t\tPrint this help and exit\n"
@@ -96,6 +96,8 @@ void help(char *app)  {
 			"\t-F <logfile>\t\tRead packets from a dump file previously created by using -w <logfile> or \"w\" command on nctcpsmash\n"
 			"\t-C \"<string>\"\t\tOnly capture packets containing \"string\" in any part of them (headers, application contents...), i.e. \"password:\"\n"
 			"\t\t\t\tYou can also specify a regex with this option, between / and /, i.e. -C \"/password:\\s*[a-z]+/\"\n"
+			"\t-1 <addr1>\t\tFirst target host to sniff in case of MITM attack via ARP poisoning\n"
+			"\t-2 <addr2>\t\tSecond target host to sniff in case of MITM attack via ARP poisoning\n"
 			"\t-i interface\t\tChoose a network interface to sniff\n\n"
 		   );
 
@@ -226,10 +228,10 @@ int main (int argc, char **argv)  {
 
 	for (i=1; i<argc; i++)  {
 		if (!strcmp(argv[i],"--help"))  {
-			unformatted_help(argv[0]);
+			help(argv[0]);
 			exit(0);
 		} else if (!strcmp(argv[i],"--version")) {
-			unformatted_print_ver();
+			print_ver();
 			exit(0);
 		}
 	}
