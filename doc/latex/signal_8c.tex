@@ -1,0 +1,59 @@
+\hypertarget{signal_8c}{
+\section{ARPsmash/signal.c File Reference}
+\label{signal_8c}\index{ARPsmash/signal.c@{ARPsmash/signal.c}}
+}
+{\tt \#include \char`\"{}arpsmash.h\char`\"{}}\par
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+void \hyperlink{signal_8c_dfdaa580d9b1fd44761d866788b63d55}{handle} (int sig)
+\begin{CompactList}\small\item\em This function does nothing. \item\end{CompactList}\item 
+void \hyperlink{signal_8c_34d945fa25374bfd00b455f1e047e312}{term} (int sig)
+\begin{CompactList}\small\item\em Function called when exiting ARPsmash. \item\end{CompactList}\item 
+void \hyperlink{signal_8c_777f08e1c4f275bbb9cf2b59c14f4e1e}{die} (int ret)
+\begin{CompactList}\small\item\em Function called whenever ARPsmash execution ends anomally. \item\end{CompactList}\end{CompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{signal_8c_777f08e1c4f275bbb9cf2b59c14f4e1e}{
+\index{signal.c@{signal.c}!die@{die}}
+\index{die@{die}!signal.c@{signal.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void die (int {\em ret})}}
+\label{signal_8c_777f08e1c4f275bbb9cf2b59c14f4e1e}
+
+
+Function called whenever ARPsmash execution ends anomally. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em ret}]Return value \end{description}
+\end{Desc}
+\hypertarget{signal_8c_dfdaa580d9b1fd44761d866788b63d55}{
+\index{signal.c@{signal.c}!handle@{handle}}
+\index{handle@{handle}!signal.c@{signal.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void handle (int {\em sig})}}
+\label{signal_8c_dfdaa580d9b1fd44761d866788b63d55}
+
+
+This function does nothing. 
+
+It's just used to manage signals for which I want no direct action \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em sig}]Signal number \end{description}
+\end{Desc}
+\hypertarget{signal_8c_34d945fa25374bfd00b455f1e047e312}{
+\index{signal.c@{signal.c}!term@{term}}
+\index{term@{term}!signal.c@{signal.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void term (int {\em sig})}}
+\label{signal_8c_34d945fa25374bfd00b455f1e047e312}
+
+
+Function called when exiting ARPsmash. 
+
+It re-ARPs target hosts correctly \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em sig}]Signal number \end{description}
+\end{Desc}

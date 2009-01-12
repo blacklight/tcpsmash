@@ -1,5 +1,21 @@
+/*
+ * ARPsmash/iface.c
+ *
+ * (C) 2007,2009, BlackLight <blacklight@autistici.org>
+ *
+ *		This program is free software; you can redistribute it and/or
+ *		modify it under the terms of the GNU General Public License
+ *		as published by the Free Software Foundation; either version
+ *		3 of the License, or (at your option) any later version.
+ */
+
 #include "arpsmash.h"
 
+/**
+ * @brief It gets the HW address associated to a network interface
+ * @param ifc Interface name
+ * @return HW address
+ */
 __u8* get_hw_addr(char *ifc)  {
 	int raw=socket(AF_INET,SOCK_DGRAM,0);
 	unsigned char *hwaddr = (unsigned char*) malloc(ETH_ALEN);
@@ -11,6 +27,11 @@ __u8* get_hw_addr(char *ifc)  {
 	return hwaddr;
 }
 
+/**
+ * @brief It gets the IP address associated to a network interface
+ * @param ifc Interface name
+ * @return IP address
+ */
 char* get_ipv4_addr(char *ifc)  {
 	int raw=socket(AF_INET,SOCK_STREAM,0);
 	struct ifreq ifr;
@@ -25,6 +46,11 @@ char* get_ipv4_addr(char *ifc)  {
 	else return inet_ntoa(sin->sin_addr);
 }
 
+/**
+ * @brief It gets the index of a network interface
+ * @param ifc Interface name
+ * @return -1 in case of error, network interface's index elsewhere
+ */
 int ifindex (char *ifc)  {
 	int raw;
 	struct ifreq ifr;
@@ -39,6 +65,10 @@ int ifindex (char *ifc)  {
 	return ifr.ifr_ifindex;
 }
 
+/**
+ * @brief Function associated to a thread that gets HW address of a given IP address analyzing its ARP replies
+ * @param arg IP addr
+ */
 void* hw_addr (void *arg)  {
 	struct arp_hdr arp;
 	struct sockaddr_ll sll;
@@ -60,6 +90,11 @@ void* hw_addr (void *arg)  {
 	pthread_exit(0);
 }
 
+/**
+ * @brief It returns IP addr of a host given its host name
+ * @param host Host name
+ * @return host's IP address
+ */
 __u8* get_host_addr (__u8 *host)  {
 	struct hostent *h;
 	__u8 *addr = (__u8*) malloc(INET6_ADDRSTRLEN);

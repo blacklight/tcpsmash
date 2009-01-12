@@ -1,0 +1,434 @@
+\hypertarget{arpsmash_8h}{
+\section{ARPsmash/arpsmash.h File Reference}
+\label{arpsmash_8h}\index{ARPsmash/arpsmash.h@{ARPsmash/arpsmash.h}}
+}
+{\tt \#include $<$stdio.h$>$}\par
+{\tt \#include $<$stdlib.h$>$}\par
+{\tt \#include $<$string.h$>$}\par
+{\tt \#include $<$unistd.h$>$}\par
+{\tt \#include $<$sys/signal.h$>$}\par
+{\tt \#include $<$errno.h$>$}\par
+{\tt \#include $<$arpa/inet.h$>$}\par
+{\tt \#include $<$sys/socket.h$>$}\par
+{\tt \#include $<$sys/ioctl.h$>$}\par
+{\tt \#include $<$netinet/in.h$>$}\par
+{\tt \#include $<$net/if.h$>$}\par
+{\tt \#include $<$net/if\_\-arp.h$>$}\par
+{\tt \#include $<$net/ethernet.h$>$}\par
+{\tt \#include $<$netpacket/packet.h$>$}\par
+{\tt \#include $<$netdb.h$>$}\par
+{\tt \#include $<$linux/if\_\-ether.h$>$}\par
+{\tt \#include $<$linux/ip.h$>$}\par
+{\tt \#include $<$pthread.h$>$}\par
+\subsection*{Data Structures}
+\begin{CompactItemize}
+\item 
+struct \hyperlink{structarp__hdr}{arp\_\-hdr}
+\begin{CompactList}\small\item\em Struct to manage ARP headers. \item\end{CompactList}\end{CompactItemize}
+\subsection*{Defines}
+\begin{CompactItemize}
+\item 
+\#define \hyperlink{arpsmash_8h_1291f416b069313021b519eea62d5bf1}{NORMAL}~\char`\"{}$\backslash$033\mbox{[}0m\char`\"{}
+\item 
+\#define \hyperlink{arpsmash_8h_26cdbb1a00213c810caccf21cd33a631}{BOLD}~\char`\"{}$\backslash$033\mbox{[}1m\char`\"{}
+\item 
+\#define \hyperlink{arpsmash_8h_8d23feea868a983c8c2b661e1e16972f}{RED}~\char`\"{}$\backslash$033\mbox{[}91m\char`\"{}
+\item 
+\#define \hyperlink{arpsmash_8h_cfbc006ea433ad708fdee3e82996e721}{GREEN}~\char`\"{}$\backslash$033\mbox{[}92m\char`\"{}
+\item 
+\#define \hyperlink{arpsmash_8h_bf681265909adf3d3e8116c93c0ba179}{YELLOW}~\char`\"{}$\backslash$033\mbox{[}01;93m\char`\"{}
+\item 
+\#define \hyperlink{arpsmash_8h_d243f93c16bc4c1d3e0a13b84421d760}{CYAN}~\char`\"{}$\backslash$033\mbox{[}01;36m\char`\"{}
+\item 
+\#define \hyperlink{arpsmash_8h_1c6d5de492ac61ad29aec7aa9a436bbf}{VERSION}~\char`\"{}0.3.2\char`\"{}
+\item 
+\#define \hyperlink{arpsmash_8h_45ba202b05caf39795aeca91b0ae547e}{TIMEOUT}~1
+\item 
+\#define \hyperlink{arpsmash_8h_62249e384b997229a3e2ae74ade334e2}{DELAY}~10
+\item 
+\#define \hyperlink{arpsmash_8h_c01cd984dc1cb7e36ce015fa180e66b2}{ETH\_\-LEN}~14
+\item 
+\#define \hyperlink{arpsmash_8h_a266650932b0e54ba9a439f040661ff8}{PACK\_\-MAXSIZE}~65535
+\item 
+\#define \hyperlink{arpsmash_8h_7dbec1c798652ae8b6754cd5fcce24ad}{SEND\_\-DELAY}~10000
+\end{CompactItemize}
+\subsection*{Typedefs}
+\begin{CompactItemize}
+\item 
+typedef unsigned char \hyperlink{arpsmash_8h_b291f552d5fd4d65ac668d6b2b180919}{\_\-\_\-u8}
+\item 
+typedef unsigned short \hyperlink{arpsmash_8h_c915988d8c60a3b943f936c25f9eca6e}{\_\-\_\-u16}
+\end{CompactItemize}
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+\hyperlink{arpsmash_8h_b291f552d5fd4d65ac668d6b2b180919}{\_\-\_\-u8} $\ast$ \hyperlink{arpsmash_8h_28635edf3ccf0b9034ad1e8a9c3bfc07}{get\_\-hw\_\-addr} (char $\ast$\hyperlink{arpsmash_8h_395cdf85c312ad98980787cc8c32f7d5}{ifc})
+\begin{CompactList}\small\item\em It gets the HW address associated to a network interface. \item\end{CompactList}\item 
+\hyperlink{arpsmash_8h_b291f552d5fd4d65ac668d6b2b180919}{\_\-\_\-u8} $\ast$ \hyperlink{arpsmash_8h_6995d03ff996b08ab0e5cf4023b1595e}{get\_\-host\_\-addr} (\hyperlink{arpsmash_8h_b291f552d5fd4d65ac668d6b2b180919}{\_\-\_\-u8} $\ast$host)
+\begin{CompactList}\small\item\em It returns IP addr of a host given its host name. \item\end{CompactList}\item 
+char $\ast$ \hyperlink{arpsmash_8h_0472c1b998fcdf27d3e680c08bd4fcca}{get\_\-ipv4\_\-addr} (char $\ast$\hyperlink{arpsmash_8h_395cdf85c312ad98980787cc8c32f7d5}{ifc})
+\begin{CompactList}\small\item\em It gets the IP address associated to a network interface. \item\end{CompactList}\item 
+int \hyperlink{arpsmash_8h_a9385d03e0d4b1057d3645c46a65fff8}{ifindex} (char $\ast$\hyperlink{arpsmash_8h_395cdf85c312ad98980787cc8c32f7d5}{ifc})
+\begin{CompactList}\small\item\em It gets the index of a network interface. \item\end{CompactList}\item 
+int \hyperlink{arpsmash_8h_514ad8556ae26bd6b615acd16d362589}{doarp} ()
+\begin{CompactList}\small\item\em Main function. \item\end{CompactList}\item 
+int \hyperlink{arpsmash_8h_8b6e9b98a44692b925f9d54808f4ea20}{arpsmash} (\hyperlink{arpsmash_8h_b291f552d5fd4d65ac668d6b2b180919}{\_\-\_\-u8} $\ast$interface, \hyperlink{arpsmash_8h_b291f552d5fd4d65ac668d6b2b180919}{\_\-\_\-u8} $\ast$addr1, \hyperlink{arpsmash_8h_b291f552d5fd4d65ac668d6b2b180919}{\_\-\_\-u8} $\ast$addr2)
+\begin{CompactList}\small\item\em This calls \hyperlink{arper_8c_514ad8556ae26bd6b615acd16d362589}{doarp()} function initializating right values. \item\end{CompactList}\item 
+void \hyperlink{arpsmash_8h_dfdaa580d9b1fd44761d866788b63d55}{handle} (int sig)
+\begin{CompactList}\small\item\em This function does nothing. \item\end{CompactList}\item 
+void \hyperlink{arpsmash_8h_34d945fa25374bfd00b455f1e047e312}{term} (int sig)
+\begin{CompactList}\small\item\em Function called when exiting ARPsmash. \item\end{CompactList}\item 
+void \hyperlink{arpsmash_8h_777f08e1c4f275bbb9cf2b59c14f4e1e}{die} (int ret)
+\begin{CompactList}\small\item\em Function called whenever ARPsmash execution ends anomally. \item\end{CompactList}\item 
+void $\ast$ \hyperlink{arpsmash_8h_e2aaced5f32f2db016d4b6d7767e515e}{hw\_\-addr} (void $\ast$arg)
+\begin{CompactList}\small\item\em Function associated to a thread that gets HW address of a given IP address analyzing its ARP replies. \item\end{CompactList}\item 
+void $\ast$ \hyperlink{arpsmash_8h_862b8ddac9b71494ccd26d484fb49ca3}{forward} (void $\ast$arg)
+\begin{CompactList}\small\item\em Thread for forwarding sniffed packets to the right targets. \item\end{CompactList}\end{CompactItemize}
+\subsection*{Variables}
+\begin{CompactItemize}
+\item 
+int \hyperlink{arpsmash_8h_06b0afe769d54ae94259d8532bc878b0}{sd}
+\begin{CompactList}\small\item\em All-purpose socket descriptor. \item\end{CompactList}\item 
+struct sockaddr\_\-ll \hyperlink{arpsmash_8h_c1c1730f6aed981a7061ccfe767638c9}{dlink}
+\begin{CompactList}\small\item\em Data link sockaddr descriptor. \item\end{CompactList}\item 
+\hyperlink{arpsmash_8h_b291f552d5fd4d65ac668d6b2b180919}{\_\-\_\-u8} $\ast$ \hyperlink{arpsmash_8h_12c7a29c2aaefb6be3e9e2159acf74d9}{t\_\-hw}
+\begin{CompactList}\small\item\em My HW address. \item\end{CompactList}\item 
+\hyperlink{arpsmash_8h_b291f552d5fd4d65ac668d6b2b180919}{\_\-\_\-u8} $\ast$ \hyperlink{arpsmash_8h_ecbd64d70ba93895baf559fe1e51c240}{t1\_\-hw}
+\begin{CompactList}\small\item\em Targets' HW addresses. \item\end{CompactList}\item 
+\hyperlink{arpsmash_8h_b291f552d5fd4d65ac668d6b2b180919}{\_\-\_\-u8} $\ast$ \hyperlink{arpsmash_8h_f05aa100ccc9224db3be71d851d301cd}{t2\_\-hw}
+\item 
+\hyperlink{arpsmash_8h_b291f552d5fd4d65ac668d6b2b180919}{\_\-\_\-u8} $\ast$ \hyperlink{arpsmash_8h_d2d8915a351fd3579e33e34dc1e1b06d}{t1}
+\begin{CompactList}\small\item\em Targets' names/addresses. \item\end{CompactList}\item 
+\hyperlink{arpsmash_8h_b291f552d5fd4d65ac668d6b2b180919}{\_\-\_\-u8} $\ast$ \hyperlink{arpsmash_8h_ff8d675c54f18c668a5f1edabf2a0e2c}{t2}
+\item 
+\hyperlink{arpsmash_8h_b291f552d5fd4d65ac668d6b2b180919}{\_\-\_\-u8} $\ast$ \hyperlink{arpsmash_8h_395cdf85c312ad98980787cc8c32f7d5}{ifc}
+\begin{CompactList}\small\item\em Network interface to sniff. \item\end{CompactList}\end{CompactItemize}
+
+
+\subsection{Define Documentation}
+\hypertarget{arpsmash_8h_26cdbb1a00213c810caccf21cd33a631}{
+\index{arpsmash.h@{arpsmash.h}!BOLD@{BOLD}}
+\index{BOLD@{BOLD}!arpsmash.h@{arpsmash.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}\#define BOLD~\char`\"{}$\backslash$033\mbox{[}1m\char`\"{}}}
+\label{arpsmash_8h_26cdbb1a00213c810caccf21cd33a631}
+
+
+\hypertarget{arpsmash_8h_d243f93c16bc4c1d3e0a13b84421d760}{
+\index{arpsmash.h@{arpsmash.h}!CYAN@{CYAN}}
+\index{CYAN@{CYAN}!arpsmash.h@{arpsmash.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}\#define CYAN~\char`\"{}$\backslash$033\mbox{[}01;36m\char`\"{}}}
+\label{arpsmash_8h_d243f93c16bc4c1d3e0a13b84421d760}
+
+
+\hypertarget{arpsmash_8h_62249e384b997229a3e2ae74ade334e2}{
+\index{arpsmash.h@{arpsmash.h}!DELAY@{DELAY}}
+\index{DELAY@{DELAY}!arpsmash.h@{arpsmash.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}\#define DELAY~10}}
+\label{arpsmash_8h_62249e384b997229a3e2ae74ade334e2}
+
+
+\hypertarget{arpsmash_8h_c01cd984dc1cb7e36ce015fa180e66b2}{
+\index{arpsmash.h@{arpsmash.h}!ETH\_\-LEN@{ETH\_\-LEN}}
+\index{ETH\_\-LEN@{ETH\_\-LEN}!arpsmash.h@{arpsmash.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}\#define ETH\_\-LEN~14}}
+\label{arpsmash_8h_c01cd984dc1cb7e36ce015fa180e66b2}
+
+
+\hypertarget{arpsmash_8h_cfbc006ea433ad708fdee3e82996e721}{
+\index{arpsmash.h@{arpsmash.h}!GREEN@{GREEN}}
+\index{GREEN@{GREEN}!arpsmash.h@{arpsmash.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}\#define GREEN~\char`\"{}$\backslash$033\mbox{[}92m\char`\"{}}}
+\label{arpsmash_8h_cfbc006ea433ad708fdee3e82996e721}
+
+
+\hypertarget{arpsmash_8h_1291f416b069313021b519eea62d5bf1}{
+\index{arpsmash.h@{arpsmash.h}!NORMAL@{NORMAL}}
+\index{NORMAL@{NORMAL}!arpsmash.h@{arpsmash.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}\#define NORMAL~\char`\"{}$\backslash$033\mbox{[}0m\char`\"{}}}
+\label{arpsmash_8h_1291f416b069313021b519eea62d5bf1}
+
+
+\hypertarget{arpsmash_8h_a266650932b0e54ba9a439f040661ff8}{
+\index{arpsmash.h@{arpsmash.h}!PACK\_\-MAXSIZE@{PACK\_\-MAXSIZE}}
+\index{PACK\_\-MAXSIZE@{PACK\_\-MAXSIZE}!arpsmash.h@{arpsmash.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}\#define PACK\_\-MAXSIZE~65535}}
+\label{arpsmash_8h_a266650932b0e54ba9a439f040661ff8}
+
+
+\hypertarget{arpsmash_8h_8d23feea868a983c8c2b661e1e16972f}{
+\index{arpsmash.h@{arpsmash.h}!RED@{RED}}
+\index{RED@{RED}!arpsmash.h@{arpsmash.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}\#define RED~\char`\"{}$\backslash$033\mbox{[}91m\char`\"{}}}
+\label{arpsmash_8h_8d23feea868a983c8c2b661e1e16972f}
+
+
+\hypertarget{arpsmash_8h_7dbec1c798652ae8b6754cd5fcce24ad}{
+\index{arpsmash.h@{arpsmash.h}!SEND\_\-DELAY@{SEND\_\-DELAY}}
+\index{SEND\_\-DELAY@{SEND\_\-DELAY}!arpsmash.h@{arpsmash.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}\#define SEND\_\-DELAY~10000}}
+\label{arpsmash_8h_7dbec1c798652ae8b6754cd5fcce24ad}
+
+
+\hypertarget{arpsmash_8h_45ba202b05caf39795aeca91b0ae547e}{
+\index{arpsmash.h@{arpsmash.h}!TIMEOUT@{TIMEOUT}}
+\index{TIMEOUT@{TIMEOUT}!arpsmash.h@{arpsmash.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}\#define TIMEOUT~1}}
+\label{arpsmash_8h_45ba202b05caf39795aeca91b0ae547e}
+
+
+\hypertarget{arpsmash_8h_1c6d5de492ac61ad29aec7aa9a436bbf}{
+\index{arpsmash.h@{arpsmash.h}!VERSION@{VERSION}}
+\index{VERSION@{VERSION}!arpsmash.h@{arpsmash.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}\#define VERSION~\char`\"{}0.3.2\char`\"{}}}
+\label{arpsmash_8h_1c6d5de492ac61ad29aec7aa9a436bbf}
+
+
+\hypertarget{arpsmash_8h_bf681265909adf3d3e8116c93c0ba179}{
+\index{arpsmash.h@{arpsmash.h}!YELLOW@{YELLOW}}
+\index{YELLOW@{YELLOW}!arpsmash.h@{arpsmash.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}\#define YELLOW~\char`\"{}$\backslash$033\mbox{[}01;93m\char`\"{}}}
+\label{arpsmash_8h_bf681265909adf3d3e8116c93c0ba179}
+
+
+
+
+\subsection{Typedef Documentation}
+\hypertarget{arpsmash_8h_c915988d8c60a3b943f936c25f9eca6e}{
+\index{arpsmash.h@{arpsmash.h}!\_\-\_\-u16@{\_\-\_\-u16}}
+\index{\_\-\_\-u16@{\_\-\_\-u16}!arpsmash.h@{arpsmash.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}typedef unsigned short {\bf \_\-\_\-u16}}}
+\label{arpsmash_8h_c915988d8c60a3b943f936c25f9eca6e}
+
+
+\hypertarget{arpsmash_8h_b291f552d5fd4d65ac668d6b2b180919}{
+\index{arpsmash.h@{arpsmash.h}!\_\-\_\-u8@{\_\-\_\-u8}}
+\index{\_\-\_\-u8@{\_\-\_\-u8}!arpsmash.h@{arpsmash.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}typedef unsigned char {\bf \_\-\_\-u8}}}
+\label{arpsmash_8h_b291f552d5fd4d65ac668d6b2b180919}
+
+
+
+
+\subsection{Function Documentation}
+\hypertarget{arpsmash_8h_8b6e9b98a44692b925f9d54808f4ea20}{
+\index{arpsmash.h@{arpsmash.h}!arpsmash@{arpsmash}}
+\index{arpsmash@{arpsmash}!arpsmash.h@{arpsmash.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int arpsmash ({\bf \_\-\_\-u8} $\ast$ {\em interface}, \/  {\bf \_\-\_\-u8} $\ast$ {\em addr1}, \/  {\bf \_\-\_\-u8} $\ast$ {\em addr2})}}
+\label{arpsmash_8h_8b6e9b98a44692b925f9d54808f4ea20}
+
+
+This calls \hyperlink{arper_8c_514ad8556ae26bd6b615acd16d362589}{doarp()} function initializating right values. 
+
+\begin{Desc}
+\item[Returns:]Nothing if successful, a value $<$ 0 in case of error \end{Desc}
+\hypertarget{arpsmash_8h_777f08e1c4f275bbb9cf2b59c14f4e1e}{
+\index{arpsmash.h@{arpsmash.h}!die@{die}}
+\index{die@{die}!arpsmash.h@{arpsmash.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void die (int {\em ret})}}
+\label{arpsmash_8h_777f08e1c4f275bbb9cf2b59c14f4e1e}
+
+
+Function called whenever ARPsmash execution ends anomally. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em ret}]Return value \end{description}
+\end{Desc}
+\hypertarget{arpsmash_8h_514ad8556ae26bd6b615acd16d362589}{
+\index{arpsmash.h@{arpsmash.h}!doarp@{doarp}}
+\index{doarp@{doarp}!arpsmash.h@{arpsmash.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int doarp ()}}
+\label{arpsmash_8h_514ad8556ae26bd6b615acd16d362589}
+
+
+Main function. 
+
+It makes the poisoning loop \begin{Desc}
+\item[Returns:]Nothing if successful, a value $<$ 0 in case of error \end{Desc}
+\hypertarget{arpsmash_8h_862b8ddac9b71494ccd26d484fb49ca3}{
+\index{arpsmash.h@{arpsmash.h}!forward@{forward}}
+\index{forward@{forward}!arpsmash.h@{arpsmash.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void$\ast$ forward (void $\ast$ {\em arg})}}
+\label{arpsmash_8h_862b8ddac9b71494ccd26d484fb49ca3}
+
+
+Thread for forwarding sniffed packets to the right targets. 
+
+\hypertarget{arpsmash_8h_6995d03ff996b08ab0e5cf4023b1595e}{
+\index{arpsmash.h@{arpsmash.h}!get\_\-host\_\-addr@{get\_\-host\_\-addr}}
+\index{get\_\-host\_\-addr@{get\_\-host\_\-addr}!arpsmash.h@{arpsmash.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}{\bf \_\-\_\-u8}$\ast$ get\_\-host\_\-addr ({\bf \_\-\_\-u8} $\ast$ {\em host})}}
+\label{arpsmash_8h_6995d03ff996b08ab0e5cf4023b1595e}
+
+
+It returns IP addr of a host given its host name. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em host}]Host name \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]host's IP address \end{Desc}
+\hypertarget{arpsmash_8h_28635edf3ccf0b9034ad1e8a9c3bfc07}{
+\index{arpsmash.h@{arpsmash.h}!get\_\-hw\_\-addr@{get\_\-hw\_\-addr}}
+\index{get\_\-hw\_\-addr@{get\_\-hw\_\-addr}!arpsmash.h@{arpsmash.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}{\bf \_\-\_\-u8}$\ast$ get\_\-hw\_\-addr (char $\ast$ {\em ifc})}}
+\label{arpsmash_8h_28635edf3ccf0b9034ad1e8a9c3bfc07}
+
+
+It gets the HW address associated to a network interface. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em ifc}]Interface name \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]HW address \end{Desc}
+\hypertarget{arpsmash_8h_0472c1b998fcdf27d3e680c08bd4fcca}{
+\index{arpsmash.h@{arpsmash.h}!get\_\-ipv4\_\-addr@{get\_\-ipv4\_\-addr}}
+\index{get\_\-ipv4\_\-addr@{get\_\-ipv4\_\-addr}!arpsmash.h@{arpsmash.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ get\_\-ipv4\_\-addr (char $\ast$ {\em ifc})}}
+\label{arpsmash_8h_0472c1b998fcdf27d3e680c08bd4fcca}
+
+
+It gets the IP address associated to a network interface. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em ifc}]Interface name \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]IP address \end{Desc}
+\hypertarget{arpsmash_8h_dfdaa580d9b1fd44761d866788b63d55}{
+\index{arpsmash.h@{arpsmash.h}!handle@{handle}}
+\index{handle@{handle}!arpsmash.h@{arpsmash.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void handle (int {\em sig})}}
+\label{arpsmash_8h_dfdaa580d9b1fd44761d866788b63d55}
+
+
+This function does nothing. 
+
+It's just used to manage signals for which I want no direct action \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em sig}]Signal number \end{description}
+\end{Desc}
+\hypertarget{arpsmash_8h_e2aaced5f32f2db016d4b6d7767e515e}{
+\index{arpsmash.h@{arpsmash.h}!hw\_\-addr@{hw\_\-addr}}
+\index{hw\_\-addr@{hw\_\-addr}!arpsmash.h@{arpsmash.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void$\ast$ hw\_\-addr (void $\ast$ {\em arg})}}
+\label{arpsmash_8h_e2aaced5f32f2db016d4b6d7767e515e}
+
+
+Function associated to a thread that gets HW address of a given IP address analyzing its ARP replies. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em arg}]IP addr \end{description}
+\end{Desc}
+\hypertarget{arpsmash_8h_a9385d03e0d4b1057d3645c46a65fff8}{
+\index{arpsmash.h@{arpsmash.h}!ifindex@{ifindex}}
+\index{ifindex@{ifindex}!arpsmash.h@{arpsmash.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int ifindex (char $\ast$ {\em ifc})}}
+\label{arpsmash_8h_a9385d03e0d4b1057d3645c46a65fff8}
+
+
+It gets the index of a network interface. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em ifc}]Interface name \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]-1 in case of error, network interface's index elsewhere \end{Desc}
+\hypertarget{arpsmash_8h_34d945fa25374bfd00b455f1e047e312}{
+\index{arpsmash.h@{arpsmash.h}!term@{term}}
+\index{term@{term}!arpsmash.h@{arpsmash.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void term (int {\em sig})}}
+\label{arpsmash_8h_34d945fa25374bfd00b455f1e047e312}
+
+
+Function called when exiting ARPsmash. 
+
+It re-ARPs target hosts correctly \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em sig}]Signal number \end{description}
+\end{Desc}
+
+
+\subsection{Variable Documentation}
+\hypertarget{arpsmash_8h_c1c1730f6aed981a7061ccfe767638c9}{
+\index{arpsmash.h@{arpsmash.h}!dlink@{dlink}}
+\index{dlink@{dlink}!arpsmash.h@{arpsmash.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}struct sockaddr\_\-ll {\bf dlink}}}
+\label{arpsmash_8h_c1c1730f6aed981a7061ccfe767638c9}
+
+
+Data link sockaddr descriptor. 
+
+\hypertarget{arpsmash_8h_395cdf85c312ad98980787cc8c32f7d5}{
+\index{arpsmash.h@{arpsmash.h}!ifc@{ifc}}
+\index{ifc@{ifc}!arpsmash.h@{arpsmash.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}{\bf \_\-\_\-u8}$\ast$ {\bf ifc}}}
+\label{arpsmash_8h_395cdf85c312ad98980787cc8c32f7d5}
+
+
+Network interface to sniff. 
+
+\hypertarget{arpsmash_8h_06b0afe769d54ae94259d8532bc878b0}{
+\index{arpsmash.h@{arpsmash.h}!sd@{sd}}
+\index{sd@{sd}!arpsmash.h@{arpsmash.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int {\bf sd}}}
+\label{arpsmash_8h_06b0afe769d54ae94259d8532bc878b0}
+
+
+All-purpose socket descriptor. 
+
+\hypertarget{arpsmash_8h_d2d8915a351fd3579e33e34dc1e1b06d}{
+\index{arpsmash.h@{arpsmash.h}!t1@{t1}}
+\index{t1@{t1}!arpsmash.h@{arpsmash.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}{\bf \_\-\_\-u8}$\ast$ {\bf t1}}}
+\label{arpsmash_8h_d2d8915a351fd3579e33e34dc1e1b06d}
+
+
+Targets' names/addresses. 
+
+\hypertarget{arpsmash_8h_ecbd64d70ba93895baf559fe1e51c240}{
+\index{arpsmash.h@{arpsmash.h}!t1\_\-hw@{t1\_\-hw}}
+\index{t1\_\-hw@{t1\_\-hw}!arpsmash.h@{arpsmash.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}{\bf \_\-\_\-u8}$\ast$ {\bf t1\_\-hw}}}
+\label{arpsmash_8h_ecbd64d70ba93895baf559fe1e51c240}
+
+
+Targets' HW addresses. 
+
+\hypertarget{arpsmash_8h_ff8d675c54f18c668a5f1edabf2a0e2c}{
+\index{arpsmash.h@{arpsmash.h}!t2@{t2}}
+\index{t2@{t2}!arpsmash.h@{arpsmash.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}{\bf \_\-\_\-u8} $\ast$ {\bf t2}}}
+\label{arpsmash_8h_ff8d675c54f18c668a5f1edabf2a0e2c}
+
+
+\hypertarget{arpsmash_8h_f05aa100ccc9224db3be71d851d301cd}{
+\index{arpsmash.h@{arpsmash.h}!t2\_\-hw@{t2\_\-hw}}
+\index{t2\_\-hw@{t2\_\-hw}!arpsmash.h@{arpsmash.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}{\bf \_\-\_\-u8} $\ast$ {\bf t2\_\-hw}}}
+\label{arpsmash_8h_f05aa100ccc9224db3be71d851d301cd}
+
+
+\hypertarget{arpsmash_8h_12c7a29c2aaefb6be3e9e2159acf74d9}{
+\index{arpsmash.h@{arpsmash.h}!t\_\-hw@{t\_\-hw}}
+\index{t\_\-hw@{t\_\-hw}!arpsmash.h@{arpsmash.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}{\bf \_\-\_\-u8}$\ast$ {\bf t\_\-hw}}}
+\label{arpsmash_8h_12c7a29c2aaefb6be3e9e2159acf74d9}
+
+
+My HW address. 
+

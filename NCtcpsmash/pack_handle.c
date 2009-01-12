@@ -1,5 +1,5 @@
 /*
- * pack_handle.c
+ * NCtcpsmash/pack_handle.c
  *
  * (C) 2007,2009, BlackLight <blacklight@autistici.org>
  *
@@ -11,6 +11,12 @@
 
 #include "nctcpsmash.h"
 
+/**
+ * @brief It checks if a certain string matches a given regex or not
+ * @param regex Regular expression
+ * @param s String to check
+ * @return 1 if s =~ /regex/, 0 elsewhere
+ */
 void pack_handle(u_char *pnull, const struct pcap_pkthdr *p_info, const u_char *packet)  {
 	int plen;
 	int tcpflags = 0;

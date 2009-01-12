@@ -1,0 +1,99 @@
+\hypertarget{iface_8c}{
+\section{ARPsmash/iface.c File Reference}
+\label{iface_8c}\index{ARPsmash/iface.c@{ARPsmash/iface.c}}
+}
+{\tt \#include \char`\"{}arpsmash.h\char`\"{}}\par
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+\hyperlink{arpsmash_8h_b291f552d5fd4d65ac668d6b2b180919}{\_\-\_\-u8} $\ast$ \hyperlink{iface_8c_28635edf3ccf0b9034ad1e8a9c3bfc07}{get\_\-hw\_\-addr} (char $\ast$\hyperlink{arpsmash_8h_395cdf85c312ad98980787cc8c32f7d5}{ifc})
+\begin{CompactList}\small\item\em It gets the HW address associated to a network interface. \item\end{CompactList}\item 
+char $\ast$ \hyperlink{iface_8c_0472c1b998fcdf27d3e680c08bd4fcca}{get\_\-ipv4\_\-addr} (char $\ast$\hyperlink{arpsmash_8h_395cdf85c312ad98980787cc8c32f7d5}{ifc})
+\begin{CompactList}\small\item\em It gets the IP address associated to a network interface. \item\end{CompactList}\item 
+int \hyperlink{iface_8c_a9385d03e0d4b1057d3645c46a65fff8}{ifindex} (char $\ast$\hyperlink{arpsmash_8h_395cdf85c312ad98980787cc8c32f7d5}{ifc})
+\begin{CompactList}\small\item\em It gets the index of a network interface. \item\end{CompactList}\item 
+void $\ast$ \hyperlink{iface_8c_e2aaced5f32f2db016d4b6d7767e515e}{hw\_\-addr} (void $\ast$arg)
+\begin{CompactList}\small\item\em Function associated to a thread that gets HW address of a given IP address analyzing its ARP replies. \item\end{CompactList}\item 
+\hyperlink{arpsmash_8h_b291f552d5fd4d65ac668d6b2b180919}{\_\-\_\-u8} $\ast$ \hyperlink{iface_8c_6995d03ff996b08ab0e5cf4023b1595e}{get\_\-host\_\-addr} (\hyperlink{arpsmash_8h_b291f552d5fd4d65ac668d6b2b180919}{\_\-\_\-u8} $\ast$host)
+\begin{CompactList}\small\item\em It returns IP addr of a host given its host name. \item\end{CompactList}\end{CompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{iface_8c_6995d03ff996b08ab0e5cf4023b1595e}{
+\index{iface.c@{iface.c}!get\_\-host\_\-addr@{get\_\-host\_\-addr}}
+\index{get\_\-host\_\-addr@{get\_\-host\_\-addr}!iface.c@{iface.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}{\bf \_\-\_\-u8}$\ast$ get\_\-host\_\-addr ({\bf \_\-\_\-u8} $\ast$ {\em host})}}
+\label{iface_8c_6995d03ff996b08ab0e5cf4023b1595e}
+
+
+It returns IP addr of a host given its host name. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em host}]Host name \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]host's IP address \end{Desc}
+\hypertarget{iface_8c_28635edf3ccf0b9034ad1e8a9c3bfc07}{
+\index{iface.c@{iface.c}!get\_\-hw\_\-addr@{get\_\-hw\_\-addr}}
+\index{get\_\-hw\_\-addr@{get\_\-hw\_\-addr}!iface.c@{iface.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}{\bf \_\-\_\-u8}$\ast$ get\_\-hw\_\-addr (char $\ast$ {\em ifc})}}
+\label{iface_8c_28635edf3ccf0b9034ad1e8a9c3bfc07}
+
+
+It gets the HW address associated to a network interface. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em ifc}]Interface name \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]HW address \end{Desc}
+\hypertarget{iface_8c_0472c1b998fcdf27d3e680c08bd4fcca}{
+\index{iface.c@{iface.c}!get\_\-ipv4\_\-addr@{get\_\-ipv4\_\-addr}}
+\index{get\_\-ipv4\_\-addr@{get\_\-ipv4\_\-addr}!iface.c@{iface.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ get\_\-ipv4\_\-addr (char $\ast$ {\em ifc})}}
+\label{iface_8c_0472c1b998fcdf27d3e680c08bd4fcca}
+
+
+It gets the IP address associated to a network interface. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em ifc}]Interface name \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]IP address \end{Desc}
+\hypertarget{iface_8c_e2aaced5f32f2db016d4b6d7767e515e}{
+\index{iface.c@{iface.c}!hw\_\-addr@{hw\_\-addr}}
+\index{hw\_\-addr@{hw\_\-addr}!iface.c@{iface.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void$\ast$ hw\_\-addr (void $\ast$ {\em arg})}}
+\label{iface_8c_e2aaced5f32f2db016d4b6d7767e515e}
+
+
+Function associated to a thread that gets HW address of a given IP address analyzing its ARP replies. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em arg}]IP addr \end{description}
+\end{Desc}
+\hypertarget{iface_8c_a9385d03e0d4b1057d3645c46a65fff8}{
+\index{iface.c@{iface.c}!ifindex@{ifindex}}
+\index{ifindex@{ifindex}!iface.c@{iface.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int ifindex (char $\ast$ {\em ifc})}}
+\label{iface_8c_a9385d03e0d4b1057d3645c46a65fff8}
+
+
+It gets the index of a network interface. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em ifc}]Interface name \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]-1 in case of error, network interface's index elsewhere \end{Desc}

@@ -1,5 +1,19 @@
+/*
+ * ARPsmash/thread.c
+ *
+ * (C) 2007,2009, BlackLight <blacklight@autistici.org>
+ *
+ *		This program is free software; you can redistribute it and/or
+ *		modify it under the terms of the GNU General Public License
+ *		as published by the Free Software Foundation; either version
+ *		3 of the License, or (at your option) any later version.
+ */
+
 #include "arpsmash.h"
 
+/**
+ * @brief Thread for forwarding sniffed packets to the right targets
+ */
 void* forward (void *arg)  {
 	__u8 pack[PACK_MAXSIZE];
 	struct ethhdr eth;
@@ -14,14 +28,14 @@ void* forward (void *arg)  {
 	myhw=get_hw_addr((char*) ifc);
 
 	if((raw=socket(PF_PACKET, SOCK_RAW, htons(ETH_P_ALL)))<0)  {
-		fprintf (stderr,"*** Error - Unable to initialize raw socket: %s\n",strerror(errno));
+		fprintf (stderr,"%s***Error: Unable to initialize raw socket: %s%s\n", RED, strerror(errno), NORMAL);
 		die(-1);
 	}
 
 	strncpy((char *)ifr.ifr_name, (char*) ifc, IFNAMSIZ);
 
 	if((ioctl(raw, SIOCGIFINDEX, &ifr))<0)  {
-		fprintf (stderr,"*** Error - Unable to ioctl(): %s\n",strerror(errno));
+		fprintf (stderr,"%s***Error: Unable to ioctl(): %s%s\n", RED, strerror(errno), NORMAL);
 		die(-2);
 	}
 
@@ -32,7 +46,7 @@ void* forward (void *arg)  {
 	memcpy (&sll.sll_addr, (__u8*) myhw, ETH_ALEN);
 
 	if(bind(raw, (struct sockaddr*) &sll, sll_size)<0)  {
-		fprintf (stderr,"*** Unable to bind: %s\n",strerror(errno));
+		fprintf (stderr,"%s***Error: Unable to bind: %s%s\n", RED, strerror(errno), NORMAL);
 		die(-3);
 	}
 
@@ -42,7 +56,7 @@ void* forward (void *arg)  {
 		bzero (&ip,sizeof(ip));
 
 		if (recvfrom(raw, (__u8*) pack, PACK_MAXSIZE, 0, (struct sockaddr*) &sll, (unsigned int*) &sll_size)<0)  {
-			fprintf (stderr,"*** Error while receiving from %s: %s\n",ifc,strerror(errno));
+			fprintf (stderr,"%s***Error while receiving from %s: %s%s\n", RED, ifc, strerror(errno), NORMAL);
 			die(-4);
 		}
 
@@ -68,7 +82,7 @@ void* forward (void *arg)  {
 
 			if (sendto(raw, (__u8*) pack, len, 0,
 						(struct sockaddr*) &sll, sizeof(struct sockaddr_ll))<0)  {
-				fprintf (stderr,"*** Error in sendto: %s\n",strerror(errno));
+				fprintf (stderr,"%s***Error in sendto: %s%s\n", RED, strerror(errno), NORMAL);
 			}
 		}
 	}

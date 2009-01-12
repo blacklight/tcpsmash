@@ -1,3 +1,22 @@
+---- 0.3.2 Version:
+
+- ARPsmash project has been merged into TCPsmash, and improved itself. Now you
+can use the coolest packet sniffer also for doing man-in-the-middle attacks on
+a local network by ARP poisoning.
+You can use ARPsmash to make ARP poisoning both by its stand-alone executable
+file, and using TCPsmash or NCtcpsmash, by using -1 and -2 options to identify
+target hosts to poison.
+
+- A little bug in NCtcpsmash, that caused a program crash when pressing any key
+and no packet had been sniffed yet, has been fixed too.
+
+- Jamfile support removed. Now build and install TCPsmash suite only using
+Makefile. I'm going to include support for building and installation through
+Jamfile only when it will become more documented. Currently, it's a real mess
+a such powerful tool has no good documentation at all around the web.
+
+- Complete source documentation added in doc/ directory, generated via Doxygen
+both in HTML and LaTeX format.
 
 ---- 0.3.1 Version:
 

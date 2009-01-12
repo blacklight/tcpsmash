@@ -14,6 +14,12 @@
 typedef unsigned short int u16;
 typedef unsigned long  int u32;
 
+/**
+ * @brief Checksum algorithm
+ * @param buf I want to know the checksum of this data portion
+ * @param nwords Number of words (number of bits / 16) contained in buf
+ * @return buf's checksum
+ */
 u16 csum (u16 *buf, int nwords)  {
 	u32 sum;
 	
@@ -24,6 +30,12 @@ u16 csum (u16 *buf, int nwords)  {
 	return ~sum;
 }
 
+/**
+ * @brief It checks if a certain string matches a given regex or not
+ * @param regex Regular expression
+ * @param s String to check
+ * @return 1 if s =~ /regex/, 0 elsewhere
+ */
 int preg_match (char* regex, char* s)  {
 	regex_t re;
 
@@ -39,6 +51,12 @@ int preg_match (char* regex, char* s)  {
 	return 1;
 }
 
+/**
+ * @brief Function made to manipulate each packet's contents
+ * @param pnull NULL pointer
+ * @param p_info Struct containing info about the sniffed packet
+ * @param packet Packet
+ */
 void pack_handle(u_char *pnull, const struct pcap_pkthdr *p_info, const u_char *packet)  {
 	int i,j,offset = 0;
 	int plen = p_info->len;

@@ -1,0 +1,83 @@
+\hypertarget{list_8c}{
+\section{NCtcpsmash/list.c File Reference}
+\label{list_8c}\index{NCtcpsmash/list.c@{NCtcpsmash/list.c}}
+}
+{\tt \#include \char`\"{}nctcpsmash.h\char`\"{}}\par
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+int \hyperlink{list_8c_cc3108febaf89a184b064ffebceff585}{Head} (\hyperlink{struct__node}{list} l)
+\begin{CompactList}\small\item\em It returns a list's head. \item\end{CompactList}\item 
+\hyperlink{struct__node}{list} \hyperlink{list_8c_16c446ed71c1f06354efebdcead8f7c4}{Tail} (\hyperlink{struct__node}{list} l)
+\begin{CompactList}\small\item\em It returns a list's tail. \item\end{CompactList}\item 
+\hyperlink{struct__node}{list} \hyperlink{list_8c_2d9797204dbfe090241e3f55ddadedb9}{Insert} (int val, \hyperlink{struct__node}{list} l)
+\begin{CompactList}\small\item\em It inserts a new value in a list. \item\end{CompactList}\item 
+int \hyperlink{list_8c_8fe0425287f3b1b3df5311ce24b4a079}{Contains} (int val, \hyperlink{struct__node}{list} l)
+\begin{CompactList}\small\item\em It checks if a list contains a given element. \item\end{CompactList}\end{CompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{list_8c_8fe0425287f3b1b3df5311ce24b4a079}{
+\index{list.c@{list.c}!Contains@{Contains}}
+\index{Contains@{Contains}!list.c@{list.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int Contains (int {\em val}, \/  {\bf list} {\em l})}}
+\label{list_8c_8fe0425287f3b1b3df5311ce24b4a079}
+
+
+It checks if a list contains a given element. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em val}]Element \item[{\em l}]List \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]1 if val IN l, 0 if val NOT IN l \end{Desc}
+\hypertarget{list_8c_cc3108febaf89a184b064ffebceff585}{
+\index{list.c@{list.c}!Head@{Head}}
+\index{Head@{Head}!list.c@{list.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int Head ({\bf list} {\em l})}}
+\label{list_8c_cc3108febaf89a184b064ffebceff585}
+
+
+It returns a list's head. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em l}]List \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]l's head \end{Desc}
+\hypertarget{list_8c_2d9797204dbfe090241e3f55ddadedb9}{
+\index{list.c@{list.c}!Insert@{Insert}}
+\index{Insert@{Insert}!list.c@{list.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}{\bf list} Insert (int {\em val}, \/  {\bf list} {\em l})}}
+\label{list_8c_2d9797204dbfe090241e3f55ddadedb9}
+
+
+It inserts a new value in a list. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em val}]Value to insert \item[{\em l}]List \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]List after insert \end{Desc}
+\hypertarget{list_8c_16c446ed71c1f06354efebdcead8f7c4}{
+\index{list.c@{list.c}!Tail@{Tail}}
+\index{Tail@{Tail}!list.c@{list.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}{\bf list} Tail ({\bf list} {\em l})}}
+\label{list_8c_16c446ed71c1f06354efebdcead8f7c4}
+
+
+It returns a list's tail. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em l}]List \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]l's tail \end{Desc}

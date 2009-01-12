@@ -13,7 +13,13 @@
 #include "tcpsmash.h"
 
 pcap_t *sniff;
+int arpsmash (__u8* interface, __u8* addr1, __u8* addr2);
 
+/**
+ * @brief This function is called whenever the application receives a signal that stops its execution. So, before quitting stats
+ *   about current sniffing session are printed.
+ * @param sig Number of received signal
+ */
 void foo (int sig)  {
 	struct pcap_stat st;
 	pcap_stats (sniff, &st);
@@ -47,35 +53,18 @@ void help(char *app)  {
 
 }
 
+/**
+ * @brief Just prints info about program author, version and licence
+ */
 void print_ver()  {
 	fprintf (stderr,"%s~~~ tcpsmash %s ~~~%s\n",BOLD,VERSION,NORMAL);
-	fprintf (stderr,"%s(C)2007,2008, BlackLight  { http://blacklight.gotdns.org }\n",YELLOW);
+	fprintf (stderr,"%s(C)2007,2009, BlackLight  { http://blacklight.gotdns.org }\n",YELLOW);
 	fprintf (stderr,"Released under GNU General Public Licence (GPL) v.3%s\n\n",NORMAL);
 }
 
-void unformatted_help(char *app)  {
-	printf ("Usage: %s [-h] [-l] [-n] [-v] [-q] [-t] [-D] [-f \"<string>\"] [-C \"<string\"] [-w <logfile>] [-F <logfile>] [-c <count>] [-i <interface>]\n\n",app);
-	
-	printf ("\t-n\t\t\tDo not use promiscuous mode (default mode for tcpsmash)\n"
-			"\t-h\t\t\tPrint this help and exit\n"
-			"\t-l\t\t\tList active network interfaces\n"
-			"\t-q\t\t\tGenerate quick output, with a tcpdump-like flavour\n"
-			"\t-D\t\t\tDump each packet on output, without printing additional info\n"
-			"\t-v\t\t\tPrint info about the version of the program\n"
-			"\t-w logfile\t\tWrite the output to a log file in binary format. The file will be then read using -F option\n"
-			"\t-F logfile\t\tRead packets from a dump file previously created by using -w <logfile>\n"
-			"\t-c count\t\tOnly capture \"count\" packets and exit\n"
-			"\t-f \"<string>\"\t\tUse a filter string on the packets in BPF format, i.e. \"tcp dst port 80\"\n"
-			"\t-C \"<string>\"\t\tOnly capture packets containing \"string\" in any part of them (headers, application contents...), i.e. \"password:\"\n"
-			"\t\t\t\tYou can also specify a regex with this option, between / and /, i.e. -C \"/password:\\s*[a-z]+/\"\n"
-			"\t-i interface\t\tChoose a network interface to sniff\n"
-		   );
-}
-
-void unformatted_print_ver()  {
-	printf ("tcpsmash v.%s\n",VERSION);
-}
-
+/**
+ * @brief This is just the main. Nothing more.
+ */
 int main(int argc, char **argv)  {
 	int i,fd,ch,promisc=0;
 
@@ -84,7 +73,9 @@ int main(int argc, char **argv)  {
 	char ipaddr[INET6_ADDRSTRLEN];
 	char *log_file  = NULL,
 		*interface = NULL,
-		*dump_file = NULL;
+		*dump_file = NULL,
+		*addr1 = NULL,
+		*addr2 = NULL;
 
 	char *filter_string = (char*) GC_MALLOC(BUFSIZ*sizeof(char));
 	struct sockaddr_in *addr;
@@ -109,15 +100,15 @@ int main(int argc, char **argv)  {
 
 	for (i=1; i<argc; i++)  {
 		if (!strcmp(argv[i],"--help"))  {
-			unformatted_help(argv[0]);
+			help(argv[0]);
 			exit(0);
 		} else if (!strcmp(argv[i],"--version")) {
-			unformatted_print_ver();
+			print_ver();
 			exit(0);
 		}
 	}
 
-	while ((ch=getopt(argc,argv,"a1:2:qnhlw:f:i:F:c:C:Dv"))>0)  {
+	while ((ch=getopt(argc,argv,"1:2:qnhlw:f:i:F:c:C:Dv"))>0)  {
 		switch (ch)  {
 			case 'w':
 				log_file = GC_STRDUP(optarg);
@@ -225,6 +216,14 @@ int main(int argc, char **argv)  {
 				strfilter = GC_STRDUP(optarg);
 				break;
 
+			case '1':
+				addr1 = GC_STRDUP(optarg);
+				break;
+
+			case '2':
+				addr2 = GC_STRDUP(optarg);
+				break;
+
 			default:
 				fprintf (stderr, "%s*** Unknown option: %c%s\n",
 						RED,ch,NORMAL);
@@ -272,6 +271,22 @@ int main(int argc, char **argv)  {
 
 	if (!filter_string[0])
 		filter_string = GC_STRDUP("ip or arp");
+
+	if (addr1 && addr2)  {
+		if (!interface)  {
+			fprintf (stderr, "\n%s*** Error: You must specify a valid network interface\n"
+					"via -i option in order to make a MITM attack via ARPsmash.\n"
+					"See valid interfaces on this machine through -l option.%s\n",
+					RED, NORMAL);
+			exit(1);
+		}
+
+		if (!fork())  {
+			if (arpsmash((u8*) interface, (u8*) addr1, (u8*) addr2))
+				exit(1);
+			exit(0);
+		}
+	}
 
 	if (pcap_lookupnet(NULL,&net,&mask,err)==-1)  {
 		fprintf (stderr,"***Error connecting to the network interface: %s\n",err);

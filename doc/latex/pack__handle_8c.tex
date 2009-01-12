@@ -1,0 +1,29 @@
+\hypertarget{pack__handle_8c}{
+\section{NCtcpsmash/pack\_\-handle.c File Reference}
+\label{pack__handle_8c}\index{NCtcpsmash/pack\_\-handle.c@{NCtcpsmash/pack\_\-handle.c}}
+}
+{\tt \#include \char`\"{}nctcpsmash.h\char`\"{}}\par
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+void \hyperlink{pack__handle_8c_a22f023abfca10e8adcd3f2e91c6b74a}{pack\_\-handle} (u\_\-char $\ast$pnull, const struct pcap\_\-pkthdr $\ast$p\_\-info, const u\_\-char $\ast$packet)
+\begin{CompactList}\small\item\em It checks if a certain string matches a given regex or not. \item\end{CompactList}\end{CompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{pack__handle_8c_a22f023abfca10e8adcd3f2e91c6b74a}{
+\index{pack\_\-handle.c@{pack\_\-handle.c}!pack\_\-handle@{pack\_\-handle}}
+\index{pack\_\-handle@{pack\_\-handle}!pack_handle.c@{pack\_\-handle.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void pack\_\-handle (u\_\-char $\ast$ {\em pnull}, \/  const struct pcap\_\-pkthdr $\ast$ {\em p\_\-info}, \/  const u\_\-char $\ast$ {\em packet})}}
+\label{pack__handle_8c_a22f023abfca10e8adcd3f2e91c6b74a}
+
+
+It checks if a certain string matches a given regex or not. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em regex}]Regular expression \item[{\em s}]String to check \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]1 if s =$\sim$ /regex/, 0 elsewhere \end{Desc}

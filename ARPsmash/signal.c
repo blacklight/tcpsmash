@@ -1,12 +1,31 @@
+/*
+ * ARPsmash/signal.c
+ *
+ * (C) 2007,2009, BlackLight <blacklight@autistici.org>
+ *
+ *		This program is free software; you can redistribute it and/or
+ *		modify it under the terms of the GNU General Public License
+ *		as published by the Free Software Foundation; either version
+ *		3 of the License, or (at your option) any later version.
+ */
+
 #include "arpsmash.h"
 
+/**
+ * @brief This function does nothing. It's just used to manage signals for which I want no direct action
+ * @param sig Signal number
+ */
 void handle(int sig)  {}
 
+/**
+ * @brief Function called when exiting ARPsmash. It re-ARPs target hosts correctly
+ * @param sig Signal number
+ */
 void term(int sig)  {
 	struct in_addr ip4addr;
 	struct arp_hdr arp;
 
-	printf ("*** Signal %d caught. Re-ARPing victims...\n",sig);
+	printf ("\n%s*** Signal %d caught. Re-ARPing victims...%s\n", CYAN, sig, NORMAL);
 
 	arp.hw_format=htons(ARPHRD_ETHER);
 	arp.prot_format=htons(ETH_P_IP);
@@ -42,10 +61,14 @@ void term(int sig)  {
 		exit(-2);
 	}
 
-	printf ("*** Re-ARP OK, exiting...\n");
+	printf ("%s*** Re-ARP OK, exiting...%s\n", GREEN, NORMAL);
 	exit(0);
 }
 
+/**
+ * @brief Function called whenever ARPsmash execution ends anomally
+ * @param ret Return value
+ */
 void die(int ret)  {
 	term(ret);
 }

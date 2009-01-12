@@ -1,3 +1,17 @@
+/*
+ * ARPsmash/arpsmash.h
+ *
+ * (C) 2007,2009, BlackLight <blacklight@autistici.org>
+ *
+ *		This program is free software; you can redistribute it and/or
+ *		modify it under the terms of the GNU General Public License
+ *		as published by the Free Software Foundation; either version
+ *		3 of the License, or (at your option) any later version.
+ */
+
+#ifndef __ARPSMASH_H
+#define __ARPSMASH_H
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -17,6 +31,14 @@
 #include <linux/ip.h>
 #include <pthread.h>
 
+#define	NORMAL	"\033[0m"
+#define	BOLD		"\033[1m"
+#define	RED		"\033[91m"
+#define	GREEN	"\033[92m"
+#define	YELLOW	"\033[01;93m"
+#define	CYAN		"\033[01;36m"
+
+#define	VERSION		"0.3.2"
 #define	TIMEOUT		1
 #define	DELAY		10
 #define	ETH_LEN		14
@@ -26,13 +48,39 @@
 typedef unsigned char __u8; 
 typedef unsigned short __u16;
 
+/**
+ * @brief All-purpose socket descriptor
+ */
 int sd;
+
+/**
+ * @brief Data link sockaddr descriptor
+ */
 struct sockaddr_ll dlink;
+
+/**
+ * @brief My HW address
+ */
 __u8 *t_hw;
+
+/**
+ * @brief Targets' HW addresses
+ */
 __u8 *t1_hw,*t2_hw;
+
+/**
+ * @brief Targets' names/addresses
+ */
 __u8 *t1,*t2;
+
+/**
+ * @brief Network interface to sniff
+ */
 __u8 *ifc;
 
+/**
+ * @brief Struct to manage ARP headers
+ */
 struct arp_hdr {
 	__u16  hw_format;
 	__u16  prot_format;
@@ -58,4 +106,6 @@ void term(int sig);
 void die(int ret);
 void* hw_addr (void *arg);
 void* forward (void *arg);
+
+#endif
 

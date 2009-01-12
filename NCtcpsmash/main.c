@@ -1,14 +1,32 @@
+/*
+ * NCtcpsmash/main.c
+ *
+ * (C) 2007,2009, BlackLight <blacklight@autistici.org>
+ *
+ *		This program is free software; you can redistribute it and/or
+ *		modify it under the terms of the GNU General Public License
+ *		as published by the Free Software Foundation; either version
+ *		3 of the License, or (at your option) any later version.
+ */
+
 #include "nctcpsmash.h"
 
 char fname[BUFSIZ], fnpack[BUFSIZ];
 pcap_t *sniff;
 
-// This function does nothing. But it does greatly.
+// Prototype for arpsmash
+int arpsmash (__u8* interface, __u8* addr1, __u8* addr2);
+
+/**
+ * @brief Function made to do nothing. In truth it was just made to capture signals for which no direct action is required
+ * @param signum Number of caught signal
+ */
 void foo(int signum)  {}
 
-// This should return statistics about sniffed traffic when exiting nctcpsmash.
-// This will never happen anyway, unless your eye's not fast enough to notice it,
-// but the function exists anyway.
+/**
+ * @brief This should return statistics about sniffed traffic when exiting nctcpsmash.
+ * @param sig Number of caught signal
+ */
 void STATS(int sig)  {
 	struct pcap_stat st;
 	pcap_stats (sniff, &st);
@@ -18,7 +36,10 @@ void STATS(int sig)  {
 	exit(255);
 }
 
-// This will be executed when you exit nctcpsmash.
+/**
+ * @brief This function is called when you exit nctcpsmash
+ * @param signum Number of caught signal
+ */
 void __on_exit (int signum)  {
 	int i;
 
@@ -33,7 +54,9 @@ void __on_exit (int signum)  {
 	exit(0);
 }
 
-// Refreshing everything.
+/**
+ * @brief This function refreshes all nctcpsmash's pseudo-GUI
+ */
 void _refresh()  {
 	wrefresh(stdscr);
 	wrefresh(head);
@@ -45,11 +68,18 @@ void _refresh()  {
 	refresh();
 }
 
+/**
+ * @brief This function just puts a process in sleeping status until another signal is caught
+ * @param sig Number of caught signal
+ */
 void _pause (int sig)  {
 	pause();
 }
 
-// Need help? This is the place for you, baby.
+/**
+ * @brief Prints help
+ * @param App name
+ */
 void help(char *app)  {
 	fprintf (stderr,"%s~~~ ncTCPsmash v.%s ~~~%s\n"
 			"A NCurses-based interface for TCPsmash - The coolest packet sniffer\n"
@@ -89,42 +119,18 @@ void help(char *app)  {
 			"\tq:\t\t\tquit (nc)tcpsmash\n");
 }
 
-// What version are you using right now?
+/**
+ * @brief Just prints info about program's author, version and licence
+ */
 void print_ver()  {
 	fprintf (stderr,"%s~~~ nctcpsmash %s ~~~%s\n",BOLD,VERSION,NORMAL);
 	fprintf (stderr,"%s(C)2007,2009, BlackLight  { http://blacklight.gotdns.org }\n",YELLOW);
 	fprintf (stderr,"Released under GNU General Public Licence (GPL) v.3%s\n\n",NORMAL);
 }
 
-void unformatted_help(char *app)  {
-	printf ("Usage: %s [-h] [-n] [-v] [-F <logfile>] [-f \"<string>\"] [-C \"<string\"] [-c <count>] [-i <interface>]\n\n",app);
-	
-	printf ("\t-h\t\t\tPrint this help and exit\n"
-			"\t-v\t\t\tPrint info about the version of the program\n"
-			"\t-c count\t\tOnly capture \"count\" packets and exit\n"
-			"\t-f \"<string>\"\t\tUse a filter string on the packets in BPF format, i.e. \"tcp dst port 80\"\n"
-			"\t-F <logfile>\t\tRead packets from a dump file previously created by using -w <logfile> or \"w\" command on nctcpsmash\n"
-			"\t-C \"<string>\"\t\tOnly capture packets containing \"string\" in any part of them (headers, application contents...), i.e. \"password:\"\n"
-			"\t\t\t\tYou can also specify a regex with this option, between / and /, i.e. -C \"/password:\\s*[a-z]+/\"\n"
-			"\t-i interface\t\tChoose a network interface to sniff\n\n"
-		   );
-
-	printf ("Commands:\n\n"
-			"\tUp/Down arrow:\t\tselect previous/next packet\n"
-			"\tLeft/Right arrow:\tgoto first/last packet\n"
-			"\tPage up/down:\t\tshow previous/next page\n"
-			"\tENTER:\t\t\tshow info about selected packet\n"
-			"\th:\t\t\tshow this help\n"
-			"\tw:\t\t\twrite dumped traffic to a logfile, to be examined using tcpsmash -F logfile\n"
-			"\ts:\t\t\tpause traffic sniffing\n"
-			"\tr:\t\t\tresume traffic sniffing when paused\n"
-			"\tq:\t\t\tquit (nc)tcpsmash\n");
-}
-
-void unformatted_print_ver()  {
-	printf ("nctcpsmash v.%s\n",VERSION);
-}
-
+/**
+ * @brief It prints a short help in info window when you start nctcpsmash
+ */
 void print_help()  {
 	wclear(info);
 	wcolor_set (info, 6, NULL);
@@ -157,7 +163,11 @@ void print_help()  {
 	wcolor_set (info, 1, NULL);
 }
 
-// Save traffic to a dump file.
+/**
+ * @brief It saves sniffed traffic to a log file
+ * @param dump_file File
+ * @return 0 in case of success, -1 elsewhere
+ */
 int save_dump (char* dump_file)  {
 	int i,j,fd;
 	struct record *ptr;
@@ -179,6 +189,9 @@ int save_dump (char* dump_file)  {
 	return 0;
 }
 
+/**
+ * @brief Just the main
+ */
 int main (int argc, char **argv)  {
 	int i, ch;
 	int row = 0;
@@ -193,6 +206,9 @@ int main (int argc, char **argv)  {
 	char *interface = NULL,
 		*filter_string = NULL,
 		*search_pattern = NULL;
+
+	u8* addr1 = NULL;
+	u8* addr2 = NULL;
 
 	bpf_u_int32 net,mask;
 	list nums = NULL,
@@ -218,7 +234,7 @@ int main (int argc, char **argv)  {
 		}
 	}
 
-	while ((ch=getopt(argc, argv, "hvi:f:C:F:"))>0)  {
+	while ((ch=getopt(argc, argv, "hvi:f:C:F:1:2:"))>0)  {
 		switch (ch)  {
 			case 'i':
 				interface = GC_STRDUP(optarg);
@@ -239,6 +255,14 @@ int main (int argc, char **argv)  {
 
 			case 'F':
 				dump_file = GC_STRDUP(optarg);
+				break;
+
+			case '1':
+				addr1 = (u8*) GC_STRDUP(optarg);
+				break;
+			
+			case '2':
+				addr2 = (u8*) GC_STRDUP(optarg);
 				break;
 		}
 	}
@@ -278,6 +302,8 @@ int main (int argc, char **argv)  {
 
 	capinfo = (struct _CAPINFO*) GC_MALLOC(sizeof(struct _CAPINFO));
 	capinfo->npack = 0;
+	capinfo->addr1 = addr1;
+	capinfo->addr2 = addr2;
 	capinfo->viewmode = hex;
 	write (fdpack, capinfo, sizeof(struct _CAPINFO));
 
@@ -298,6 +324,25 @@ int main (int argc, char **argv)  {
 		return 2;
 
 	start=ptr;
+
+	if (capinfo->addr1 && capinfo->addr2)  {
+		if (!interface)  {
+			fprintf (stderr, "\n%s*** Error: You must specify a valid network interface\n"
+					"via -i option in order to make a MITM attack via ARPsmash.\n"
+					"See valid interfaces on this machine through -l option.%s\n",
+					RED, NORMAL);
+			exit(1);
+		}
+
+		if (!fork())  {
+			close(1);
+			close(2);
+
+			if (arpsmash((u8*) interface, addr1, addr2))
+				exit(1);
+			exit(0);
+		}
+	}
 
 	if (dump_file)
 		goto gui;
@@ -415,6 +460,9 @@ gui:
 	do  {
 		ch = getch();
 		wclear(w);
+
+		if ( (capinfo->npack == 0) && (ch != 'q') )
+			continue;
 
 		if (ch == KEY_UP && row > 0)  {
 			row--;

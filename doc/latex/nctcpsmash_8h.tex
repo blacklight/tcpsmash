@@ -1,0 +1,647 @@
+\hypertarget{nctcpsmash_8h}{
+\section{NCtcpsmash/nctcpsmash.h File Reference}
+\label{nctcpsmash_8h}\index{NCtcpsmash/nctcpsmash.h@{NCtcpsmash/nctcpsmash.h}}
+}
+{\tt \#include $<$stdio.h$>$}\par
+{\tt \#include $<$stdlib.h$>$}\par
+{\tt \#include $<$string.h$>$}\par
+{\tt \#include $<$unistd.h$>$}\par
+{\tt \#include $<$fcntl.h$>$}\par
+{\tt \#include $<$time.h$>$}\par
+{\tt \#include $<$arpa/inet.h$>$}\par
+{\tt \#include $<$netinet/in.h$>$}\par
+{\tt \#include $<$sys/socket.h$>$}\par
+{\tt \#include $<$sys/wait.h$>$}\par
+{\tt \#include $<$sys/mman.h$>$}\par
+{\tt \#include $<$errno.h$>$}\par
+{\tt \#include $<$netdb.h$>$}\par
+{\tt \#include $<$netinet/if\_\-ether.h$>$}\par
+{\tt \#include $<$net/if\_\-arp.h$>$}\par
+{\tt \#include $<$netinet/ip.h$>$}\par
+{\tt \#include $<$netinet/tcp.h$>$}\par
+{\tt \#include $<$netinet/udp.h$>$}\par
+{\tt \#include $<$netinet/ip\_\-icmp.h$>$}\par
+{\tt \#include $<$netinet/igmp.h$>$}\par
+{\tt \#include $<$ncurses.h$>$}\par
+{\tt \#include $<$pthread.h$>$}\par
+{\tt \#include $<$pcap.h$>$}\par
+{\tt \#include $<$regex.h$>$}\par
+\subsection*{Data Structures}
+\begin{CompactItemize}
+\item 
+struct \hyperlink{structrecord}{record}
+\begin{CompactList}\small\item\em Struct to keep information about a packet. \item\end{CompactList}\item 
+struct \hyperlink{struct__node}{\_\-node}
+\begin{CompactList}\small\item\em Struct that stores info about a node in a linked list. \item\end{CompactList}\item 
+struct \hyperlink{structarphdr__t}{arphdr\_\-t}
+\begin{CompactList}\small\item\em Struct to manage ARP headers. \item\end{CompactList}\item 
+struct \hyperlink{struct__CAPINFO}{\_\-CAPINFO}
+\begin{CompactList}\small\item\em Struct to manage infos about current sniffing session. \item\end{CompactList}\end{CompactItemize}
+\subsection*{Defines}
+\begin{CompactItemize}
+\item 
+\#define \hyperlink{nctcpsmash_8h_1c6d5de492ac61ad29aec7aa9a436bbf}{VERSION}~\char`\"{}0.3.2\char`\"{}
+\item 
+\#define \hyperlink{nctcpsmash_8h_1291f416b069313021b519eea62d5bf1}{NORMAL}~\char`\"{}$\backslash$033\mbox{[}0m\char`\"{}
+\item 
+\#define \hyperlink{nctcpsmash_8h_26cdbb1a00213c810caccf21cd33a631}{BOLD}~\char`\"{}$\backslash$033\mbox{[}1m\char`\"{}
+\item 
+\#define \hyperlink{nctcpsmash_8h_8d23feea868a983c8c2b661e1e16972f}{RED}~\char`\"{}$\backslash$033\mbox{[}91m\char`\"{}
+\item 
+\#define \hyperlink{nctcpsmash_8h_cfbc006ea433ad708fdee3e82996e721}{GREEN}~\char`\"{}$\backslash$033\mbox{[}92m\char`\"{}
+\item 
+\#define \hyperlink{nctcpsmash_8h_bf681265909adf3d3e8116c93c0ba179}{YELLOW}~\char`\"{}$\backslash$033\mbox{[}01;93m\char`\"{}
+\item 
+\#define \hyperlink{nctcpsmash_8h_a0d64ad9b68f530617a712a1175a3e7d}{GC\_\-MALLOC}~malloc
+\item 
+\#define \hyperlink{nctcpsmash_8h_668f5991a35c7c457cb449d6c4b4a8bf}{GC\_\-REALLOC}~realloc
+\item 
+\#define \hyperlink{nctcpsmash_8h_8bee8e0e1474a7960a41ae9a64ba08a5}{GC\_\-STRDUP}~strdup
+\end{CompactItemize}
+\subsection*{Typedefs}
+\begin{CompactItemize}
+\item 
+typedef struct \hyperlink{struct__node}{\_\-node} $\ast$ \hyperlink{nctcpsmash_8h_e907a6c6cd9c60b3bcf58c722198d7a2}{list}
+\item 
+typedef unsigned char \hyperlink{nctcpsmash_8h_ed742c436da53c1080638ce6ef7d13de}{u8}
+\item 
+typedef unsigned short \hyperlink{nctcpsmash_8h_9e6c91d77e24643b888dbd1a1a590054}{u16}
+\item 
+typedef unsigned long \hyperlink{nctcpsmash_8h_2caf5cd7bcdbe1eefa727f44ffb10bac}{u32}
+\end{CompactItemize}
+\subsection*{Enumerations}
+\begin{CompactItemize}
+\item 
+enum \hyperlink{nctcpsmash_8h_1a6b6fb557d8d37d59700faf4e4c9167}{mode} \{ \hyperlink{nctcpsmash_8h_1a6b6fb557d8d37d59700faf4e4c91676000f7a8e67e4e0beb7b8ebe93452243}{hex}, 
+\hyperlink{nctcpsmash_8h_1a6b6fb557d8d37d59700faf4e4c91671fc467976b8e2979150a99beb709443e}{ascii}
+ \}
+\begin{CompactList}\small\item\em Enum to manage output type (hex or ascii mode). \item\end{CompactList}\end{CompactItemize}
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+int \hyperlink{nctcpsmash_8h_09ed4a9782508765aa38ce893b5eca81}{get\_\-dlink\_\-offset} (int \hyperlink{nctcpsmash_8h_86bacf89923f1c5729639540af3bff62}{dlink\_\-type})
+\begin{CompactList}\small\item\em It gets the dlink offset at which IP/ARP header is found depending on dlink type. \item\end{CompactList}\item 
+int \hyperlink{nctcpsmash_8h_1d8b0a99102874746c0754a7e6516ff1}{check\_\-filter} (char $\ast$filter, const u\_\-char $\ast$packet, int plen)
+\item 
+void \hyperlink{nctcpsmash_8h_337f969e874d7ba95ad935df54368425}{\_\-refresh} ()
+\begin{CompactList}\small\item\em This function refreshes all nctcpsmash's pseudo-GUI. \item\end{CompactList}\item 
+void \hyperlink{nctcpsmash_8h_cf81aff1ebade8d32109f43bf170a5f0}{dump} (struct \hyperlink{structrecord}{record} r)
+\begin{CompactList}\small\item\em It prints info about a sniffed packet. \item\end{CompactList}\item 
+void \hyperlink{nctcpsmash_8h_a22f023abfca10e8adcd3f2e91c6b74a}{pack\_\-handle} (u\_\-char $\ast$pnull, const struct pcap\_\-pkthdr $\ast$p\_\-info, const u\_\-char $\ast$packet)
+\begin{CompactList}\small\item\em It checks if a certain string matches a given regex or not. \item\end{CompactList}\item 
+void \hyperlink{nctcpsmash_8h_fae414d64a0fdf02aa62705a40fe2006}{print\_\-tcp\_\-flags} (struct tcphdr $\ast$tcp)
+\begin{CompactList}\small\item\em This function prints info about TCP flags of a TCP packet. \item\end{CompactList}\item 
+void \hyperlink{nctcpsmash_8h_093050c716d463bc4f1a23ec5d389c75}{file\_\-dump} (char $\ast$file)
+\begin{CompactList}\small\item\em It analyzes a log file previously created. \item\end{CompactList}\item 
+char $\ast$ \hyperlink{nctcpsmash_8h_e1a356f0128c83e7c2bb9d7e5e198250}{getline} ()
+\item 
+\hyperlink{nctcpsmash_8h_9e6c91d77e24643b888dbd1a1a590054}{u16} \hyperlink{nctcpsmash_8h_b439391cb991a11c980d3811a04b2939}{csum} (\hyperlink{nctcpsmash_8h_9e6c91d77e24643b888dbd1a1a590054}{u16} $\ast$buf, int nwords)
+\begin{CompactList}\small\item\em Checks if a certain packet's content matches a given filter (plain string or regex) or not. \item\end{CompactList}\item 
+int \hyperlink{nctcpsmash_8h_8fe0425287f3b1b3df5311ce24b4a079}{Contains} (int val, \hyperlink{struct__node}{list} l)
+\begin{CompactList}\small\item\em It checks if a list contains a given element. \item\end{CompactList}\item 
+int \hyperlink{nctcpsmash_8h_cc3108febaf89a184b064ffebceff585}{Head} (\hyperlink{struct__node}{list} l)
+\begin{CompactList}\small\item\em It returns a list's head. \item\end{CompactList}\item 
+\hyperlink{struct__node}{list} \hyperlink{nctcpsmash_8h_16c446ed71c1f06354efebdcead8f7c4}{Tail} (\hyperlink{struct__node}{list} l)
+\begin{CompactList}\small\item\em It returns a list's tail. \item\end{CompactList}\item 
+\hyperlink{struct__node}{list} \hyperlink{nctcpsmash_8h_2d9797204dbfe090241e3f55ddadedb9}{Insert} (int val, \hyperlink{struct__node}{list} l)
+\begin{CompactList}\small\item\em It inserts a new value in a list. \item\end{CompactList}\item 
+\hyperlink{struct__node}{list} \hyperlink{nctcpsmash_8h_7e490153754445f04edaca8cb8ff4a40}{filter\_\-packets} (char $\ast$filter, int $\ast$size)
+\begin{CompactList}\small\item\em It returns a linked list of packets matching a given filter. \item\end{CompactList}\item 
+\hyperlink{struct__node}{list} \hyperlink{nctcpsmash_8h_43bde952f64616d1184ac786cea6ee29}{get\_\-tcpstream} (struct \hyperlink{structrecord}{record} r, int $\ast$size)
+\begin{CompactList}\small\item\em It returns a linked list of packets belonging to a given TCP stream. \item\end{CompactList}\end{CompactItemize}
+\subsection*{Variables}
+\begin{CompactItemize}
+\item 
+struct \hyperlink{struct__node}{\_\-node} \hyperlink{nctcpsmash_8h_9f7f89c8f0b434aee0eee74355992ec8}{node}
+\item 
+WINDOW $\ast$ \hyperlink{nctcpsmash_8h_5c3c4dd60ecb7fcd37303ac1434c471e}{mainw}
+\begin{CompactList}\small\item\em NCtcpsmash's pseudo-windows. \item\end{CompactList}\item 
+WINDOW $\ast$ \hyperlink{nctcpsmash_8h_79a6081452e9472ecc8f83c67a7542de}{w}
+\item 
+WINDOW $\ast$ \hyperlink{nctcpsmash_8h_d6bbc999f9059dde2674dd2d3f57d3a4}{line}
+\item 
+WINDOW $\ast$ \hyperlink{nctcpsmash_8h_fb8015ffe7c823f0815992c0c10c418e}{status}
+\item 
+WINDOW $\ast$ \hyperlink{nctcpsmash_8h_9985cec23f43b3694fef47779cc3ad96}{head}
+\item 
+WINDOW $\ast$ \hyperlink{nctcpsmash_8h_94111bc0a21fe43c5063b51fd9e591d9}{info}
+\item 
+struct \hyperlink{struct__CAPINFO}{\_\-CAPINFO} $\ast$ \hyperlink{nctcpsmash_8h_1c73432eee7e844bbfc781bbbb6e9545}{capinfo}
+\begin{CompactList}\small\item\em Reference to current session infos. \item\end{CompactList}\item 
+int \hyperlink{nctcpsmash_8h_86bacf89923f1c5729639540af3bff62}{dlink\_\-type}
+\begin{CompactList}\small\item\em Data link type. \item\end{CompactList}\item 
+int \hyperlink{nctcpsmash_8h_916442cb8a5f72470945c8fe068d76cc}{dlink\_\-offset}
+\begin{CompactList}\small\item\em Data link offset. \item\end{CompactList}\item 
+int \hyperlink{nctcpsmash_8h_6f8059414f0228f0256115e024eeed4b}{fd}
+\begin{CompactList}\small\item\em File descriptors. \item\end{CompactList}\item 
+int \hyperlink{nctcpsmash_8h_c5a194a1ed12f0e0d370572eed574264}{fdpack}
+\item 
+int \hyperlink{nctcpsmash_8h_a6d7e9fc5f44c23d081c4386ce067733}{pid} \mbox{[}2\mbox{]}
+\begin{CompactList}\small\item\em Process descriptors. \item\end{CompactList}\item 
+int \hyperlink{nctcpsmash_8h_a49abb4ebe35ccfb7489711b7444f6bd}{SCRSIZ}
+\begin{CompactList}\small\item\em Screen height. \item\end{CompactList}\item 
+int \hyperlink{nctcpsmash_8h_3c007dd6c02917625e72ab6435ecf757}{SCRWID}
+\begin{CompactList}\small\item\em Screen width. \item\end{CompactList}\item 
+int \hyperlink{nctcpsmash_8h_d9d07c00d332a6d491ceb87d05ed859d}{undumping}
+\begin{CompactList}\small\item\em 1 if NCtcpsmash is analyzing a previously generated log file, 0 elsewhere \item\end{CompactList}\item 
+char $\ast$ \hyperlink{nctcpsmash_8h_9cd36bf382fdeb86b88b9f8013748de7}{strfilter}
+\begin{CompactList}\small\item\em Set if I'm filtering my traffic on a particular filter string or regex, NULL elsewhere. \item\end{CompactList}\item 
+char $\ast$ \hyperlink{nctcpsmash_8h_8f2183d0a38f3c1eba4b3dd958ab4a72}{dump\_\-file}
+\begin{CompactList}\small\item\em Name of the file to which I'm saving my infos or I'm analyzing, NULL elsewhere. \item\end{CompactList}\item 
+struct \hyperlink{structrecord}{record} $\ast$ \hyperlink{nctcpsmash_8h_aeb5a4273555debf472913a769a15f77}{start}
+\begin{CompactList}\small\item\em Reference to the first packet in packet list. \item\end{CompactList}\end{CompactItemize}
+
+
+\subsection{Define Documentation}
+\hypertarget{nctcpsmash_8h_26cdbb1a00213c810caccf21cd33a631}{
+\index{nctcpsmash.h@{nctcpsmash.h}!BOLD@{BOLD}}
+\index{BOLD@{BOLD}!nctcpsmash.h@{nctcpsmash.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}\#define BOLD~\char`\"{}$\backslash$033\mbox{[}1m\char`\"{}}}
+\label{nctcpsmash_8h_26cdbb1a00213c810caccf21cd33a631}
+
+
+\hypertarget{nctcpsmash_8h_a0d64ad9b68f530617a712a1175a3e7d}{
+\index{nctcpsmash.h@{nctcpsmash.h}!GC\_\-MALLOC@{GC\_\-MALLOC}}
+\index{GC\_\-MALLOC@{GC\_\-MALLOC}!nctcpsmash.h@{nctcpsmash.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}\#define GC\_\-MALLOC~malloc}}
+\label{nctcpsmash_8h_a0d64ad9b68f530617a712a1175a3e7d}
+
+
+\hypertarget{nctcpsmash_8h_668f5991a35c7c457cb449d6c4b4a8bf}{
+\index{nctcpsmash.h@{nctcpsmash.h}!GC\_\-REALLOC@{GC\_\-REALLOC}}
+\index{GC\_\-REALLOC@{GC\_\-REALLOC}!nctcpsmash.h@{nctcpsmash.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}\#define GC\_\-REALLOC~realloc}}
+\label{nctcpsmash_8h_668f5991a35c7c457cb449d6c4b4a8bf}
+
+
+\hypertarget{nctcpsmash_8h_8bee8e0e1474a7960a41ae9a64ba08a5}{
+\index{nctcpsmash.h@{nctcpsmash.h}!GC\_\-STRDUP@{GC\_\-STRDUP}}
+\index{GC\_\-STRDUP@{GC\_\-STRDUP}!nctcpsmash.h@{nctcpsmash.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}\#define GC\_\-STRDUP~strdup}}
+\label{nctcpsmash_8h_8bee8e0e1474a7960a41ae9a64ba08a5}
+
+
+\hypertarget{nctcpsmash_8h_cfbc006ea433ad708fdee3e82996e721}{
+\index{nctcpsmash.h@{nctcpsmash.h}!GREEN@{GREEN}}
+\index{GREEN@{GREEN}!nctcpsmash.h@{nctcpsmash.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}\#define GREEN~\char`\"{}$\backslash$033\mbox{[}92m\char`\"{}}}
+\label{nctcpsmash_8h_cfbc006ea433ad708fdee3e82996e721}
+
+
+\hypertarget{nctcpsmash_8h_1291f416b069313021b519eea62d5bf1}{
+\index{nctcpsmash.h@{nctcpsmash.h}!NORMAL@{NORMAL}}
+\index{NORMAL@{NORMAL}!nctcpsmash.h@{nctcpsmash.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}\#define NORMAL~\char`\"{}$\backslash$033\mbox{[}0m\char`\"{}}}
+\label{nctcpsmash_8h_1291f416b069313021b519eea62d5bf1}
+
+
+\hypertarget{nctcpsmash_8h_8d23feea868a983c8c2b661e1e16972f}{
+\index{nctcpsmash.h@{nctcpsmash.h}!RED@{RED}}
+\index{RED@{RED}!nctcpsmash.h@{nctcpsmash.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}\#define RED~\char`\"{}$\backslash$033\mbox{[}91m\char`\"{}}}
+\label{nctcpsmash_8h_8d23feea868a983c8c2b661e1e16972f}
+
+
+\hypertarget{nctcpsmash_8h_1c6d5de492ac61ad29aec7aa9a436bbf}{
+\index{nctcpsmash.h@{nctcpsmash.h}!VERSION@{VERSION}}
+\index{VERSION@{VERSION}!nctcpsmash.h@{nctcpsmash.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}\#define VERSION~\char`\"{}0.3.2\char`\"{}}}
+\label{nctcpsmash_8h_1c6d5de492ac61ad29aec7aa9a436bbf}
+
+
+\hypertarget{nctcpsmash_8h_bf681265909adf3d3e8116c93c0ba179}{
+\index{nctcpsmash.h@{nctcpsmash.h}!YELLOW@{YELLOW}}
+\index{YELLOW@{YELLOW}!nctcpsmash.h@{nctcpsmash.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}\#define YELLOW~\char`\"{}$\backslash$033\mbox{[}01;93m\char`\"{}}}
+\label{nctcpsmash_8h_bf681265909adf3d3e8116c93c0ba179}
+
+
+
+
+\subsection{Typedef Documentation}
+\hypertarget{nctcpsmash_8h_e907a6c6cd9c60b3bcf58c722198d7a2}{
+\index{nctcpsmash.h@{nctcpsmash.h}!list@{list}}
+\index{list@{list}!nctcpsmash.h@{nctcpsmash.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf \_\-node}$\ast$ {\bf list}}}
+\label{nctcpsmash_8h_e907a6c6cd9c60b3bcf58c722198d7a2}
+
+
+\hypertarget{nctcpsmash_8h_9e6c91d77e24643b888dbd1a1a590054}{
+\index{nctcpsmash.h@{nctcpsmash.h}!u16@{u16}}
+\index{u16@{u16}!nctcpsmash.h@{nctcpsmash.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}typedef unsigned short {\bf u16}}}
+\label{nctcpsmash_8h_9e6c91d77e24643b888dbd1a1a590054}
+
+
+\hypertarget{nctcpsmash_8h_2caf5cd7bcdbe1eefa727f44ffb10bac}{
+\index{nctcpsmash.h@{nctcpsmash.h}!u32@{u32}}
+\index{u32@{u32}!nctcpsmash.h@{nctcpsmash.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}typedef unsigned long {\bf u32}}}
+\label{nctcpsmash_8h_2caf5cd7bcdbe1eefa727f44ffb10bac}
+
+
+\hypertarget{nctcpsmash_8h_ed742c436da53c1080638ce6ef7d13de}{
+\index{nctcpsmash.h@{nctcpsmash.h}!u8@{u8}}
+\index{u8@{u8}!nctcpsmash.h@{nctcpsmash.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}typedef unsigned char {\bf u8}}}
+\label{nctcpsmash_8h_ed742c436da53c1080638ce6ef7d13de}
+
+
+
+
+\subsection{Enumeration Type Documentation}
+\hypertarget{nctcpsmash_8h_1a6b6fb557d8d37d59700faf4e4c9167}{
+\index{nctcpsmash.h@{nctcpsmash.h}!mode@{mode}}
+\index{mode@{mode}!nctcpsmash.h@{nctcpsmash.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}enum {\bf mode}}}
+\label{nctcpsmash_8h_1a6b6fb557d8d37d59700faf4e4c9167}
+
+
+Enum to manage output type (hex or ascii mode). 
+
+\begin{Desc}
+\item[Enumerator: ]\par
+\begin{description}
+\index{hex@{hex}!nctcpsmash.h@{nctcpsmash.h}}\index{nctcpsmash.h@{nctcpsmash.h}!hex@{hex}}\item[{\em 
+\hypertarget{nctcpsmash_8h_1a6b6fb557d8d37d59700faf4e4c91676000f7a8e67e4e0beb7b8ebe93452243}{
+hex}
+\label{nctcpsmash_8h_1a6b6fb557d8d37d59700faf4e4c91676000f7a8e67e4e0beb7b8ebe93452243}
+}]\index{ascii@{ascii}!nctcpsmash.h@{nctcpsmash.h}}\index{nctcpsmash.h@{nctcpsmash.h}!ascii@{ascii}}\item[{\em 
+\hypertarget{nctcpsmash_8h_1a6b6fb557d8d37d59700faf4e4c91671fc467976b8e2979150a99beb709443e}{
+ascii}
+\label{nctcpsmash_8h_1a6b6fb557d8d37d59700faf4e4c91671fc467976b8e2979150a99beb709443e}
+}]\end{description}
+\end{Desc}
+
+
+
+\subsection{Function Documentation}
+\hypertarget{nctcpsmash_8h_337f969e874d7ba95ad935df54368425}{
+\index{nctcpsmash.h@{nctcpsmash.h}!\_\-refresh@{\_\-refresh}}
+\index{\_\-refresh@{\_\-refresh}!nctcpsmash.h@{nctcpsmash.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void \_\-refresh ()}}
+\label{nctcpsmash_8h_337f969e874d7ba95ad935df54368425}
+
+
+This function refreshes all nctcpsmash's pseudo-GUI. 
+
+\hypertarget{nctcpsmash_8h_1d8b0a99102874746c0754a7e6516ff1}{
+\index{nctcpsmash.h@{nctcpsmash.h}!check\_\-filter@{check\_\-filter}}
+\index{check\_\-filter@{check\_\-filter}!nctcpsmash.h@{nctcpsmash.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int check\_\-filter (char $\ast$ {\em filter}, \/  const u\_\-char $\ast$ {\em packet}, \/  int {\em plen})}}
+\label{nctcpsmash_8h_1d8b0a99102874746c0754a7e6516ff1}
+
+
+\hypertarget{nctcpsmash_8h_8fe0425287f3b1b3df5311ce24b4a079}{
+\index{nctcpsmash.h@{nctcpsmash.h}!Contains@{Contains}}
+\index{Contains@{Contains}!nctcpsmash.h@{nctcpsmash.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int Contains (int {\em val}, \/  {\bf list} {\em l})}}
+\label{nctcpsmash_8h_8fe0425287f3b1b3df5311ce24b4a079}
+
+
+It checks if a list contains a given element. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em val}]Element \item[{\em l}]List \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]1 if val IN l, 0 if val NOT IN l \end{Desc}
+\hypertarget{nctcpsmash_8h_b439391cb991a11c980d3811a04b2939}{
+\index{nctcpsmash.h@{nctcpsmash.h}!csum@{csum}}
+\index{csum@{csum}!nctcpsmash.h@{nctcpsmash.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}{\bf u16} csum ({\bf u16} $\ast$ {\em buf}, \/  int {\em nwords})}}
+\label{nctcpsmash_8h_b439391cb991a11c980d3811a04b2939}
+
+
+Checks if a certain packet's content matches a given filter (plain string or regex) or not. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em packet}]Packet to analyze \item[{\em plen}]packet length \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]true if the content is matched, false elsewhere \end{Desc}
+\hypertarget{nctcpsmash_8h_cf81aff1ebade8d32109f43bf170a5f0}{
+\index{nctcpsmash.h@{nctcpsmash.h}!dump@{dump}}
+\index{dump@{dump}!nctcpsmash.h@{nctcpsmash.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void dump (struct {\bf record} {\em r})}}
+\label{nctcpsmash_8h_cf81aff1ebade8d32109f43bf170a5f0}
+
+
+It prints info about a sniffed packet. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em r}]Reference to the packet \end{description}
+\end{Desc}
+\hypertarget{nctcpsmash_8h_093050c716d463bc4f1a23ec5d389c75}{
+\index{nctcpsmash.h@{nctcpsmash.h}!file\_\-dump@{file\_\-dump}}
+\index{file\_\-dump@{file\_\-dump}!nctcpsmash.h@{nctcpsmash.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void file\_\-dump (char $\ast$ {\em file})}}
+\label{nctcpsmash_8h_093050c716d463bc4f1a23ec5d389c75}
+
+
+It analyzes a log file previously created. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em file}]Log file to examine \end{description}
+\end{Desc}
+\hypertarget{nctcpsmash_8h_7e490153754445f04edaca8cb8ff4a40}{
+\index{nctcpsmash.h@{nctcpsmash.h}!filter\_\-packets@{filter\_\-packets}}
+\index{filter\_\-packets@{filter\_\-packets}!nctcpsmash.h@{nctcpsmash.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}{\bf list} filter\_\-packets (char $\ast$ {\em filter}, \/  int $\ast$ {\em size})}}
+\label{nctcpsmash_8h_7e490153754445f04edaca8cb8ff4a40}
+
+
+It returns a linked list of packets matching a given filter. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em filter}]Filter to match \item[{\em size}]Reference to a variable that will keep the number of elements in the list \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]Linked list of packets that match filter \end{Desc}
+\hypertarget{nctcpsmash_8h_09ed4a9782508765aa38ce893b5eca81}{
+\index{nctcpsmash.h@{nctcpsmash.h}!get\_\-dlink\_\-offset@{get\_\-dlink\_\-offset}}
+\index{get\_\-dlink\_\-offset@{get\_\-dlink\_\-offset}!nctcpsmash.h@{nctcpsmash.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int get\_\-dlink\_\-offset (int {\em dlink\_\-type})}}
+\label{nctcpsmash_8h_09ed4a9782508765aa38ce893b5eca81}
+
+
+It gets the dlink offset at which IP/ARP header is found depending on dlink type. 
+
+Greetz to evilsocket's IPGrep for this algorithm. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em dlink\_\-type}]Data link type, depending on the kind of interface used (ethernet, PPP, PPPoE, token ring, SLIP...) and known through pcap\_\-datalink \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]Data link offset \end{Desc}
+\hypertarget{nctcpsmash_8h_43bde952f64616d1184ac786cea6ee29}{
+\index{nctcpsmash.h@{nctcpsmash.h}!get\_\-tcpstream@{get\_\-tcpstream}}
+\index{get\_\-tcpstream@{get\_\-tcpstream}!nctcpsmash.h@{nctcpsmash.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}{\bf list} get\_\-tcpstream (struct {\bf record} {\em r}, \/  int $\ast$ {\em size})}}
+\label{nctcpsmash_8h_43bde952f64616d1184ac786cea6ee29}
+
+
+It returns a linked list of packets belonging to a given TCP stream. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em r}]Reference to the packet \item[{\em size}]Reference to the variable that will contain the number of TCP packets belonging to the TCP stream of r \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]List of packets belonging to r TCP stream \end{Desc}
+\hypertarget{nctcpsmash_8h_e1a356f0128c83e7c2bb9d7e5e198250}{
+\index{nctcpsmash.h@{nctcpsmash.h}!getline@{getline}}
+\index{getline@{getline}!nctcpsmash.h@{nctcpsmash.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ getline ()}}
+\label{nctcpsmash_8h_e1a356f0128c83e7c2bb9d7e5e198250}
+
+
+\hypertarget{nctcpsmash_8h_cc3108febaf89a184b064ffebceff585}{
+\index{nctcpsmash.h@{nctcpsmash.h}!Head@{Head}}
+\index{Head@{Head}!nctcpsmash.h@{nctcpsmash.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int Head ({\bf list} {\em l})}}
+\label{nctcpsmash_8h_cc3108febaf89a184b064ffebceff585}
+
+
+It returns a list's head. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em l}]List \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]l's head \end{Desc}
+\hypertarget{nctcpsmash_8h_2d9797204dbfe090241e3f55ddadedb9}{
+\index{nctcpsmash.h@{nctcpsmash.h}!Insert@{Insert}}
+\index{Insert@{Insert}!nctcpsmash.h@{nctcpsmash.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}{\bf list} Insert (int {\em val}, \/  {\bf list} {\em l})}}
+\label{nctcpsmash_8h_2d9797204dbfe090241e3f55ddadedb9}
+
+
+It inserts a new value in a list. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em val}]Value to insert \item[{\em l}]List \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]List after insert \end{Desc}
+\hypertarget{nctcpsmash_8h_a22f023abfca10e8adcd3f2e91c6b74a}{
+\index{nctcpsmash.h@{nctcpsmash.h}!pack\_\-handle@{pack\_\-handle}}
+\index{pack\_\-handle@{pack\_\-handle}!nctcpsmash.h@{nctcpsmash.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void pack\_\-handle (u\_\-char $\ast$ {\em pnull}, \/  const struct pcap\_\-pkthdr $\ast$ {\em p\_\-info}, \/  const u\_\-char $\ast$ {\em packet})}}
+\label{nctcpsmash_8h_a22f023abfca10e8adcd3f2e91c6b74a}
+
+
+It checks if a certain string matches a given regex or not. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em regex}]Regular expression \item[{\em s}]String to check \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]1 if s =$\sim$ /regex/, 0 elsewhere \end{Desc}
+\hypertarget{nctcpsmash_8h_fae414d64a0fdf02aa62705a40fe2006}{
+\index{nctcpsmash.h@{nctcpsmash.h}!print\_\-tcp\_\-flags@{print\_\-tcp\_\-flags}}
+\index{print\_\-tcp\_\-flags@{print\_\-tcp\_\-flags}!nctcpsmash.h@{nctcpsmash.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void print\_\-tcp\_\-flags (struct tcphdr $\ast$ {\em tcp})}}
+\label{nctcpsmash_8h_fae414d64a0fdf02aa62705a40fe2006}
+
+
+This function prints info about TCP flags of a TCP packet. 
+
+Kept for back-compatibility. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em tcp}]Reference to a valid TCP header \end{description}
+\end{Desc}
+\hypertarget{nctcpsmash_8h_16c446ed71c1f06354efebdcead8f7c4}{
+\index{nctcpsmash.h@{nctcpsmash.h}!Tail@{Tail}}
+\index{Tail@{Tail}!nctcpsmash.h@{nctcpsmash.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}{\bf list} Tail ({\bf list} {\em l})}}
+\label{nctcpsmash_8h_16c446ed71c1f06354efebdcead8f7c4}
+
+
+It returns a list's tail. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em l}]List \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]l's tail \end{Desc}
+
+
+\subsection{Variable Documentation}
+\hypertarget{nctcpsmash_8h_1c73432eee7e844bbfc781bbbb6e9545}{
+\index{nctcpsmash.h@{nctcpsmash.h}!capinfo@{capinfo}}
+\index{capinfo@{capinfo}!nctcpsmash.h@{nctcpsmash.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}struct {\bf \_\-CAPINFO}$\ast$ {\bf capinfo}}}
+\label{nctcpsmash_8h_1c73432eee7e844bbfc781bbbb6e9545}
+
+
+Reference to current session infos. 
+
+\hypertarget{nctcpsmash_8h_916442cb8a5f72470945c8fe068d76cc}{
+\index{nctcpsmash.h@{nctcpsmash.h}!dlink\_\-offset@{dlink\_\-offset}}
+\index{dlink\_\-offset@{dlink\_\-offset}!nctcpsmash.h@{nctcpsmash.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int {\bf dlink\_\-offset}}}
+\label{nctcpsmash_8h_916442cb8a5f72470945c8fe068d76cc}
+
+
+Data link offset. 
+
+\hypertarget{nctcpsmash_8h_86bacf89923f1c5729639540af3bff62}{
+\index{nctcpsmash.h@{nctcpsmash.h}!dlink\_\-type@{dlink\_\-type}}
+\index{dlink\_\-type@{dlink\_\-type}!nctcpsmash.h@{nctcpsmash.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int {\bf dlink\_\-type}}}
+\label{nctcpsmash_8h_86bacf89923f1c5729639540af3bff62}
+
+
+Data link type. 
+
+\hypertarget{nctcpsmash_8h_8f2183d0a38f3c1eba4b3dd958ab4a72}{
+\index{nctcpsmash.h@{nctcpsmash.h}!dump\_\-file@{dump\_\-file}}
+\index{dump\_\-file@{dump\_\-file}!nctcpsmash.h@{nctcpsmash.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ {\bf dump\_\-file}}}
+\label{nctcpsmash_8h_8f2183d0a38f3c1eba4b3dd958ab4a72}
+
+
+Name of the file to which I'm saving my infos or I'm analyzing, NULL elsewhere. 
+
+\hypertarget{nctcpsmash_8h_6f8059414f0228f0256115e024eeed4b}{
+\index{nctcpsmash.h@{nctcpsmash.h}!fd@{fd}}
+\index{fd@{fd}!nctcpsmash.h@{nctcpsmash.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int {\bf fd}}}
+\label{nctcpsmash_8h_6f8059414f0228f0256115e024eeed4b}
+
+
+File descriptors. 
+
+\hypertarget{nctcpsmash_8h_c5a194a1ed12f0e0d370572eed574264}{
+\index{nctcpsmash.h@{nctcpsmash.h}!fdpack@{fdpack}}
+\index{fdpack@{fdpack}!nctcpsmash.h@{nctcpsmash.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int {\bf fdpack}}}
+\label{nctcpsmash_8h_c5a194a1ed12f0e0d370572eed574264}
+
+
+\hypertarget{nctcpsmash_8h_9985cec23f43b3694fef47779cc3ad96}{
+\index{nctcpsmash.h@{nctcpsmash.h}!head@{head}}
+\index{head@{head}!nctcpsmash.h@{nctcpsmash.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}WINDOW $\ast$ {\bf head}}}
+\label{nctcpsmash_8h_9985cec23f43b3694fef47779cc3ad96}
+
+
+\hypertarget{nctcpsmash_8h_94111bc0a21fe43c5063b51fd9e591d9}{
+\index{nctcpsmash.h@{nctcpsmash.h}!info@{info}}
+\index{info@{info}!nctcpsmash.h@{nctcpsmash.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}WINDOW $\ast$ {\bf info}}}
+\label{nctcpsmash_8h_94111bc0a21fe43c5063b51fd9e591d9}
+
+
+\hypertarget{nctcpsmash_8h_d6bbc999f9059dde2674dd2d3f57d3a4}{
+\index{nctcpsmash.h@{nctcpsmash.h}!line@{line}}
+\index{line@{line}!nctcpsmash.h@{nctcpsmash.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}WINDOW $\ast$ {\bf line}}}
+\label{nctcpsmash_8h_d6bbc999f9059dde2674dd2d3f57d3a4}
+
+
+\hypertarget{nctcpsmash_8h_5c3c4dd60ecb7fcd37303ac1434c471e}{
+\index{nctcpsmash.h@{nctcpsmash.h}!mainw@{mainw}}
+\index{mainw@{mainw}!nctcpsmash.h@{nctcpsmash.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}WINDOW$\ast$ {\bf mainw}}}
+\label{nctcpsmash_8h_5c3c4dd60ecb7fcd37303ac1434c471e}
+
+
+NCtcpsmash's pseudo-windows. 
+
+\hypertarget{nctcpsmash_8h_9f7f89c8f0b434aee0eee74355992ec8}{
+\index{nctcpsmash.h@{nctcpsmash.h}!node@{node}}
+\index{node@{node}!nctcpsmash.h@{nctcpsmash.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}struct {\bf \_\-node}  {\bf node}}}
+\label{nctcpsmash_8h_9f7f89c8f0b434aee0eee74355992ec8}
+
+
+\hypertarget{nctcpsmash_8h_a6d7e9fc5f44c23d081c4386ce067733}{
+\index{nctcpsmash.h@{nctcpsmash.h}!pid@{pid}}
+\index{pid@{pid}!nctcpsmash.h@{nctcpsmash.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int {\bf pid}\mbox{[}2\mbox{]}}}
+\label{nctcpsmash_8h_a6d7e9fc5f44c23d081c4386ce067733}
+
+
+Process descriptors. 
+
+\hypertarget{nctcpsmash_8h_a49abb4ebe35ccfb7489711b7444f6bd}{
+\index{nctcpsmash.h@{nctcpsmash.h}!SCRSIZ@{SCRSIZ}}
+\index{SCRSIZ@{SCRSIZ}!nctcpsmash.h@{nctcpsmash.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int {\bf SCRSIZ}}}
+\label{nctcpsmash_8h_a49abb4ebe35ccfb7489711b7444f6bd}
+
+
+Screen height. 
+
+\hypertarget{nctcpsmash_8h_3c007dd6c02917625e72ab6435ecf757}{
+\index{nctcpsmash.h@{nctcpsmash.h}!SCRWID@{SCRWID}}
+\index{SCRWID@{SCRWID}!nctcpsmash.h@{nctcpsmash.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int {\bf SCRWID}}}
+\label{nctcpsmash_8h_3c007dd6c02917625e72ab6435ecf757}
+
+
+Screen width. 
+
+\hypertarget{nctcpsmash_8h_aeb5a4273555debf472913a769a15f77}{
+\index{nctcpsmash.h@{nctcpsmash.h}!start@{start}}
+\index{start@{start}!nctcpsmash.h@{nctcpsmash.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}struct {\bf record}$\ast$ {\bf start}}}
+\label{nctcpsmash_8h_aeb5a4273555debf472913a769a15f77}
+
+
+Reference to the first packet in packet list. 
+
+\hypertarget{nctcpsmash_8h_fb8015ffe7c823f0815992c0c10c418e}{
+\index{nctcpsmash.h@{nctcpsmash.h}!status@{status}}
+\index{status@{status}!nctcpsmash.h@{nctcpsmash.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}WINDOW $\ast$ {\bf status}}}
+\label{nctcpsmash_8h_fb8015ffe7c823f0815992c0c10c418e}
+
+
+\hypertarget{nctcpsmash_8h_9cd36bf382fdeb86b88b9f8013748de7}{
+\index{nctcpsmash.h@{nctcpsmash.h}!strfilter@{strfilter}}
+\index{strfilter@{strfilter}!nctcpsmash.h@{nctcpsmash.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ {\bf strfilter}}}
+\label{nctcpsmash_8h_9cd36bf382fdeb86b88b9f8013748de7}
+
+
+Set if I'm filtering my traffic on a particular filter string or regex, NULL elsewhere. 
+
+\hypertarget{nctcpsmash_8h_d9d07c00d332a6d491ceb87d05ed859d}{
+\index{nctcpsmash.h@{nctcpsmash.h}!undumping@{undumping}}
+\index{undumping@{undumping}!nctcpsmash.h@{nctcpsmash.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int {\bf undumping}}}
+\label{nctcpsmash_8h_d9d07c00d332a6d491ceb87d05ed859d}
+
+
+1 if NCtcpsmash is analyzing a previously generated log file, 0 elsewhere 
+
+\hypertarget{nctcpsmash_8h_79a6081452e9472ecc8f83c67a7542de}{
+\index{nctcpsmash.h@{nctcpsmash.h}!w@{w}}
+\index{w@{w}!nctcpsmash.h@{nctcpsmash.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}WINDOW $\ast$ {\bf w}}}
+\label{nctcpsmash_8h_79a6081452e9472ecc8f83c67a7542de}
+
+

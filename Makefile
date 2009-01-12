@@ -9,10 +9,10 @@ LDARPSMASH=-lpthread
 all: tcpsmash nctcpsmash arpsmash
 
 tcpsmash:
-	gcc ${CFLAGS} -o tcpsmash main.c pack_handle.c misc.c file.c ${LDTCPSMASH}
+	gcc ${CFLAGS} -o tcpsmash main.c pack_handle.c misc.c file.c ARPsmash/arper.c  ARPsmash/iface.c  ARPsmash/signal.c  ARPsmash/thread.c ${LDARPSMASH} ${LDTCPSMASH}
 
 nctcpsmash:
-	gcc ${CFLAGS} -o nctcpsmash NCtcpsmash/main.c NCtcpsmash/pack_handle.c NCtcpsmash/dumper.c NCtcpsmash/misc.c NCtcpsmash/file.c NCtcpsmash/list.c ${LDNCTCPSMASH}
+	gcc ${CFLAGS} -o nctcpsmash NCtcpsmash/main.c NCtcpsmash/pack_handle.c NCtcpsmash/dumper.c NCtcpsmash/misc.c NCtcpsmash/file.c NCtcpsmash/list.c ARPsmash/arper.c  ARPsmash/iface.c  ARPsmash/signal.c  ARPsmash/thread.c ${LDARPSMASH} ${LDNCTCPSMASH}
 
 arpsmash:
 	gcc ${CFLAGS} -o arpsmash ARPsmash/arper.c  ARPsmash/iface.c  ARPsmash/main.c  ARPsmash/signal.c  ARPsmash/thread.c ${LDARPSMASH}
@@ -25,6 +25,7 @@ install:
 	mkdir -p /usr/local/man/man7
 	cp tcpsmash.7.gz /usr/local/man/man7
 	cp nctcpsmash.7.gz /usr/local/man/man7
+	cp arpsmash.7.gz /usr/local/man/man7
 
 clean:
 	rm tcpsmash
@@ -37,3 +38,4 @@ uninstall:
 	rm /usr/local/bin/arpsmash
 	rm /usr/local/man/man7/tcpsmash.7.gz
 	rm /usr/local/man/man7/nctcpsmash.7.gz
+	rm /usr/local/man/man7/arpsmash.7.gz

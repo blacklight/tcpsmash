@@ -1,0 +1,199 @@
+\hypertarget{NCtcpsmash_2main_8c}{
+\section{NCtcpsmash/main.c File Reference}
+\label{NCtcpsmash_2main_8c}\index{NCtcpsmash/main.c@{NCtcpsmash/main.c}}
+}
+{\tt \#include \char`\"{}nctcpsmash.h\char`\"{}}\par
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+int \hyperlink{NCtcpsmash_2main_8c_8b6e9b98a44692b925f9d54808f4ea20}{arpsmash} (\hyperlink{arpsmash_8h_b291f552d5fd4d65ac668d6b2b180919}{\_\-\_\-u8} $\ast$interface, \hyperlink{arpsmash_8h_b291f552d5fd4d65ac668d6b2b180919}{\_\-\_\-u8} $\ast$addr1, \hyperlink{arpsmash_8h_b291f552d5fd4d65ac668d6b2b180919}{\_\-\_\-u8} $\ast$addr2)
+\begin{CompactList}\small\item\em This calls \hyperlink{arper_8c_514ad8556ae26bd6b615acd16d362589}{doarp()} function initializating right values. \item\end{CompactList}\item 
+void \hyperlink{NCtcpsmash_2main_8c_9594969e82e6a0df1158e001b13191f1}{foo} (int signum)
+\begin{CompactList}\small\item\em Function made to do nothing. \item\end{CompactList}\item 
+void \hyperlink{NCtcpsmash_2main_8c_7a416df262cdd64e404f752ce53c9502}{STATS} (int sig)
+\begin{CompactList}\small\item\em This should return statistics about sniffed traffic when exiting nctcpsmash. \item\end{CompactList}\item 
+void \hyperlink{NCtcpsmash_2main_8c_7bc65d959b2e17f53dd8ea253c0ea6ad}{\_\-\_\-on\_\-exit} (int signum)
+\begin{CompactList}\small\item\em This function is called when you exit nctcpsmash. \item\end{CompactList}\item 
+void \hyperlink{NCtcpsmash_2main_8c_337f969e874d7ba95ad935df54368425}{\_\-refresh} ()
+\begin{CompactList}\small\item\em This function refreshes all nctcpsmash's pseudo-GUI. \item\end{CompactList}\item 
+void \hyperlink{NCtcpsmash_2main_8c_31475363a7f49f33d02ad69e1dc99a7b}{\_\-pause} (int sig)
+\begin{CompactList}\small\item\em This function just puts a process in sleeping status until another signal is caught. \item\end{CompactList}\item 
+void \hyperlink{NCtcpsmash_2main_8c_a84f4b49e4e4991ec787fc4546d31f1a}{help} (char $\ast$app)
+\begin{CompactList}\small\item\em Prints help. \item\end{CompactList}\item 
+void \hyperlink{NCtcpsmash_2main_8c_fb42c82b73d7b1542bc75ee592b0b351}{print\_\-ver} ()
+\begin{CompactList}\small\item\em Just prints info about program's author, version and licence. \item\end{CompactList}\item 
+void \hyperlink{NCtcpsmash_2main_8c_853216ac51aa181669ff4d3de74058a7}{print\_\-help} ()
+\begin{CompactList}\small\item\em It prints a short help in info window when you start nctcpsmash. \item\end{CompactList}\item 
+int \hyperlink{NCtcpsmash_2main_8c_36dbb11c23c3b4f4f6dc84f1a4952af4}{save\_\-dump} (char $\ast$\hyperlink{nctcpsmash_8h_8f2183d0a38f3c1eba4b3dd958ab4a72}{dump\_\-file})
+\begin{CompactList}\small\item\em It saves sniffed traffic to a log file. \item\end{CompactList}\item 
+int \hyperlink{NCtcpsmash_2main_8c_3c04138a5bfe5d72780bb7e82a18e627}{main} (int argc, char $\ast$$\ast$argv)
+\begin{CompactList}\small\item\em Just the main. \item\end{CompactList}\end{CompactItemize}
+\subsection*{Variables}
+\begin{CompactItemize}
+\item 
+char \hyperlink{NCtcpsmash_2main_8c_11dd92bb6af770186b98f87570041969}{fname} \mbox{[}BUFSIZ\mbox{]}
+\item 
+char \hyperlink{NCtcpsmash_2main_8c_2242357718167577a1994204284130af}{fnpack} \mbox{[}BUFSIZ\mbox{]}
+\item 
+pcap\_\-t $\ast$ \hyperlink{NCtcpsmash_2main_8c_85a5762e33e67046fed014aff9fba66d}{sniff}
+\end{CompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{NCtcpsmash_2main_8c_7bc65d959b2e17f53dd8ea253c0ea6ad}{
+\index{NCtcpsmash/main.c@{NCtcpsmash/main.c}!\_\-\_\-on\_\-exit@{\_\-\_\-on\_\-exit}}
+\index{\_\-\_\-on\_\-exit@{\_\-\_\-on\_\-exit}!NCtcpsmash/main.c@{NCtcpsmash/main.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void \_\-\_\-on\_\-exit (int {\em signum})}}
+\label{NCtcpsmash_2main_8c_7bc65d959b2e17f53dd8ea253c0ea6ad}
+
+
+This function is called when you exit nctcpsmash. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em signum}]Number of caught signal \end{description}
+\end{Desc}
+\hypertarget{NCtcpsmash_2main_8c_31475363a7f49f33d02ad69e1dc99a7b}{
+\index{NCtcpsmash/main.c@{NCtcpsmash/main.c}!\_\-pause@{\_\-pause}}
+\index{\_\-pause@{\_\-pause}!NCtcpsmash/main.c@{NCtcpsmash/main.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void \_\-pause (int {\em sig})}}
+\label{NCtcpsmash_2main_8c_31475363a7f49f33d02ad69e1dc99a7b}
+
+
+This function just puts a process in sleeping status until another signal is caught. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em sig}]Number of caught signal \end{description}
+\end{Desc}
+\hypertarget{NCtcpsmash_2main_8c_337f969e874d7ba95ad935df54368425}{
+\index{NCtcpsmash/main.c@{NCtcpsmash/main.c}!\_\-refresh@{\_\-refresh}}
+\index{\_\-refresh@{\_\-refresh}!NCtcpsmash/main.c@{NCtcpsmash/main.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void \_\-refresh ()}}
+\label{NCtcpsmash_2main_8c_337f969e874d7ba95ad935df54368425}
+
+
+This function refreshes all nctcpsmash's pseudo-GUI. 
+
+\hypertarget{NCtcpsmash_2main_8c_8b6e9b98a44692b925f9d54808f4ea20}{
+\index{NCtcpsmash/main.c@{NCtcpsmash/main.c}!arpsmash@{arpsmash}}
+\index{arpsmash@{arpsmash}!NCtcpsmash/main.c@{NCtcpsmash/main.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int arpsmash ({\bf \_\-\_\-u8} $\ast$ {\em interface}, \/  {\bf \_\-\_\-u8} $\ast$ {\em addr1}, \/  {\bf \_\-\_\-u8} $\ast$ {\em addr2})}}
+\label{NCtcpsmash_2main_8c_8b6e9b98a44692b925f9d54808f4ea20}
+
+
+This calls \hyperlink{arper_8c_514ad8556ae26bd6b615acd16d362589}{doarp()} function initializating right values. 
+
+\begin{Desc}
+\item[Returns:]Nothing if successful, a value $<$ 0 in case of error \end{Desc}
+\hypertarget{NCtcpsmash_2main_8c_9594969e82e6a0df1158e001b13191f1}{
+\index{NCtcpsmash/main.c@{NCtcpsmash/main.c}!foo@{foo}}
+\index{foo@{foo}!NCtcpsmash/main.c@{NCtcpsmash/main.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void foo (int {\em signum})}}
+\label{NCtcpsmash_2main_8c_9594969e82e6a0df1158e001b13191f1}
+
+
+Function made to do nothing. 
+
+In truth it was just made to capture signals for which no direct action is required \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em signum}]Number of caught signal \end{description}
+\end{Desc}
+\hypertarget{NCtcpsmash_2main_8c_a84f4b49e4e4991ec787fc4546d31f1a}{
+\index{NCtcpsmash/main.c@{NCtcpsmash/main.c}!help@{help}}
+\index{help@{help}!NCtcpsmash/main.c@{NCtcpsmash/main.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void help (char $\ast$ {\em app})}}
+\label{NCtcpsmash_2main_8c_a84f4b49e4e4991ec787fc4546d31f1a}
+
+
+Prints help. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em App}]name \end{description}
+\end{Desc}
+\hypertarget{NCtcpsmash_2main_8c_3c04138a5bfe5d72780bb7e82a18e627}{
+\index{NCtcpsmash/main.c@{NCtcpsmash/main.c}!main@{main}}
+\index{main@{main}!NCtcpsmash/main.c@{NCtcpsmash/main.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int main (int {\em argc}, \/  char $\ast$$\ast$ {\em argv})}}
+\label{NCtcpsmash_2main_8c_3c04138a5bfe5d72780bb7e82a18e627}
+
+
+Just the main. 
+
+\hypertarget{NCtcpsmash_2main_8c_853216ac51aa181669ff4d3de74058a7}{
+\index{NCtcpsmash/main.c@{NCtcpsmash/main.c}!print\_\-help@{print\_\-help}}
+\index{print\_\-help@{print\_\-help}!NCtcpsmash/main.c@{NCtcpsmash/main.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void print\_\-help ()}}
+\label{NCtcpsmash_2main_8c_853216ac51aa181669ff4d3de74058a7}
+
+
+It prints a short help in info window when you start nctcpsmash. 
+
+\hypertarget{NCtcpsmash_2main_8c_fb42c82b73d7b1542bc75ee592b0b351}{
+\index{NCtcpsmash/main.c@{NCtcpsmash/main.c}!print\_\-ver@{print\_\-ver}}
+\index{print\_\-ver@{print\_\-ver}!NCtcpsmash/main.c@{NCtcpsmash/main.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void print\_\-ver ()}}
+\label{NCtcpsmash_2main_8c_fb42c82b73d7b1542bc75ee592b0b351}
+
+
+Just prints info about program's author, version and licence. 
+
+\hypertarget{NCtcpsmash_2main_8c_36dbb11c23c3b4f4f6dc84f1a4952af4}{
+\index{NCtcpsmash/main.c@{NCtcpsmash/main.c}!save\_\-dump@{save\_\-dump}}
+\index{save\_\-dump@{save\_\-dump}!NCtcpsmash/main.c@{NCtcpsmash/main.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int save\_\-dump (char $\ast$ {\em dump\_\-file})}}
+\label{NCtcpsmash_2main_8c_36dbb11c23c3b4f4f6dc84f1a4952af4}
+
+
+It saves sniffed traffic to a log file. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em dump\_\-file}]File \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]0 in case of success, -1 elsewhere \end{Desc}
+\hypertarget{NCtcpsmash_2main_8c_7a416df262cdd64e404f752ce53c9502}{
+\index{NCtcpsmash/main.c@{NCtcpsmash/main.c}!STATS@{STATS}}
+\index{STATS@{STATS}!NCtcpsmash/main.c@{NCtcpsmash/main.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void STATS (int {\em sig})}}
+\label{NCtcpsmash_2main_8c_7a416df262cdd64e404f752ce53c9502}
+
+
+This should return statistics about sniffed traffic when exiting nctcpsmash. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em sig}]Number of caught signal \end{description}
+\end{Desc}
+
+
+\subsection{Variable Documentation}
+\hypertarget{NCtcpsmash_2main_8c_11dd92bb6af770186b98f87570041969}{
+\index{NCtcpsmash/main.c@{NCtcpsmash/main.c}!fname@{fname}}
+\index{fname@{fname}!NCtcpsmash/main.c@{NCtcpsmash/main.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}char {\bf fname}\mbox{[}BUFSIZ\mbox{]}}}
+\label{NCtcpsmash_2main_8c_11dd92bb6af770186b98f87570041969}
+
+
+\hypertarget{NCtcpsmash_2main_8c_2242357718167577a1994204284130af}{
+\index{NCtcpsmash/main.c@{NCtcpsmash/main.c}!fnpack@{fnpack}}
+\index{fnpack@{fnpack}!NCtcpsmash/main.c@{NCtcpsmash/main.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}char {\bf fnpack}\mbox{[}BUFSIZ\mbox{]}}}
+\label{NCtcpsmash_2main_8c_2242357718167577a1994204284130af}
+
+
+\hypertarget{NCtcpsmash_2main_8c_85a5762e33e67046fed014aff9fba66d}{
+\index{NCtcpsmash/main.c@{NCtcpsmash/main.c}!sniff@{sniff}}
+\index{sniff@{sniff}!NCtcpsmash/main.c@{NCtcpsmash/main.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}pcap\_\-t$\ast$ {\bf sniff}}}
+\label{NCtcpsmash_2main_8c_85a5762e33e67046fed014aff9fba66d}
+
+

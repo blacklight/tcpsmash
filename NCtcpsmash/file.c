@@ -1,5 +1,5 @@
 /*
- * file.c
+ * NCtcpsmash/file.c
  *
  * (C) 2007,2009, BlackLight <blacklight@autistici.org>
  *
@@ -11,6 +11,10 @@
 
 #include "nctcpsmash.h"
 
+/**
+ * @brief It analyzes a log file previously created
+ * @param file Log file to examine
+ */
 void file_dump (char* file)  {
 	struct ethhdr eth;
 	struct iphdr  ip;
@@ -93,6 +97,12 @@ void file_dump (char* file)  {
 	return;
 }
 
+/**
+ * @brief It returns a linked list of packets matching a given filter
+ * @param filter Filter to match
+ * @param size Reference to a variable that will keep the number of elements in the list
+ * @return Linked list of packets that match filter
+ */
 list filter_packets (char* filter, int* size)  {
 	int i;
 	list nums = NULL;
@@ -114,6 +124,12 @@ list filter_packets (char* filter, int* size)  {
 	return nums;
 }
 
+/**
+ * @brief It returns a linked list of packets belonging to a given TCP stream
+ * @param r Reference to the packet
+ * @param size Reference to the variable that will contain the number of TCP packets belonging to the TCP stream of r
+ * @return List of packets belonging to r TCP stream
+ */
 list get_tcpstream (struct record r, int *size)  {
 	int i,j,len;
 	char *packet = NULL;

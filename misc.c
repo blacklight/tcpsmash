@@ -11,6 +11,10 @@
 
 #include "tcpsmash.h"
 
+/**
+ * @brief This function prints info about TCP flags of a TCP packet. Kept for back-compatibility.
+ * @param tcp Reference to a valid TCP header
+ */
 void print_tcp_flags (struct tcphdr *tcp)  {
 	printf ("TCP flags: %s",YELLOW);
 	
@@ -29,6 +33,12 @@ void print_tcp_flags (struct tcphdr *tcp)  {
 	printf ("%s\n",NORMAL);
 }
 
+/**
+ * @brief Checks if a certain packet's content matches a given filter (plain string or regex) or not
+ * @param packet Packet to analyze
+ * @param plen packet length
+ * @return true if the content is matched, false elsewhere
+ */
 bool check_filter(const u_char *packet, int plen)  {
 	int i,j;
 	char *unnull, *regex;
@@ -70,7 +80,11 @@ bool check_filter(const u_char *packet, int plen)  {
 	return true;
 }
 
-// Greetz to evilsocket's IPGrep for the dlink offset algorithm
+/**
+ * @brief It gets the dlink offset at which IP/ARP header is found depending on dlink type. Greetz to evilsocket's IPGrep for this algorithm.
+ * @param dlink_type Data link type, depending on the kind of interface used (ethernet, PPP, PPPoE, token ring, SLIP...) and known through pcap_datalink
+ * @return Data link offset
+ */
 int get_dlink_offset (int dlink_type)  {
 	switch(dlink_type)  {
 		case DLT_RAW:

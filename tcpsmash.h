@@ -47,7 +47,7 @@
 #endif
 
 #define	PROTO	"TCP protocol: %s\n"
-#define	VERSION	"0.3"
+#define	VERSION	"0.3.2"
 
 #define	NORMAL	"\033[0m"
 #define	BOLD		"\033[1m"
@@ -55,6 +55,9 @@
 #define	GREEN	"\033[92m"
 #define	YELLOW	"\033[01;93m"
 
+/**
+ * @brief Struct to manipulate ARP headers
+ */
 struct arphdr_t
 {
      unsigned short ar_hrd;
@@ -69,21 +72,75 @@ struct arphdr_t
 };
 
 typedef unsigned char u8;
+
+/**
+ * @brief Pseudo-enum to manipulate boolean types
+ */
 typedef enum { false,true } bool;
 
+/**
+ * @brief true if I want to see TCP flags for each packet, false elsewhere. Just kept for back-compatibility
+ */
 bool use_flags;
+
+/**
+ * @brief true if each packet must be dumped without any analysis, false elsewhere
+ */
 bool use_dump;
+
+/**
+ * @brief true if the traffic will be saved on a logfile, false elsewhere
+ */
 bool use_log;
+
+/**
+ * @brief true if I'm examinating a log file, false elsewhere
+ */
 bool undumping;
+
+/**
+ * @brief true if I'm using quick tcpdump-like view for each packet, false if I'm using detailed view (default)
+ */
 bool quick;
+
+/**
+ * @brief true if I'm doing a MITM attack through ARP poisoning, false elsewhere
+ */
 bool arp;
 
+/**
+ * @brief It counts the number of sniffed packets
+ */
 unsigned int count;
+
+/**
+ * @brief Variable set when I'm going to sniff a maximum given number of packets and stop the application
+ */
 unsigned int maxcount;
+
+/**
+ * @brief Data link offset for the given interface
+ */
 unsigned int dlink_offset;
 
+/**
+ * @brief Data link type for the given interface
+ */
 int dlink_type;
+
+/**
+ * @brief String set when I'm filtering traffic content on a given string or regex
+ */
 char* strfilter;
+
+/**
+ * @brief addr1 and addr2 are set when doing a ARP poisoning attack
+ */
+char *addr1, *addr2;
+
+/**
+ * @brief File descriptor to write to. It may be set to stdout (default) or to a log file
+ */
 FILE* out;
 
 int get_dlink_offset (int dlink_type);

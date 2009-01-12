@@ -11,6 +11,11 @@
 
 #include "tcpsmash.h"
 
+/**
+ * @brief It analyzes a log file previously generated passed as argument
+ * @param file Previously generated and valid log file to analyze
+ */
+
 void file_dump (char* file)  {
 	struct ethhdr eth;
 	struct iphdr  ip;

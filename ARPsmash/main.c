@@ -1,23 +1,40 @@
+/*
+ * ARPsmash/main.c
+ *
+ * (C) 2007,2009, BlackLight <blacklight@autistici.org>
+ *
+ *		This program is free software; you can redistribute it and/or
+ *		modify it under the terms of the GNU General Public License
+ *		as published by the Free Software Foundation; either version
+ *		3 of the License, or (at your option) any later version.
+ */
+
 #include "arpsmash.h"
 
+/**
+ * @brief Just a banner
+ */
 void banner()  {
 	printf ("---=== ARPsmash - BlackLight's ARP spoofer ===---\n"
 		   "-- copyleft 2008, by BlackLight\n"
 		   "-- Released under GNU GPL licence 3.0\n\n");
 }
 
+/**
+ * @brief Just the main
+ */
 int main (int argc, char **argv)  {
 	int c;
 	__u8 *addr1, *addr2;
 	banner();
 
 	if (argc<7)  {
-		fprintf (stderr,"*** Usage: %s -i <interface> -1 <ip host #1> -2 <ip host #2>\n",argv[0]);
+		fprintf (stderr,"%s*** Usage: %s -i <interface> -1 <ip host #1> -2 <ip host #2>%s\n", YELLOW, argv[0], NORMAL);
 		return -1;
 	}
 
 	if (setreuid(0,0))  {
-		fprintf (stderr,"*** You must be root to run this application. Sorry dude...\n");
+		fprintf (stderr,"%s***Error: You must be root to run this application. Sorry dude...%s\n", RED, NORMAL);
 		exit(-1);
 	}
 
@@ -36,7 +53,7 @@ int main (int argc, char **argv)  {
 				break;
 
 			default:
-				fprintf (stderr,"*** Usage: %s -i <interface> -1 <ip host #1> -2 <ip host #2>\n",argv[0]);
+				fprintf (stderr,"%s*** Usage: %s -i <interface> -1 <ip host #1> -2 <ip host #2>%s\n", YELLOW, argv[0], NORMAL);
 				return -1;
 				break;
 		}

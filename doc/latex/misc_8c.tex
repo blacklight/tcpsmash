@@ -1,0 +1,99 @@
+\hypertarget{misc_8c}{
+\section{NCtcpsmash/misc.c File Reference}
+\label{misc_8c}\index{NCtcpsmash/misc.c@{NCtcpsmash/misc.c}}
+}
+{\tt \#include \char`\"{}nctcpsmash.h\char`\"{}}\par
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+void \hyperlink{misc_8c_fae414d64a0fdf02aa62705a40fe2006}{print\_\-tcp\_\-flags} (struct tcphdr $\ast$tcp)
+\begin{CompactList}\small\item\em This function prints info about TCP flags of a TCP packet. \item\end{CompactList}\item 
+\hyperlink{nctcpsmash_8h_9e6c91d77e24643b888dbd1a1a590054}{u16} \hyperlink{misc_8c_b439391cb991a11c980d3811a04b2939}{csum} (\hyperlink{nctcpsmash_8h_9e6c91d77e24643b888dbd1a1a590054}{u16} $\ast$buf, int nwords)
+\begin{CompactList}\small\item\em Checks if a certain packet's content matches a given filter (plain string or regex) or not. \item\end{CompactList}\item 
+int \hyperlink{misc_8c_d5d214af73dc7f18d67cd702148e2d59}{preg\_\-match} (char $\ast$regex, char $\ast$s)
+\item 
+int \hyperlink{misc_8c_09ed4a9782508765aa38ce893b5eca81}{get\_\-dlink\_\-offset} (int \hyperlink{nctcpsmash_8h_86bacf89923f1c5729639540af3bff62}{dlink\_\-type})
+\begin{CompactList}\small\item\em It gets the dlink offset at which IP/ARP header is found depending on dlink type. \item\end{CompactList}\item 
+char $\ast$ \hyperlink{misc_8c_e1a356f0128c83e7c2bb9d7e5e198250}{getline} ()
+\item 
+int \hyperlink{misc_8c_1d8b0a99102874746c0754a7e6516ff1}{check\_\-filter} (char $\ast$filter, const u\_\-char $\ast$packet, int plen)
+\item 
+int \hyperlink{misc_8c_df0e032dddca73c18e9c98d2f2d4ab0b}{contains} (int val, int $\ast$v, int size)
+\end{CompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{misc_8c_1d8b0a99102874746c0754a7e6516ff1}{
+\index{misc.c@{misc.c}!check\_\-filter@{check\_\-filter}}
+\index{check\_\-filter@{check\_\-filter}!misc.c@{misc.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int check\_\-filter (char $\ast$ {\em filter}, \/  const u\_\-char $\ast$ {\em packet}, \/  int {\em plen})}}
+\label{misc_8c_1d8b0a99102874746c0754a7e6516ff1}
+
+
+\hypertarget{misc_8c_df0e032dddca73c18e9c98d2f2d4ab0b}{
+\index{misc.c@{misc.c}!contains@{contains}}
+\index{contains@{contains}!misc.c@{misc.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int contains (int {\em val}, \/  int $\ast$ {\em v}, \/  int {\em size})}}
+\label{misc_8c_df0e032dddca73c18e9c98d2f2d4ab0b}
+
+
+\hypertarget{misc_8c_b439391cb991a11c980d3811a04b2939}{
+\index{misc.c@{misc.c}!csum@{csum}}
+\index{csum@{csum}!misc.c@{misc.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}{\bf u16} csum ({\bf u16} $\ast$ {\em buf}, \/  int {\em nwords})}}
+\label{misc_8c_b439391cb991a11c980d3811a04b2939}
+
+
+Checks if a certain packet's content matches a given filter (plain string or regex) or not. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em packet}]Packet to analyze \item[{\em plen}]packet length \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]true if the content is matched, false elsewhere \end{Desc}
+\hypertarget{misc_8c_09ed4a9782508765aa38ce893b5eca81}{
+\index{misc.c@{misc.c}!get\_\-dlink\_\-offset@{get\_\-dlink\_\-offset}}
+\index{get\_\-dlink\_\-offset@{get\_\-dlink\_\-offset}!misc.c@{misc.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int get\_\-dlink\_\-offset (int {\em dlink\_\-type})}}
+\label{misc_8c_09ed4a9782508765aa38ce893b5eca81}
+
+
+It gets the dlink offset at which IP/ARP header is found depending on dlink type. 
+
+Greetz to evilsocket's IPGrep for this algorithm. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em dlink\_\-type}]Data link type, depending on the kind of interface used (ethernet, PPP, PPPoE, token ring, SLIP...) and known through pcap\_\-datalink \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]Data link offset \end{Desc}
+\hypertarget{misc_8c_e1a356f0128c83e7c2bb9d7e5e198250}{
+\index{misc.c@{misc.c}!getline@{getline}}
+\index{getline@{getline}!misc.c@{misc.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ getline ()}}
+\label{misc_8c_e1a356f0128c83e7c2bb9d7e5e198250}
+
+
+\hypertarget{misc_8c_d5d214af73dc7f18d67cd702148e2d59}{
+\index{misc.c@{misc.c}!preg\_\-match@{preg\_\-match}}
+\index{preg\_\-match@{preg\_\-match}!misc.c@{misc.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int preg\_\-match (char $\ast$ {\em regex}, \/  char $\ast$ {\em s})}}
+\label{misc_8c_d5d214af73dc7f18d67cd702148e2d59}
+
+
+\hypertarget{misc_8c_fae414d64a0fdf02aa62705a40fe2006}{
+\index{misc.c@{misc.c}!print\_\-tcp\_\-flags@{print\_\-tcp\_\-flags}}
+\index{print\_\-tcp\_\-flags@{print\_\-tcp\_\-flags}!misc.c@{misc.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void print\_\-tcp\_\-flags (struct tcphdr $\ast$ {\em tcp})}}
+\label{misc_8c_fae414d64a0fdf02aa62705a40fe2006}
+
+
+This function prints info about TCP flags of a TCP packet. 
+
+Kept for back-compatibility. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em tcp}]Reference to a valid TCP header \end{description}
+\end{Desc}

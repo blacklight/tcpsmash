@@ -1,3 +1,14 @@
+/*
+ * NCtcpsmash/nctcpsmash.h
+ *
+ * (C) 2007,2009, BlackLight <blacklight@autistici.org>
+ *
+ *		This program is free software; you can redistribute it and/or
+ *		modify it under the terms of the GNU General Public License
+ *		as published by the Free Software Foundation; either version
+ *		3 of the License, or (at your option) any later version.
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -26,7 +37,7 @@
 #include <pcap.h>
 #include <regex.h>
 
-#define	VERSION	"0.3"
+#define	VERSION	"0.3.2"
 #define	NORMAL	"\033[0m"
 #define	BOLD		"\033[1m"
 #define	RED		"\033[91m"
@@ -41,6 +52,9 @@
 	#define GC_STRDUP	strdup
 #endif
 
+/**
+ * @brief Struct to keep information about a packet
+ */
 struct record  {
 	int len;
 	struct timeval tv;
@@ -48,6 +62,9 @@ struct record  {
 	char packet[0x400];
 };
 
+/**
+ * @brief Struct that stores info about a node in a linked list
+ */
 struct _node  {
 	int num;
 	struct _node *next;
@@ -57,8 +74,15 @@ typedef struct _node *list;
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned long  u32;
+
+/**
+ * @brief Enum to manage output type (hex or ascii mode)
+ */
 typedef enum  { hex, ascii } mode;
 
+/**
+ * @brief Struct to manage ARP headers
+ */
 struct arphdr_t
 {
 	unsigned short ar_hrd;
@@ -72,24 +96,74 @@ struct arphdr_t
 	unsigned char  ar_tip[4];
 };
 
+/**
+ * @brief Struct to manage infos about current sniffing session
+ */
 struct _CAPINFO {
 	int npack;
+	u8* addr1;
+	u8* addr2;
 	mode viewmode;
 };
 
+/**
+ * @brief NCtcpsmash's pseudo-windows
+ */
 WINDOW *mainw, *w, *line, *status, *head, *info;
+
+/**
+ * @brief Reference to current session infos
+ */
 struct _CAPINFO *capinfo;
 
+/**
+ * @brief Data link type
+ */
 int dlink_type;
+
+/**
+ * @brief Data link offset
+ */
 int dlink_offset;
+
+/**
+ * @brief File descriptors
+ */
 int fd, fdpack;
+
+/**
+ * @brief Process descriptors
+ */
 int pid[2];
+
+/**
+ * @brief Screen height
+ */
 int SCRSIZ;
+
+/**
+ * @brief Screen width
+ */
 int SCRWID;
+
+/**
+ * @brief 1 if NCtcpsmash is analyzing a previously generated log file, 0 elsewhere
+ */
 int undumping;
 
+/**
+ * @brief Set if I'm filtering my traffic on a particular filter string or regex, NULL elsewhere
+ */
 char *strfilter;
+
+/**
+ * @brief Name of the file to which I'm saving my infos or I'm analyzing, NULL elsewhere
+ */
 char *dump_file;
+
+/**
+ * @brief Reference to the first packet in packet list
+ */
 struct record *start;
 
 int get_dlink_offset (int dlink_type);

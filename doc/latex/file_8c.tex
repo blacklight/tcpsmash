@@ -1,0 +1,63 @@
+\hypertarget{file_8c}{
+\section{NCtcpsmash/file.c File Reference}
+\label{file_8c}\index{NCtcpsmash/file.c@{NCtcpsmash/file.c}}
+}
+{\tt \#include \char`\"{}nctcpsmash.h\char`\"{}}\par
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+void \hyperlink{file_8c_093050c716d463bc4f1a23ec5d389c75}{file\_\-dump} (char $\ast$file)
+\begin{CompactList}\small\item\em It analyzes a log file previously created. \item\end{CompactList}\item 
+\hyperlink{struct__node}{list} \hyperlink{file_8c_7e490153754445f04edaca8cb8ff4a40}{filter\_\-packets} (char $\ast$filter, int $\ast$size)
+\begin{CompactList}\small\item\em It returns a linked list of packets matching a given filter. \item\end{CompactList}\item 
+\hyperlink{struct__node}{list} \hyperlink{file_8c_43bde952f64616d1184ac786cea6ee29}{get\_\-tcpstream} (struct \hyperlink{structrecord}{record} r, int $\ast$size)
+\begin{CompactList}\small\item\em It returns a linked list of packets belonging to a given TCP stream. \item\end{CompactList}\end{CompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{file_8c_093050c716d463bc4f1a23ec5d389c75}{
+\index{file.c@{file.c}!file\_\-dump@{file\_\-dump}}
+\index{file\_\-dump@{file\_\-dump}!file.c@{file.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void file\_\-dump (char $\ast$ {\em file})}}
+\label{file_8c_093050c716d463bc4f1a23ec5d389c75}
+
+
+It analyzes a log file previously created. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em file}]Log file to examine \end{description}
+\end{Desc}
+\hypertarget{file_8c_7e490153754445f04edaca8cb8ff4a40}{
+\index{file.c@{file.c}!filter\_\-packets@{filter\_\-packets}}
+\index{filter\_\-packets@{filter\_\-packets}!file.c@{file.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}{\bf list} filter\_\-packets (char $\ast$ {\em filter}, \/  int $\ast$ {\em size})}}
+\label{file_8c_7e490153754445f04edaca8cb8ff4a40}
+
+
+It returns a linked list of packets matching a given filter. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em filter}]Filter to match \item[{\em size}]Reference to a variable that will keep the number of elements in the list \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]Linked list of packets that match filter \end{Desc}
+\hypertarget{file_8c_43bde952f64616d1184ac786cea6ee29}{
+\index{file.c@{file.c}!get\_\-tcpstream@{get\_\-tcpstream}}
+\index{get\_\-tcpstream@{get\_\-tcpstream}!file.c@{file.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}{\bf list} get\_\-tcpstream (struct {\bf record} {\em r}, \/  int $\ast$ {\em size})}}
+\label{file_8c_43bde952f64616d1184ac786cea6ee29}
+
+
+It returns a linked list of packets belonging to a given TCP stream. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em r}]Reference to the packet \item[{\em size}]Reference to the variable that will contain the number of TCP packets belonging to the TCP stream of r \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]List of packets belonging to r TCP stream \end{Desc}
